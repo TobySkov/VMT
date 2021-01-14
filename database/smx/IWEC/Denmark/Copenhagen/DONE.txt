@@ -1,0 +1,1 @@
+All skymodels have been created and saved in ascii and torch binary for this location/epw-file
