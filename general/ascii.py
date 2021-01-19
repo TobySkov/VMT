@@ -33,7 +33,7 @@ def read_ascii_header(file_path):
 def read_ascii_data(file_path):
 	
 	nrows, ncols, ncomp, skiplines = read_ascii_header(file_path)
-	print("START - Reading ascii data")
+	print("START - Reading ASCII data to numpy array")
 	ascii_data = np.loadtxt(file_path, skiprows = skiplines)
-	print("DONE - Reading ascii data")
+	print("DONE - Reading ASCII data to numpy array")
 	return ascii_data

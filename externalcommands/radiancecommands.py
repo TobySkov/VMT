@@ -1,7 +1,7 @@
 """Description."""
 
 from externalcommands import RADIANCE_PATH
-from externalcommands.runcommands import run_command, run_command_save_output
+from externalcommands.runcommands import run_command
 
 
 def run_epw2wea(input_file_path,
@@ -58,6 +58,8 @@ def run_gendaymtx(input_file_path,
 	None.
 
 	"""
+	cmd_list = [f"{RADIANCE_PATH}\\bin\\gendaymtx"]
+	
 	if spektrum == "visible spektrum":
 		spektrum_cmd = "0"
 	elif spektrum == "full spektrum":
@@ -65,13 +67,16 @@ def run_gendaymtx(input_file_path,
 	else:
 		raise Exception("""Unknown input for variable: spektrum
 				  Options are: (visible spektrum, full spektrum)""")
+				  
+	cmd_list.append(f"-O{spektrum_cmd}")
 	
 	assert resolution in [1, 2, 4], "Unkown input for variable: resolution"
 	
-	cmd_list = [f"{RADIANCE_PATH}\\bin\\gendaymtx",
-				 f"-O{spektrum_cmd}",
-				 "-m", f"{resolution}",
-				 "-r", "0.0",
-			    f"{input_file_path}"]
+	cmd_list.extend(["-m", f"{resolution}"])
+	
+	
+	cmd_list.extend(["-r", "0.0",
+				     f"{input_file_path}"])
 		
-	run_command_save_output(cmd_list, output_file_path)
+	run_command(cmd_list, 
+				output_file_path)
