@@ -1,0 +1,48 @@
+BERKELEY LAB WINDOW v7.7.10.0 Glazing System Thermal and Optical Properties 02/04/21 15:27:04
+
+
+ID      : 63
+Name    : 00002
+Tilt    : 90.0
+Glazings: 3
+KEFF    : 0.106 [W/m-K]
+Width   : 49.314 [mm]
+Uvalue  : 1.899 [W/m2-K]
+SHGCc   : 0.191
+SCc     : 0.219
+Tvis    : 0.159
+RHG     : 154.199 [W/m2]
+
+
+
+Layer Data for Glazing System '63 00002'
+
+ID     Name            D(mm) Tsol  1 Rsol 2 Tvis  1 Rvis 2  Tir  1 Emis 2 Keff
+------ --------------- ----- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
+Outside
+     2 Venetian A45      0.6 .000 .700 .700 .000 .700 .700 .223 .733 .733  160  
+       1 Air            16.0                                              .086  
+ 21010 PLANICLEAR 3mm.#  3.0 .883 .079 .078 .908 .082 .082 .000 .840 .840 1.00  
+       1 Air            16.0                                              .084  
+ 21010 PLANICLEAR 3mm.#  3.0 .883 .079 .078 .908 .082 .082 .000 .840 .840 1.00  
+Inside
+
+
+Environmental Conditions: 1 NFRC 100-2010
+
+          Tout   Tin  WndSpd   Wnd Dir   Solar  Tsky  Esky
+          (C)    (C)   (m/s)            (W/m2)  (C)
+         -----  ----  ------  --------  ------  ----  ----
+Uvalue   -18.0  21.0    5.50  Windward     0.0 -18.0  1.00
+Solar     32.0  24.0    2.75  Windward   783.0  32.0  1.00
+
+
+
+      Temperature Distribution (degrees C)
+        Winter         Summer
+       Out   In       Out   In
+      ----  ----     ----  ----
+Lay1 -16.3 -16.3     45.7  45.7   
+Lay2  -3.8  -3.6     37.7  37.6   
+Lay3  10.5  10.7     30.8  30.6   
+
