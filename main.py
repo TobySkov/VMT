@@ -4,7 +4,17 @@ Geometry handling will be called from the main script
 
 """
 
-from classes.radiationstudy import radiation_study
+from versioning.baseline import baseline
 
 def VMT(*args, **kwargs):
-	pass
+    
+    simulation_folder_path = r"C:\Users\Pedersen_Admin\OneDrive - Perkins and Will\Desktop\baseline_test"
+    location = "Copenhagen"
+    
+    baseline(simulation_folder_path,
+             location)
+
+
+
+if __name__ == "__main__":
+    VMT()

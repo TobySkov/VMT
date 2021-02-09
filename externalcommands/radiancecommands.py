@@ -35,7 +35,7 @@ def run_gendaymtx(input_file_path,
 				  resolution):
 	"""Summary.
 	
-	Converts .wea to .smt
+	Converts .wea to .smx
 
 	Parameters
 	----------

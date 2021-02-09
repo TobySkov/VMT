@@ -4,13 +4,11 @@ https://www.cyberciti.biz/faq/python-run-external-command-and-get-output/
 
 """
 
-import subprocess
+
 from subprocess import Popen, PIPE
-import sys
 import os
-import torch
 from externalcommands import RADIANCE_PATH, ACCELERAD_PATH
-import numpy as np
+
 
 	
 def run_command(cmd_list, 
@@ -30,7 +28,7 @@ def run_command(cmd_list,
 	output, err = p.communicate(b"input data that is passed to subprocess' stdin")
 	rc = p.returncode
 	
-	print("DONE - Subprocess: {}. Returncode: {}".format(cmd_list[0],rc))
+	print("DONE  - Subprocess: {}. Returncode: {}".format(cmd_list[0],rc))
 	
 
 	#Saving output in plain text
@@ -38,7 +36,7 @@ def run_command(cmd_list,
 		print("START - Writing ASCII data")
 		with open(output_file_path, "wb") as outfile:
 			outfile.write(output)
-		print("DONE - Writing ASCII data")
+		print("DONE  - Writing ASCII data")
 			
 		
 	
