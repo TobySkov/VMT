@@ -7,22 +7,11 @@ Description:
 """
 from recipes.radiationanalysis import radiationanalysis_radiance
 
-def baseline(simulation_folder_path,
-             location):
+def baseline(path_mananger_pd):
     pass
 
-    #Create simulation folder
-    
-    #Copy epw file to simulation folder 
-    #   (Cross reference desired location with database)
-    epw_file_path = r"C:\Users\Pedersen_Admin\OneDrive - Perkins and Will\Desktop\baseline_test\simulation_files\sky\NOR_Oslo.Fornebu.014880_IWEC.epw"
-    
     #Run radiation study
-    volume_massing_rad_path = None
-    context_rad_path = None
-    radiationanalysis_radiance(epw_file_path,
-                               volume_massing_rad_path,
-                               context_rad_path)
+    radiationanalysis_radiance(path_mananger_pd)
     
     #Perform clustering
     

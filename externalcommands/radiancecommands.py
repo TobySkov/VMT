@@ -1,82 +1,107 @@
 """Description."""
 
-from externalcommands import RADIANCE_PATH
 from externalcommands.runcommands import run_command
+from general.paths import decode_path_manager_panda
+from externalcommands.parameters import rtrace_parameters
 
+#%%
+def run_rfluxmtx_radiation(path_mananger_pd,
+                           no_of_sensor_points_total):
+    
+    out = decode_path_manager_panda(path_mananger_pd, ["RADIANCE_PATH",
+                                                       "RESOLUTION",
+                                                       "RFLUXSKY_RAD",
+                                                       "VMT_RAD_FILE",
+                                                       "VMT_RAD_FILE_REST",
+                                                       "CONTEXT_RAD_FILE",
+                                                       "RADIATION_ALL_PTS_FILE",
+                                                       "RADIATION_COEFFICIENTS"])
+    RADIANCE_PATH = out[0]
+    RESOLUTION = out[1]
+    RFLUXSKY_RAD = out[2]
+    VMT_RAD_FILE = out[3]
+    VMT_RAD_FILE_REST = out[4]
+    CONTEXT_RAD_FILE = out[5]
+    RADIATION_ALL_PTS_FILE = out[6]
+    RADIATION_COEFFICIENTS = out[7]
+    
+    ##https://www.radiance-online.org/learning/tutorials/matrix-based-methods
+    # page 41
+    # - denotes that sender will be given through standard input
+    
+    cmd_list = [f"{RADIANCE_PATH}\\bin\\rfluxmtx",
+			     "-y", f"{no_of_sensor_points_total}",
+				 "-I"]
+    
+    cmd_list.extend(rtrace_parameters(RESOLUTION,
+                                      sim_type = "RADIATION"))
+    
 
-def run_epw2wea(input_file_path,
-				output_file_path):
-	"""Summary.
-	
-	Converts epw to wea
+    cmd_list.extend(["-",   #This specifies that sender is from stdin
+                     f"{RFLUXSKY_RAD}",
+                     f"{VMT_RAD_FILE}",
+                     f"{VMT_RAD_FILE_REST}",
+                     f"{CONTEXT_RAD_FILE}",])
+    
+    run_command(path_mananger_pd,
+                cmd_list, 
+				output_file_path = RADIATION_COEFFICIENTS,
+                input_file_path = RADIATION_ALL_PTS_FILE)
+    
 
-	Parameters
-	----------
-	input_file_path : str
-		Full path to epw.
-	output_file_path : str
-		Full path to wea.
+#%%
+def run_epw2wea(path_mananger_pd):
 
-	Returns
-	-------
-	None.
-
-	"""
-	cmd_list = [f"{RADIANCE_PATH}\\bin\\epw2wea",
-			      f"{input_file_path}", 
-				  f"{output_file_path}"]
+    out = decode_path_manager_panda(path_mananger_pd, ["RADIANCE_PATH",
+                                                       "EPW_FILE",
+                                                       "WEA_FILE"])
+    RADIANCE_PATH = out[0]
+    EPW_FILE = out[1]
+    WEA_FILE = out[2]
+    
+    cmd_list = [f"{RADIANCE_PATH}\\bin\\epw2wea",
+			      f"{EPW_FILE}", 
+				  f"{WEA_FILE}"]
 		
-	run_command(cmd_list)
+    run_command(path_mananger_pd,
+                cmd_list)
 
-
-def run_gendaymtx(input_file_path,
-				  output_file_path,
+#%%
+def run_gendaymtx(path_mananger_pd,
 				  spektrum,
 				  resolution):
-	"""Summary.
-	
-	Converts .wea to .smx
 
-	Parameters
-	----------
-	input_file_path : str
-		Full path to .wea file.
-	output_file_path : str
-		Full path to .smx file.
-	spektrum : TYPE
-		DESCRIPTION.
-	resolution : TYPE
-		DESCRIPTION.
+    out = decode_path_manager_panda(path_mananger_pd, ["RADIANCE_PATH",
+                                                       "WEA_FILE"])
+    RADIANCE_PATH = out[0]
+    WEA_FILE = out[1]
 
-	Raises
-	------
-	Exception
-		DESCRIPTION.
-
-	Returns
-	-------
-	None.
-
-	"""
-	cmd_list = [f"{RADIANCE_PATH}\\bin\\gendaymtx"]
+    
+    cmd_list = [f"{RADIANCE_PATH}\\bin\\gendaymtx"]
 	
-	if spektrum == "visible spektrum":
-		spektrum_cmd = "0"
-	elif spektrum == "full spektrum":
-		spektrum_cmd = "1"
-	else:
-		raise Exception("""Unknown input for variable: spektrum
-				  Options are: (visible spektrum, full spektrum)""")
-				  
-	cmd_list.append(f"-O{spektrum_cmd}")
+    if spektrum == "visible spektrum":
+        spektrum_cmd = "0"
+        key = "SMX_FILE_O0"
+    elif spektrum == "full spektrum":
+        spektrum_cmd = "1"
+        key = "SMX_FILE_O1"
+    else:
+        raise Exception("""Unknown input for variable: spektrum
+                        Options are: (visible spektrum, full spektrum)""")
+                  
+    out = decode_path_manager_panda(path_mananger_pd, [key])		
+    output_file_path = out[0]
+    
+    cmd_list.append(f"-O{spektrum_cmd}")
 	
-	assert resolution in [1, 2, 4], "Unkown input for variable: resolution"
+    assert resolution in [1, 2, 4], "Unkown input for variable: resolution"
 	
-	cmd_list.extend(["-m", f"{resolution}"])
+    cmd_list.extend(["-m", f"{resolution}"])
 	
 	
-	cmd_list.extend(["-r", "0.0",
-				     f"{input_file_path}"])
+    cmd_list.extend(["-r", "0.0",
+                     f"{WEA_FILE}"])
 		
-	run_command(cmd_list, 
-				output_file_path)
+    run_command(path_mananger_pd,
+                cmd_list, 
+                output_file_path)
