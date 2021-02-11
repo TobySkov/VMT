@@ -4,32 +4,21 @@
 #https://github.com/ladybug-tools/ladybug-geometry/blob/master/ladybug_geometry/geometry3d/face.py
 
 #import ladybug_geometry as lg
-from ladybug_geometry.geometry3d.pointvector import Point3D
 from ladybug_geometry.geometry3d.face import Face3D
 from general.paths import decode_path_manager_panda
+from geometry.readinput import read_rad_files_polygons
+
+
 
 def read_vmt_rad_file(path_mananger_pd):
     
     out = decode_path_manager_panda(path_mananger_pd, ["VMT_RAD_FILE"])
     VMT_RAD_FILE = out[0]
     
-    with open(VMT_RAD_FILE, "r") as infile:
-        content = infile.readlines()
-        
-    polygons = []
-    for i in range(len(content)):
-        try: #In case it is not possible to access element 1 of list.
-            if content[i].split(" ")[1] == "polygon" and content[i + 3].split(" ")[0] == "12":
-                numbers = content[i + 3].split(" ")
-                polygon = [Point3D(numbers[1],numbers[2],numbers[3]),
-                           Point3D(numbers[4],numbers[5],numbers[6]),
-                           Point3D(numbers[7],numbers[8],numbers[9]),
-                           Point3D(numbers[10],numbers[11],numbers[12])]
-                polygons.append(polygon)
-        except:
-            pass
-        
-    return polygons
+    polygons_nested = read_rad_files_polygons([VMT_RAD_FILE])
+    
+    return polygons_nested[0]
+
 
 
 

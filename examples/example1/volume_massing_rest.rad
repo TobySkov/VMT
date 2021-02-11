@@ -1,0 +1,19 @@
+# Created by Honeybee[+] at 2021-02-10 11:05:01
+# www.ladybug.tools
+
+void plastic generic_floor
+0
+0
+5 0.2 0.2 0.2 0.0 0.0
+void plastic generic_roof
+0
+0
+5 0.8 0.8 0.8 0.0 0.0
+generic_floor polygon e7945d38-3be9_0_0
+0
+0
+12 -2.0 7.0 0.0 21.0 7.0 0.0 21.0 -7.0 0.0 -2.0 -7.0 0.0
+generic_roof polygon e7945d38-3be9_1_0
+0
+0
+12 -2.0 7.0 8.0 -2.0 -7.0 8.0 21.0 -7.0 8.0 21.0 7.0 8.0

@@ -13,7 +13,7 @@ def VMT(*args, **kwargs):
     #User inputs
     RADIANCE_PATH = r"C:\Radiance"
     ACCELERAD_PATH = r"C:\Accelerad"
-    SIMULATION_FOLDER = r"C:\baseline_test_new"
+    SIMULATION_FOLDER = r"C:\baseline_test_new" #Needs to be without whitespace
     LOCATION = "Copenhagen"
     RESOLUTION = "1"
     
