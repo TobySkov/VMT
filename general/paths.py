@@ -42,7 +42,8 @@ def find_epw(LOCATION, MAIN_PATH):
 
 def path_manager(RADIANCE_PATH, ACCELERAD_PATH,
                  SIMULATION_FOLDER, LOCATION,
-                 MAIN_PATH, RESOLUTION):
+                 MAIN_PATH, RESOLUTION, 
+                 INPUT_GEO_FILES):
     
     LOCATION = LOCATION.lower()
     
@@ -55,6 +56,7 @@ def path_manager(RADIANCE_PATH, ACCELERAD_PATH,
     ###Radiation study files (mesh)
     RADIATION_FOLDER = SIMULATION_FOLDER + "\\radiation_grid\\"
     RADIATION_MESH_FILES = RADIATION_FOLDER + "mesh_XXX.txt"
+    RADIATION_ALL_MESH_FILE = RADIATION_FOLDER + "mesh_all.txt"
     RADIATION_POINT_FILES = RADIATION_FOLDER + "surf_XXX.pts"
     RADIATION_ALL_PTS_FILE = RADIATION_FOLDER + "surf_all.pts"
     RADIATION_COEFFICIENTS = RADIATION_FOLDER + "radiation_coefficients.dmx"
@@ -88,6 +90,11 @@ def path_manager(RADIANCE_PATH, ACCELERAD_PATH,
     #Copying weather file (after folder creation)
     shutil.copy(EPW_FILE_DATABASE, EPW_FILE)
     
+    #Copying input geometry files
+    shutil.copy(INPUT_GEO_FILES[0],VMT_RAD_FILE)
+    shutil.copy(INPUT_GEO_FILES[1],VMT_RAD_FILE_REST)
+    shutil.copy(INPUT_GEO_FILES[2],CONTEXT_RAD_FILE)
+    
     
     
     keys = ["RADIANCE_PATH",
@@ -96,6 +103,7 @@ def path_manager(RADIANCE_PATH, ACCELERAD_PATH,
             "VMT_RAD_FILE_REST",
             "CONTEXT_RAD_FILE",
             "RADIATION_MESH_FILES",
+            "RADIATION_ALL_MESH_FILE",
             "RADIATION_POINT_FILES",
             "RADIATION_ALL_PTS_FILE",
             "RADIATION_COEFFICIENTS",
@@ -114,6 +122,7 @@ def path_manager(RADIANCE_PATH, ACCELERAD_PATH,
               VMT_RAD_FILE_REST,
               CONTEXT_RAD_FILE,
               RADIATION_MESH_FILES,
+              RADIATION_ALL_MESH_FILE,
               RADIATION_POINT_FILES,
               RADIATION_ALL_PTS_FILE,
               RADIATION_COEFFICIENTS,

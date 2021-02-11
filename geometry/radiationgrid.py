@@ -7,7 +7,7 @@
 from ladybug_geometry.geometry3d.face import Face3D
 from general.paths import decode_path_manager_panda
 from geometry.readinput import read_rad_files_polygons
-
+import numpy as np
 
 
 def read_vmt_rad_file(path_mananger_pd):
@@ -37,6 +37,10 @@ def gen_pts_and_sub_mesh(path_mananger_pd, x_dim, y_dim, offset):
     
     no_of_sensor_points_list = []
     
+    mesh_faces_all = []
+    
+    face_count = 0
+    
     for i in range(len(polygons)):
         
         surf_face = Face3D(polygons[i])
@@ -63,12 +67,14 @@ def gen_pts_and_sub_mesh(path_mananger_pd, x_dim, y_dim, offset):
                                          "RADIATION_MESH_FILES",
                                          "MESH_FILE_HEADER_VERTICES",
                                          "MESH_FILE_HEADER_FACES",
-                                         "RADIATION_ALL_PTS_FILE"])
+                                         "RADIATION_ALL_PTS_FILE",
+                                         "RADIATION_ALL_MESH_FILE"])
         RADIATION_POINT_FILES = out[0]
         RADIATION_MESH_FILES = out[1]
         MESH_FILE_HEADER_VERTICES = out[2]
         MESH_FILE_HEADER_FACES = out[3]
         RADIATION_ALL_PTS_FILE = out[4]
+        RADIATION_ALL_MESH_FILE = out[5]
         
         ### Writing information to files
         with open(RADIATION_POINT_FILES.replace("XXX",str(i)), "w") as outfile:
@@ -93,7 +99,10 @@ def gen_pts_and_sub_mesh(path_mananger_pd, x_dim, y_dim, offset):
                               + f"{mesh_faces[i][j][1]} " \
                               + f"{mesh_faces[i][j][2]} " \
                               + f"{mesh_faces[i][j][3]}\n")
-             
+                
+                mesh_faces_all.append(face_count + np.array(list(mesh_faces[i][j])))
+    
+        face_count += len(mesh_vertices[i])
     
     with open(RADIATION_ALL_PTS_FILE, "w") as outfile:
             for i in range(len(face_centroids_all)):
@@ -103,7 +112,22 @@ def gen_pts_and_sub_mesh(path_mananger_pd, x_dim, y_dim, offset):
                               + f"{face_normals_all[i].x:.3f} " \
                               + f"{face_normals_all[i].y:.3f} " \
                               + f"{face_normals_all[i].z:.3f}\n")
+                   
+    with open(RADIATION_ALL_MESH_FILE, "w") as outfile:
+        outfile.write(MESH_FILE_HEADER_VERTICES)
+        for i in range(len(mesh_vertices)):
+            for j in range(len(mesh_vertices[i])):
+                outfile.write(f"{mesh_vertices[i][j].x:.3f} " \
+                              + f"{mesh_vertices[i][j].y:.3f} " \
+                              + f"{mesh_vertices[i][j].z:.3f}\n")
                     
+        outfile.write(MESH_FILE_HEADER_FACES)
+        for i in range(len(mesh_faces_all)):
+            outfile.write(f"{mesh_faces_all[i][0]} " \
+                              + f"{mesh_faces_all[i][1]} " \
+                              + f"{mesh_faces_all[i][2]} " \
+                              + f"{mesh_faces_all[i][3]}\n")
+            
 
     no_of_sensor_points_total = len(face_centroids_all)
     
