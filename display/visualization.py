@@ -61,37 +61,6 @@ def load_rad_to_plotly(rad_files_list):
                 data.append(go.Mesh3d(x=x, y=y, z=z, color = colors[i],
                                                       opacity=opacities[i]))
 
-    """
-    i = 0
 
-    x = [-2.0, -2.0, 21.0, 21.0]
-    y = [-7, 5, 5, -7]
-    z = [8.0, 8.0, 8.0, 8.0]
-    data.append(go.Mesh3d(x=x, y=y, z=z, 
-                          opacity=opacities[i]))
-    
-
-    x = [-2.0, -2.0, 21.0, 21.0]
-    y = [-7, 5, 5, -7]
-    z = [8.0*2, 8.0*2, 8.0*2, 8.0*2]
-    data.append(go.Mesh3d(x=x, y=y, z=z, 
-                          opacity=opacities[i]))
-    
-    x = [-2.0, -2.0, 21.0, 21.0]
-    y = [-5, -5, -5, -5]
-    z = [8.0, 8.0*2, 8.0*2, 8.0]
-    data.append(go.Mesh3d(x=x, y=y, z=z, 
-                          opacity=opacities[i]))
-            """
     return data
 
-if __name__ == "__main__":
-    
-    rad_files_list = ["..\\examples\\example1\\volume_massing.rad",
-                      "..\\examples\\example1\\volume_massing_rest.rad",
-                      "..\\examples\\example1\\context.rad"]
-    
-    data = load_rad_to_plotly(rad_files_list)
-    
-    fig = go.Figure(data=data)
-    fig.show()
