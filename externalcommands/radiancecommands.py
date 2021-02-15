@@ -105,3 +105,76 @@ def run_gendaymtx(path_mananger_pd,
     run_command(path_mananger_pd,
                 cmd_list, 
                 output_file_path)
+
+
+#%%
+def run_dctimestep(path_mananger_pd,
+                   simulation_type):
+
+    if simulation_type == "RADIATION_ANALYSIS":
+        out = decode_path_manager_panda(path_mananger_pd, ["RADIANCE_PATH",
+                                                           "RADIATION_COEFFICIENTS",
+                                                           "SMX_FILE_O1",
+                                                           "RADIATION_RESULTS_RGB"])
+        RADIANCE_PATH = out[0]
+        RADIATION_COEFFICIENTS = out[1]
+        SMX_FILE_O1 = out[2]
+        RADIATION_RESULTS_RGB = out[3]
+    
+        cmd_list = [f"{RADIANCE_PATH}\\bin\\dctimestep",
+    			      f"{RADIATION_COEFFICIENTS}", 
+    				  f"{SMX_FILE_O1}"]
+        
+        output_file_path = RADIATION_RESULTS_RGB
+		
+    elif simulation_type == "DAYLIGHT_ANALYSIS":
+        pass
+    
+    elif simulation_type == "ENERGY_ANALYSIS":
+        pass
+    
+    else:
+        raise Exception("Unknown dctimestep simulation type")
+        
+    run_command(path_mananger_pd,
+                cmd_list,
+                output_file_path)
+    
+
+
+
+#%%
+def run_rmtxop(path_mananger_pd,
+                   simulation_type):
+
+    if simulation_type == "RADIATION_ANALYSIS":
+        out = decode_path_manager_panda(path_mananger_pd, ["RADIANCE_PATH",
+                                                           "RADIATION_RESULTS_RGB",
+                                                           "RADIATION_RESULTS_W"])
+        RADIANCE_PATH = out[0]
+        RADIATION_RESULTS_RGB = out[1]
+        RADIATION_RESULTS_W = out[2]
+    
+        cmd_list = [f"{RADIANCE_PATH}\\bin\\rmtxop",
+    			      "-c", "0.265", "0.67", "0.065", "-fa",
+    				  f"{RADIATION_RESULTS_RGB}"]
+        #-fa = format ascii
+        #179*(0.265*R + 0.67*G + 0.065*B) = 47.435*R + 119.93*G + 11.635*B
+        
+        output_file_path = RADIATION_RESULTS_W
+		
+    elif simulation_type == "DAYLIGHT_ANALYSIS":
+        pass
+    
+    elif simulation_type == "ENERGY_ANALYSIS":
+        pass
+    
+    else:
+        raise Exception("Unknown rmtxop simulation type")
+        
+    run_command(path_mananger_pd,
+                cmd_list,
+                output_file_path)
+
+
+

@@ -34,7 +34,6 @@ def VMT(*args, **kwargs):
     #At this stage run grasshopper script
 
     baseline(path_mananger_pd)
-    load_radiation_mesh_to_plotly(path_mananger_pd)
 
 
 if __name__ == "__main__":

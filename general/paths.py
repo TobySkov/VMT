@@ -54,12 +54,20 @@ def path_manager(RADIANCE_PATH, ACCELERAD_PATH,
     CONTEXT_RAD_FILE = INPUT_FOLDER + "context.rad"
     
     ###Radiation study files (mesh)
-    RADIATION_FOLDER = SIMULATION_FOLDER + "\\radiation_grid\\"
-    RADIATION_MESH_FILES = RADIATION_FOLDER + "mesh_XXX.txt"
-    RADIATION_ALL_MESH_FILE = RADIATION_FOLDER + "mesh_all.txt"
-    RADIATION_POINT_FILES = RADIATION_FOLDER + "surf_XXX.pts"
-    RADIATION_ALL_PTS_FILE = RADIATION_FOLDER + "surf_all.pts"
-    RADIATION_COEFFICIENTS = RADIATION_FOLDER + "radiation_coefficients.dmx"
+    RADIATION_FOLDER = SIMULATION_FOLDER + "\\radiation_analysis\\"
+    RADIATION_MESH_FOLDER = RADIATION_FOLDER + "mesh\\"
+    RADIATION_SURF_FOLDER = RADIATION_FOLDER + "surf\\"
+    RADIATION_OUT_FOLDER = RADIATION_FOLDER + "output\\"
+    RADIATION_MESH_FILES = RADIATION_MESH_FOLDER + "mesh_XXX.txt"
+    RADIATION_ALL_MESH_FILE = RADIATION_MESH_FOLDER + "mesh_all.txt"
+    RADIATION_POINT_FILES = RADIATION_SURF_FOLDER + "surf_XXX.pts"
+    RADIATION_ALL_PTS_FILE = RADIATION_SURF_FOLDER + "surf_all.pts"
+    RADIATION_COEFFICIENTS = RADIATION_OUT_FOLDER + "radiation_coefficients.dmx"
+    RADIATION_RESULTS_RGB = RADIATION_OUT_FOLDER + "radiation_result.rgb"
+    RADIATION_RESULTS_W = RADIATION_OUT_FOLDER + "radiation_result.txt"
+    RADIATION_RESULTS_CUM = RADIATION_OUT_FOLDER + "radiation_result_cummulative.txt"
+    
+    RADIATION_RESULTS_CUM_HEADER = "### Cummulative results"
     
     MESH_FILE_HEADER_VERTICES = "### Mesh vertices\n"
     MESH_FILE_HEADER_FACES = "### Mesh faces\n"
@@ -79,6 +87,9 @@ def path_manager(RADIANCE_PATH, ACCELERAD_PATH,
     create_folder([SIMULATION_FOLDER,
                    INPUT_FOLDER,
                    RADIATION_FOLDER,
+                   RADIATION_MESH_FOLDER,
+                   RADIATION_SURF_FOLDER,
+                   RADIATION_OUT_FOLDER,
                    SKY_FOLDER,
                    ROOM_FOLDER])
     
@@ -107,6 +118,10 @@ def path_manager(RADIANCE_PATH, ACCELERAD_PATH,
             "RADIATION_POINT_FILES",
             "RADIATION_ALL_PTS_FILE",
             "RADIATION_COEFFICIENTS",
+            "RADIATION_RESULTS_RGB",
+            "RADIATION_RESULTS_W",
+            "RADIATION_RESULTS_CUM",
+            "RADIATION_RESULTS_CUM_HEADER",
             "MESH_FILE_HEADER_VERTICES",
             "MESH_FILE_HEADER_FACES",
             "EPW_FILE",
@@ -126,6 +141,10 @@ def path_manager(RADIANCE_PATH, ACCELERAD_PATH,
               RADIATION_POINT_FILES,
               RADIATION_ALL_PTS_FILE,
               RADIATION_COEFFICIENTS,
+              RADIATION_RESULTS_RGB,
+              RADIATION_RESULTS_W,
+              RADIATION_RESULTS_CUM,
+              RADIATION_RESULTS_CUM_HEADER,
               MESH_FILE_HEADER_VERTICES,
               MESH_FILE_HEADER_FACES,
               EPW_FILE,
