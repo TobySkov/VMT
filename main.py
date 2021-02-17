@@ -16,7 +16,8 @@ def VMT(*args, **kwargs):
     ACCELERAD_PATH = r"C:\Accelerad"
     SIMULATION_FOLDER = r"C:\baseline_test" #Needs to be without whitespace
     LOCATION = "Copenhagen"
-    RESOLUTION = "1"
+    RESOLUTION = 1
+    ROOM_DIM = [3,4,6] #Height, Width, Depth
     
     INPUT_GEO_FILES = ["examples\\example1\\volume_massing.rad",
                        "examples\\example1\\volume_massing_rest.rad",
@@ -33,7 +34,9 @@ def VMT(*args, **kwargs):
 
     #At this stage run grasshopper script
 
-    baseline(path_mananger_pd)
+    baseline(path_mananger_pd,
+             RESOLUTION,
+             ROOM_DIM)
 
 
 if __name__ == "__main__":

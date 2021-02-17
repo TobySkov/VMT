@@ -56,16 +56,23 @@ def path_manager(RADIANCE_PATH, ACCELERAD_PATH,
     ###Radiation study files (mesh)
     RADIATION_FOLDER = SIMULATION_FOLDER + "\\radiation_analysis\\"
     RADIATION_MESH_FOLDER = RADIATION_FOLDER + "mesh\\"
-    RADIATION_SURF_FOLDER = RADIATION_FOLDER + "surf\\"
+    RADIATION_PTS_FOLDER = RADIATION_FOLDER + "pts\\"
     RADIATION_OUT_FOLDER = RADIATION_FOLDER + "output\\"
+    
     RADIATION_MESH_FILES = RADIATION_MESH_FOLDER + "mesh_XXX.txt"
     RADIATION_ALL_MESH_FILE = RADIATION_MESH_FOLDER + "mesh_all.txt"
-    RADIATION_POINT_FILES = RADIATION_SURF_FOLDER + "surf_XXX.pts"
-    RADIATION_ALL_PTS_FILE = RADIATION_SURF_FOLDER + "surf_all.pts"
+    
+    RADIATION_POINT_FILES = RADIATION_PTS_FOLDER + "points_XXX.pts"
+    RADIATION_ALL_PTS_FILE = RADIATION_PTS_FOLDER + "points_all.pts"
+    
     RADIATION_COEFFICIENTS = RADIATION_OUT_FOLDER + "radiation_coefficients.dmx"
+    
     RADIATION_RESULTS_RGB = RADIATION_OUT_FOLDER + "radiation_result.rgb"
     RADIATION_RESULTS_W = RADIATION_OUT_FOLDER + "radiation_result.txt"
-    RADIATION_RESULTS_CUM = RADIATION_OUT_FOLDER + "radiation_result_cummulative.txt"
+    RADIATION_RESULTS_CUM = RADIATION_OUT_FOLDER + "radiation_result_cummulative_XXX.txt"
+    RADIATION_RESULTS_CUM_ALL = RADIATION_OUT_FOLDER + "radiation_result_cummulative_all.txt"
+    
+    RADIATION_CLUSTERING = RADIATION_OUT_FOLDER + "clustering_XXX.txt"
     
     RADIATION_RESULTS_CUM_HEADER = "### Cummulative results"
     
@@ -88,7 +95,7 @@ def path_manager(RADIANCE_PATH, ACCELERAD_PATH,
                    INPUT_FOLDER,
                    RADIATION_FOLDER,
                    RADIATION_MESH_FOLDER,
-                   RADIATION_SURF_FOLDER,
+                   RADIATION_PTS_FOLDER,
                    RADIATION_OUT_FOLDER,
                    SKY_FOLDER,
                    ROOM_FOLDER])
@@ -121,6 +128,8 @@ def path_manager(RADIANCE_PATH, ACCELERAD_PATH,
             "RADIATION_RESULTS_RGB",
             "RADIATION_RESULTS_W",
             "RADIATION_RESULTS_CUM",
+            "RADIATION_RESULTS_CUM_ALL",
+            "RADIATION_CLUSTERING",
             "RADIATION_RESULTS_CUM_HEADER",
             "MESH_FILE_HEADER_VERTICES",
             "MESH_FILE_HEADER_FACES",
@@ -144,6 +153,8 @@ def path_manager(RADIANCE_PATH, ACCELERAD_PATH,
               RADIATION_RESULTS_RGB,
               RADIATION_RESULTS_W,
               RADIATION_RESULTS_CUM,
+              RADIATION_RESULTS_CUM_ALL,
+              RADIATION_CLUSTERING,
               RADIATION_RESULTS_CUM_HEADER,
               MESH_FILE_HEADER_VERTICES,
               MESH_FILE_HEADER_FACES,
