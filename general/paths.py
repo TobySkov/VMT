@@ -43,17 +43,37 @@ def find_epw(LOCATION, MAIN_PATH):
 def path_manager(RADIANCE_PATH, ACCELERAD_PATH,
                  SIMULATION_FOLDER, LOCATION,
                  MAIN_PATH, RESOLUTION, 
-                 INPUT_GEO_FILES):
+                 INPUT_GEO_FILES,
+                 ROOM_DIM):
+    
+    #Improvement: Consider to subdivide into the paths used for input,sky,radiation,daylight,energy etc.
+    
+    
+    ##### General user input #####
     
     LOCATION = LOCATION.lower()
-    
-    ###Geometry input files:
     INPUT_FOLDER = SIMULATION_FOLDER + "\\input\\"
     VMT_RAD_FILE = INPUT_FOLDER + "volume_massing.rad"
     VMT_RAD_FILE_REST = INPUT_FOLDER + "volume_massing_rest.rad"
     CONTEXT_RAD_FILE = INPUT_FOLDER + "context.rad"
     
-    ###Radiation study files (mesh)
+    ##### ------------------ #####
+    
+    
+    ##### Sky folder #####
+    SKY_FOLDER = SIMULATION_FOLDER + "\\sky\\"
+    EPW_FILE_DATABASE = find_epw(LOCATION, MAIN_PATH)
+    EPW_FILE = SIMULATION_FOLDER + "\\sky\\" + f"{LOCATION}.epw"
+    WEA_FILE = SIMULATION_FOLDER + "\\sky\\" + f"{LOCATION}.wea"
+    SMX_FILE_O0 = SIMULATION_FOLDER + "\\sky\\" + f"{LOCATION}_O0.smx"
+    SMX_FILE_O1 = SIMULATION_FOLDER + "\\sky\\" + f"{LOCATION}_O1.smx"
+    
+    ##### ---------- #####
+    
+    
+    
+    ##### Radiation analysis #####
+    
     RADIATION_FOLDER = SIMULATION_FOLDER + "\\radiation_analysis\\"
     RADIATION_MESH_FOLDER = RADIATION_FOLDER + "mesh\\"
     RADIATION_PTS_FOLDER = RADIATION_FOLDER + "pts\\"
@@ -67,28 +87,32 @@ def path_manager(RADIANCE_PATH, ACCELERAD_PATH,
     
     RADIATION_COEFFICIENTS = RADIATION_OUT_FOLDER + "radiation_coefficients.dmx"
     
-    RADIATION_RESULTS_RGB = RADIATION_OUT_FOLDER + "radiation_result.rgb"
-    RADIATION_RESULTS_W = RADIATION_OUT_FOLDER + "radiation_result.txt"
-    RADIATION_RESULTS_CUM = RADIATION_OUT_FOLDER + "radiation_result_cummulative_XXX.txt"
-    RADIATION_RESULTS_CUM_ALL = RADIATION_OUT_FOLDER + "radiation_result_cummulative_all.txt"
+    RADIATION_RESULTS_RGB = RADIATION_OUT_FOLDER + "result.rgb"
+    RADIATION_RESULTS_W = RADIATION_OUT_FOLDER + "result.txt"
+    RADIATION_RESULTS_CUM = RADIATION_OUT_FOLDER + "result_cummulative_XXX.txt"
+    RADIATION_RESULTS_CUM_ALL = RADIATION_OUT_FOLDER + "result_cummulative_all.txt"
     
-    RADIATION_CLUSTERING = RADIATION_OUT_FOLDER + "clustering_XXX.txt"
+    RADIATION_CLUSTERING_LABEL = RADIATION_OUT_FOLDER + "clustering_label_XXX.txt"
+    RADIATION_CLUSTERING_CENTER = RADIATION_OUT_FOLDER + "clustering_center_XXX.txt"
     
     RADIATION_RESULTS_CUM_HEADER = "### Cummulative results"
     
     MESH_FILE_HEADER_VERTICES = "### Mesh vertices\n"
     MESH_FILE_HEADER_FACES = "### Mesh faces\n"
     
-    ###Sky folder
-    SKY_FOLDER = SIMULATION_FOLDER + "\\sky\\"
-    EPW_FILE_DATABASE = find_epw(LOCATION, MAIN_PATH)
-    EPW_FILE = SIMULATION_FOLDER + "\\sky\\" + f"{LOCATION}.epw"
-    WEA_FILE = SIMULATION_FOLDER + "\\sky\\" + f"{LOCATION}.wea"
-    SMX_FILE_O0 = SIMULATION_FOLDER + "\\sky\\" + f"{LOCATION}_O0.smx"
-    SMX_FILE_O1 = SIMULATION_FOLDER + "\\sky\\" + f"{LOCATION}_O1.smx"
+    ##### ------------------ #####
     
-    ###Room folder
+    
+    ##### Room folder #####
+    
     ROOM_FOLDER = SIMULATION_FOLDER + "\\rooms\\"
+    ROOM_RAD_FILES = ROOM_FOLDER + "surf_XXX__room_YYY.rad"
+    
+    ##### ----------- #####
+    
+    
+    
+    
     
     #Creating folders
     create_folder([SIMULATION_FOLDER,
@@ -129,7 +153,8 @@ def path_manager(RADIANCE_PATH, ACCELERAD_PATH,
             "RADIATION_RESULTS_W",
             "RADIATION_RESULTS_CUM",
             "RADIATION_RESULTS_CUM_ALL",
-            "RADIATION_CLUSTERING",
+            "RADIATION_CLUSTERING_LABEL",
+            "RADIATION_CLUSTERING_CENTER",
             "RADIATION_RESULTS_CUM_HEADER",
             "MESH_FILE_HEADER_VERTICES",
             "MESH_FILE_HEADER_FACES",
@@ -138,7 +163,9 @@ def path_manager(RADIANCE_PATH, ACCELERAD_PATH,
             "SMX_FILE_O0",
             "SMX_FILE_O1",
             "RESOLUTION",
-            "RFLUXSKY_RAD"] 
+            "RFLUXSKY_RAD",
+            "ROOM_DIM",
+            "ROOM_RAD_FILES"] 
     
     values = [RADIANCE_PATH,
               ACCELERAD_PATH,
@@ -154,7 +181,8 @@ def path_manager(RADIANCE_PATH, ACCELERAD_PATH,
               RADIATION_RESULTS_W,
               RADIATION_RESULTS_CUM,
               RADIATION_RESULTS_CUM_ALL,
-              RADIATION_CLUSTERING,
+              RADIATION_CLUSTERING_LABEL,
+              RADIATION_CLUSTERING_CENTER,
               RADIATION_RESULTS_CUM_HEADER,
               MESH_FILE_HEADER_VERTICES,
               MESH_FILE_HEADER_FACES,
@@ -163,7 +191,9 @@ def path_manager(RADIANCE_PATH, ACCELERAD_PATH,
               SMX_FILE_O0,
               SMX_FILE_O1,
               RESOLUTION,
-              RFLUXSKY_RAD]
+              RFLUXSKY_RAD,
+              ROOM_DIM,
+              ROOM_RAD_FILES]
     
     d = {'Name': keys, 'Path/Header': values}
     path_mananger_pd = pd.DataFrame(data=d)

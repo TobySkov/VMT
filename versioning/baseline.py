@@ -7,15 +7,11 @@ Description:
 """
 from recipes.radiationanalysis import radiationanalysis_radiance
 
-def baseline(path_mananger_pd,
-             RESOLUTION,
-             ROOM_DIM):
+def baseline(path_mananger_pd):
     pass
 
     #Run radiation study
-    radiationanalysis_radiance(path_mananger_pd,
-                               RESOLUTION,
-                               ROOM_DIM)
+    radiationanalysis_radiance(path_mananger_pd)
     
     #Perform clustering
     

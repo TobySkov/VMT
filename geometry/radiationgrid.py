@@ -131,9 +131,11 @@ def gen_pts_and_sub_mesh(path_mananger_pd, x_dim, y_dim, offset):
 
     no_of_sensor_points_total = len(face_centroids_all)
     
-    return (face_centroids, face_normals, mesh_vertices, mesh_faces, \
-            face_centroids_all, face_normals_all, \
-                no_of_sensor_points_total, no_of_sensor_points_list)
+    return (face_centroids, face_normals, 
+            mesh_vertices, mesh_faces, 
+            face_centroids_all, face_normals_all, 
+            no_of_sensor_points_total, no_of_sensor_points_list,
+            polygons)
     
 
 

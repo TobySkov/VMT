@@ -35,6 +35,7 @@ def radiation_post_processing(path_mananger_pd,
                header = RADIATION_RESULTS_CUM_HEADER + \
                    f", period = [{start}:{end}]")
         
+    cummulative_results_list = []
     idx_start = 0
     idx_end = no_of_sensor_points_list[0]
     for i in range(len(no_of_sensor_points_list)):
@@ -42,7 +43,8 @@ def radiation_post_processing(path_mananger_pd,
                    cummulative_result[idx_start:idx_end], 
                    delimiter="\n", header = RADIATION_RESULTS_CUM_HEADER + \
                    f", period = [{start}:{end}]")
-
+        
+        cummulative_results_list.append(cummulative_result[idx_start:idx_end])
         try:
             idx_start = idx_start + no_of_sensor_points_list[i]
             idx_end = idx_end + no_of_sensor_points_list[i+1]
@@ -51,7 +53,7 @@ def radiation_post_processing(path_mananger_pd,
             pass
 
 
-
+    return cummulative_results_list
 
 
 

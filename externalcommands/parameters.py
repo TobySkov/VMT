@@ -13,15 +13,15 @@ def rtrace_parameters(resolution,
     
     if sim_type == "RADIATION":
         #From HB+
-        if resolution == "0":
+        if resolution == 0:
             rtrace_cmd = ["-ab", "3", "-ad", "5000", "-lw", f"{1/5000}"]
     		#rtrace_cmd = ["-aa", "0.25", "-ab 3", "-ad", "1000", "-ar", "16"] 
     
-        elif resolution == "1":
+        elif resolution == 1:
             rtrace_cmd = ["-ab", "5", "-ad", "15000", "-lw", f"{1/15000}"]
     		#rtrace_cmd = ["-aa", "0.2", "-ab 5", "-ad", "5000", "-ar", "64"] 
     				
-        elif resolution == "2":
+        elif resolution == 2:
             rtrace_cmd = ["-ab", "6", "-ad", "25000", "-lw", f"{1/25000}"]
     		#rtrace_cmd = ["-aa", "0.1", "-ab 7", "-ad", "20000", "-ar", "128"] 
     

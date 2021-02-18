@@ -8,7 +8,8 @@ from geometry.radiationgrid import gen_pts_and_sub_mesh
 
 from postprocessing.radiationanalysispostprocess import radiation_post_processing
 
-from clustering.kmeans import kmeans_clustering
+from zoning.clustering import clustering
+from zoning.zones import zones_logic
 
 def radiationanalysis_radiance(path_mananger_pd):
     """
@@ -22,18 +23,16 @@ def radiationanalysis_radiance(path_mananger_pd):
     
     """
     #Create grid for at volume massing
-    out = gen_pts_and_sub_mesh(path_mananger_pd,
+    submesh_out = gen_pts_and_sub_mesh(path_mananger_pd,
                                x_dim = 1,
                                y_dim = 1,
                                offset = 0.01)
     
-    no_of_sensor_points_total = out[6]
-    no_of_sensor_points_list = out[7]
     """
     #create dmx
     #   run for each surface of the volume massing
     run_rfluxmtx_radiation(path_mananger_pd,
-                           no_of_sensor_points_total)
+                           no_of_sensor_points_total = submesh_out[6])
     
 
     run_dctimestep(path_mananger_pd,
@@ -42,13 +41,17 @@ def radiationanalysis_radiance(path_mananger_pd):
     run_rmtxop(path_mananger_pd,
         simulation_type = "RADIATION_ANALYSIS")
 
-    
-    radiation_post_processing(path_mananger_pd,
-                              no_of_sensor_points_list)
     """
-    kmeans_clustering(path_mananger_pd,
-                      no_of_sensor_points_list,
-                      n_clusters = 3)
+    cummulative_results_list = radiation_post_processing(path_mananger_pd,
+                                    no_of_sensor_points_list = submesh_out[7])
+    
+    clustering(path_mananger_pd,
+               no_of_sensor_points_list = submesh_out[7],
+               n_clusters = 3)
+    
+    
+    zones_logic(path_mananger_pd,submesh_out,cummulative_results_list)
+    
     
 def radiationanalysis_accelerad():
     pass
