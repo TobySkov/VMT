@@ -17,6 +17,7 @@ def VMT(*args, **kwargs):
     LOCATION = "Copenhagen"
     RESOLUTION = 0
     ROOM_DIM = [3.5,4.5,6] #Height, Width, Depth - this should not be multiple with grid size (otherwise rooms will align on boundaries)
+    max_rooms_per_surface = 4
     
     INPUT_GEO_FILES = ["examples\\example1\\volume_massing.rad",
                        "examples\\example1\\volume_massing_rest.rad",
@@ -34,7 +35,8 @@ def VMT(*args, **kwargs):
 
     #At this stage run grasshopper script
 
-    baseline(path_mananger_pd)
+    baseline(path_mananger_pd,
+             max_rooms_per_surface)
 
 
 if __name__ == "__main__":

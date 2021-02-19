@@ -164,6 +164,7 @@ def path_manager(RADIANCE_PATH, ACCELERAD_PATH,
             "SMX_FILE_O1",
             "RESOLUTION",
             "RFLUXSKY_RAD",
+            "ROOM_FOLDER",
             "ROOM_DIM",
             "ROOM_RAD_FILES"] 
     
@@ -192,6 +193,7 @@ def path_manager(RADIANCE_PATH, ACCELERAD_PATH,
               SMX_FILE_O1,
               RESOLUTION,
               RFLUXSKY_RAD,
+              ROOM_FOLDER,
               ROOM_DIM,
               ROOM_RAD_FILES]
     

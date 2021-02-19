@@ -11,7 +11,12 @@ from postprocessing.radiationanalysispostprocess import radiation_post_processin
 from zoning.clustering import clustering
 from zoning.zones import zones_logic
 
-def radiationanalysis_radiance(path_mananger_pd):
+from general.folder import delete_folder_content
+
+from general.paths import decode_path_manager_panda
+
+def radiationanalysis_radiance(path_mananger_pd,
+                               max_rooms_per_surface):
     """
     #epw2wea
     run_epw2wea(path_mananger_pd)
@@ -41,16 +46,22 @@ def radiationanalysis_radiance(path_mananger_pd):
     run_rmtxop(path_mananger_pd,
         simulation_type = "RADIATION_ANALYSIS")
 
-    """
+    
     cummulative_results_list = radiation_post_processing(path_mananger_pd,
                                     no_of_sensor_points_list = submesh_out[7])
-    
+    """
     clustering(path_mananger_pd,
                no_of_sensor_points_list = submesh_out[7],
                n_clusters = 3)
     
+    #Deleting content of room folder
+    out = decode_path_manager_panda(path_mananger_pd, 
+                                        ["ROOM_FOLDER"])
+    delete_folder_content(folder=out[0])
     
-    zones_logic(path_mananger_pd,submesh_out,cummulative_results_list)
+    zones_logic(path_mananger_pd,
+                submesh_out,
+                max_rooms_per_surface)
     
     
 def radiationanalysis_accelerad():

@@ -68,12 +68,26 @@ def check_facade_collisions(corner_points, approved_facades):
 
 #%%
 
-def read_cummulative_results():
-    pass
+def read_cummulative_results(path_mananger_pd, submesh_out):
+    
+    polygons = submesh_out[8]
+    
+    out = decode_path_manager_panda(path_mananger_pd, 
+                                        ["RADIATION_RESULTS_CUM"])
+    
+    RADIATION_RESULTS_CUM = out[0]
+
+    cummulative_results_list = []
+    
+    for i in range(len(polygons)):
+        path = RADIATION_RESULTS_CUM.replace("XXX",f"{i}")
+        cummulative_results_list.append(np.loadtxt(path))
+    
+    return cummulative_results_list
 
 #%%
 
-def zones_logic(path_mananger_pd, submesh_out,cummulative_results_list):
+def zones_logic(path_mananger_pd, submesh_out, max_rooms_per_surface):
     
     out = decode_path_manager_panda(path_mananger_pd, 
                                         ["ROOM_DIM",
@@ -81,11 +95,10 @@ def zones_logic(path_mananger_pd, submesh_out,cummulative_results_list):
     ROOM_DIM = out[0]
     ROOM_RAD_FILES = out[1]
 
-
-    max_rooms_per_surface = 3
     
+    cummulative_results_list = read_cummulative_results(path_mananger_pd, submesh_out)
     
-    
+    approved_sub_facades_all = []
     approved_facades_all = []
     for i in range(len(cummulative_results_list)):
         result_radiation = cummulative_results_list[i]
@@ -135,6 +148,7 @@ def zones_logic(path_mananger_pd, submesh_out,cummulative_results_list):
                 
         
         approved_facades = []
+        approved_sub_facades = []
 
         for j in range(max_rooms_per_surface):
             for k in range(max_tries):
@@ -155,16 +169,20 @@ def zones_logic(path_mananger_pd, submesh_out,cummulative_results_list):
         
                 
                 if approved_inside and approved_no_collide:
-                    if i == 1:
-                        a = 2+2
-                    approved_facades.append(Face3D(corner_points))
+                    
+                    face = Face3D(corner_points)
+                    
+                    sub_face = face.sub_faces_by_ratio(ratio = 0.5)[0]
+                    
+                    approved_facades.append(face)
+                    approved_sub_facades.append(sub_face)
                     break
                 
             if len(approved_facades) == max_rooms_per_surface:
                 break
                 
         approved_facades_all.append(approved_facades)
-
+        approved_sub_facades_all.append(approved_sub_facades)
 
         ### Save result
         for j in range(len(approved_facades)):
@@ -174,7 +192,12 @@ def zones_logic(path_mananger_pd, submesh_out,cummulative_results_list):
             write_rad_file_facade_only(file_name,approved_facades[j],i,j)
     
 
-
+        ### Save result
+        for j in range(len(approved_sub_facades)):
+            file_name = \
+                ROOM_RAD_FILES.replace("XXX", str(i) + "_sub").replace("YYY",str(j))
+            
+            write_rad_file_facade_only(file_name,approved_sub_facades[j],i,j)
 
 
 
