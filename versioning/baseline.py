@@ -7,16 +7,20 @@ Description:
 """
 from recipes.radiationanalysis import radiationanalysis_radiance
 
-def baseline(path_mananger_pd,
-             max_rooms_per_surface):
+#from zoning.zones import zones_logic
+
+
+def baseline(info):
     pass
 
     #Run radiation study
-    radiationanalysis_radiance(path_mananger_pd,
-                               max_rooms_per_surface)
+    radiationanalysis_radiance(info)
     
-    #Perform clustering
-    
+    #Insert rooms
+    #zones_logic(data_and_path_manager)
+
+
+
     #3-phase method for all rooms
     
     #EnergyPlus simulation for all rooms

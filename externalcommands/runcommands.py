@@ -7,9 +7,8 @@ https://www.cyberciti.biz/faq/python-run-external-command-and-get-output/
 
 from subprocess import Popen, PIPE
 import os
-from general.paths import decode_path_manager_panda
 
-
+#%%
 def read_stdin(input_file_path):
     
     string = ""
@@ -21,23 +20,19 @@ def read_stdin(input_file_path):
     
     return bytes_input
 	
-
-def run_command(path_mananger_pd,
+#%%
+def run_command(info,
                 cmd_list, 
-				output_file_path = None,
+				output_file_path = False,
                 input_file_path = False):
     
-    out = decode_path_manager_panda(path_mananger_pd, ["RADIANCE_PATH",
-                                                       "ACCELERAD_PATH"])
-    RADIANCE_PATH = out[0]
-    ACCELERAD_PATH = out[1]
     
 	#Setting enviromental variable PATH
-    os.environ["PATH"] = f"{RADIANCE_PATH}\\bin;{ACCELERAD_PATH}\\bin;" \
+    os.environ["PATH"] = f"{info.radiance_bin};{info.accelerad_bin};" \
 		+ "{}".format(os.environ["PATH"])
 	
 	#Setting enviromental variable RAYPATH
-    os.environ["RAYPATH"] = f".;{RADIANCE_PATH}\\lib;{ACCELERAD_PATH}\\lib;"
+    os.environ["RAYPATH"] = f".;{info.radiance_lib};{info.accelerad_lib};"
 
     print("START - Subprocess: {}".format(cmd_list[0]))
 	
@@ -49,6 +44,9 @@ def run_command(path_mananger_pd,
     else:
         output, err = p.communicate(b"This is stdin (type:bytes)")
     rc = p.returncode
+    
+    if rc != 0:
+        print(f"Error code: \n {err}")
 	
     print("DONE  - Subprocess: {}. Returncode: {}".format(cmd_list[0],rc))
 	
@@ -61,4 +59,4 @@ def run_command(path_mananger_pd,
         print("DONE  - Writing ASCII data")
 			
 		
-	
+#%%

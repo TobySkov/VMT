@@ -3,38 +3,43 @@ Description:
 
 """
 
-from general.paths import decode_path_manager_panda
 from general.ascii import read_ascii_header 
 import numpy as np
 
-def radiation_post_processing(path_mananger_pd,
-                              no_of_sensor_points_list,
-                              period = [0,8759]):
+def radiation_post_processing(info):
     
-    start = period[0]
-    end = period[1]
+    start = info.rad_period[0]
+    end = info.rad_period[1]
     
-    out = decode_path_manager_panda(path_mananger_pd, ["RADIATION_RESULTS_W",
-                                                       "RADIATION_RESULTS_CUM",
-                                                       "RADIATION_RESULTS_CUM_ALL",
-                                                       "RADIATION_RESULTS_CUM_HEADER"])
+    nrows, ncols, ncomp, skiplines = read_ascii_header(info.rad_results_wh)
     
-    RADIATION_RESULTS_W = out[0]
-    RADIATION_RESULTS_CUM = out[1]
-    RADIATION_RESULTS_CUM_ALL = out[2]
-    RADIATION_RESULTS_CUM_HEADER = out[3]
-    
-    nrows, ncols, ncomp, skiplines = read_ascii_header(RADIATION_RESULTS_W)
-    
-    data = np.loadtxt(RADIATION_RESULTS_W, skiprows=skiplines)
+    data = np.loadtxt(info.rad_results_wh, skiprows=skiplines)
     
     cummulative_result = np.sum(data[:,start:end],axis=1)
     
 
-    np.savetxt(RADIATION_RESULTS_CUM_ALL, cummulative_result, delimiter="\n", 
-               header = RADIATION_RESULTS_CUM_HEADER + \
-                   f", period = [{start}:{end}]")
+    np.savetxt(info.rad_results_cummulative, cummulative_result, 
+               delimiter="\n")
+    
+    count = 0
+    for i in range(len(info.rad_no_of_sensor_points_list)):
         
+        with open(info.rad_results_cummulative_list[i], "w") as outfile:
+            
+            for j in range(info.rad_no_of_sensor_points_list[i]):
+                
+                outfile.write(f"{cummulative_result[count]}\n")
+                count+=1
+    
+    
+    
+    
+    """
+    
+    header = RADIATION_RESULTS_CUM_HEADER + \
+                   f", period = [{start}:{end}]"
+                   
+                   
     cummulative_results_list = []
     idx_start = 0
     idx_end = no_of_sensor_points_list[0]
@@ -51,9 +56,9 @@ def radiation_post_processing(path_mananger_pd,
             
         except:
             pass
+    """
 
-
-    return cummulative_results_list
+    #return cummulative_results_list
 
 
 

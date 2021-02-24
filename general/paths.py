@@ -5,13 +5,286 @@ For managing paths and file headers
 
 """
 
-import pandas as pd
 import os
 import shutil 
+from pathlib import Path
+import json
+import copy
+
+
+#Consider: It is slower to have one single dict for all file paths.
+#           Could also consider nested classes.
+
+
+#%% class containing info about folder structure
+class folderstructure:
+    
+    def __init__(self, input_json):
+        
+        #Simulation programs
+        self.radiance_folder =    Path(input_json["radiance_folder"])
+        self.accelerad_folder =   Path(input_json["accelerad_folder"])
+        
+        self.radiance_bin = self.radiance_folder.joinpath("bin")
+        self.radiance_lib = self.radiance_folder.joinpath("lib")
+        
+        self.accelerad_bin = self.accelerad_folder.joinpath("bin")
+        self.accelerad_lib = self.accelerad_folder.joinpath("lib")
+        
+        
+        #API placement
+        self.main_folder =      Path(input_json["main_folder"])
+        
+        #Root level output folder structure
+        self.root =             Path(input_json["output_folder"])
+        self.input_folder =     Path(input_json["output_folder"] + "\\input")
+        self.sky_folder=        Path(input_json["output_folder"] + "\\sky")
+        self.radiation_folder = Path(input_json["output_folder"] + \
+                                     "\\radiation_analysis")
+        self.room_folder =      Path(input_json["output_folder"] + "\\rooms")
+
+        #Radiation subfolders
+        self.radiation_mesh_folder = \
+            self.radiation_folder.joinpath("mesh_grid") 
+        self.radiation_points_folder = \
+            self.radiation_folder.joinpath("points")
+        self.radiation_results_folder = \
+            self.radiation_folder.joinpath("results")
+        
+        
+    def createfolders(self):
+        create_folders_from_list([self.input_folder,
+                                  self.sky_folder,
+                                  self.radiation_folder,
+                                  self.room_folder,
+                                  self.radiation_mesh_folder,
+                                  self.radiation_points_folder,
+                                  self.radiation_results_folder])
+
+
+
+#%% class containing info about input geometry files
+class inputfiles(folderstructure):
+    
+    def __init__(self, f, input_json):
+        
+        self.vmt_facade_src = Path(input_json["vmt_facade_src"])
+        file_name = self.vmt_facade_src.name
+        self.vmt_facade_dst = f.input_folder.joinpath(file_name)
+        
+        self.vmt_rest_src = Path(input_json["vmt_rest_src"])
+        file_name = self.vmt_rest_src.name
+        self.vmt_rest_dst = f.input_folder.joinpath(file_name)
+        
+        self.context_src = Path(input_json["context_src"])
+        file_name = self.context_src.name
+        self.context_dst = f.input_folder.joinpath(file_name)
+        
+    def copyfiles(self):
+        src_list = [self.vmt_facade_src,
+                    self.vmt_rest_src,
+                    self.context_src]
+        
+        dst_list = [self.vmt_facade_dst,
+                    self.vmt_rest_dst,
+                    self.context_dst]
+        
+        copy_files(src_list, dst_list)
+        
+
+#%% class containing info about skymodel
+class skymodels:
+    
+    def __init__(self, f, input_json):
+        
+        #Paths
+        self.epw_src = find_epw(input_json["location"], f)
+        self.epw_dst = f.sky_folder.joinpath(self.epw_src.name)
+        
+        self.skyrad_src = \
+            f.main_folder.joinpath("database\\smx\\rfluxsky.rad")
+        self.skyrad_dst = f.sky_folder.joinpath(self.skyrad_src.name)
+        
+        self.wea_path = self.epw_dst.with_suffix(".wea")
+        self.smx_O0_path = self.epw_dst.with_suffix(".O0smx")
+        self.smx_O1_path = self.epw_dst.with_suffix(".O1smx")
+        
+        
+        #Data
+        self.epw_data = None
+        self.wea_data = None
+        self.smx_O0_data = None
+        self.smx_O1_data = None
+        
+        
+    def copyfiles(self):
+        
+        src_list = [self.epw_src,
+                    self.skyrad_src]
+        
+        dst_list = [self.epw_dst,
+                    self.skyrad_dst]
+        
+        copy_files(src_list, dst_list)
+
+
+
+#%% class related to radiation study
+
+class radiationanalysis:
+    
+    def __init__(self, i, f):
+        
+        ### Counting how many facades present
+        self.facade_count = count_facades(i.vmt_facade_dst)
+    
+        #All points and mesh files
+        self.rad_mesh_all = f.radiation_mesh_folder.joinpath("mesh_all.txt")
+        self.rad_points_all = f.radiation_points_folder.joinpath("points_all.txt")
+        
+        ### Lists of files for each facade
+        self.rad_mesh_files_list = []
+        self.rad_points_files_list = []
+        self.rad_normals_files_list = []
+        self.rad_results_cummulative_list = []
+        #self.rad_results_labels_list = []
+        #self.rad_results_centers_list = []
+        
+        for i in range(self.facade_count):
+            self.rad_mesh_files_list.append(
+                f.radiation_mesh_folder.joinpath(f"mesh_{i}.txt"))
+            
+            self.rad_points_files_list.append(
+                f.radiation_points_folder.joinpath(f"points_{i}.txt"))
+            
+            self.rad_normals_files_list.append(
+                f.radiation_points_folder.joinpath(f"normals_{i}.txt"))
+            
+            self.rad_results_cummulative_list.append(
+                f.radiation_results_folder.joinpath(f"cummulative_{i}.txt"))
+            
+            #self.rad_results_labels_list.append(
+            #    f.radiation_results_folder.joinpath(f"labels_{i}.txt"))
+    
+            #self.rad_results_centers_list.append(
+            #    f.radiation_results_folder.joinpath(f"centers_{i}.txt"))
+    
+        
+        ### All results files
+        self.rad_coefficients = f.radiation_results_folder.joinpath(
+            "daylight_coefficients.dmx")
+ 
+        self.rad_results_rgb = \
+            f.radiation_results_folder.joinpath("result_rgb.rgb")
+        self.rad_results_wh = f.radiation_results_folder.joinpath("result_wh.txt")
+
+        self.rad_results_cummulative = f.radiation_results_folder.joinpath(
+            "cummulative.txt")
+
+        ### Headers
+        self.rad_results_cummulative_header =   "### Cummulative results\n"
+
+        ### Data
+        self.rad_surf_mesh_data = []
+    
+        self.rad_no_of_sensor_points = 0
+        self.rad_no_of_sensor_points_list = []
 
 #%%
 
-def create_folder(path_list):
+class others:
+    
+    def __init__(self, i, f, input_json):
+    
+        self.sim_resolution = input_json["simulation_resolution"]
+        self.room_dimensions = input_json["room_dimensions"]
+        self.max_rooms_per_surface = input_json["max_rooms_per_surface"]
+        self.path_json = \
+            f.root.joinpath("info.json")
+        self.rad_grid_x_dim = input_json["radiation_grid_x_dim"]
+        self.rad_grid_y_dim = input_json["radiation_grid_y_dim"]
+        self.rad_grid_offset = input_json["radiation_grid_offset"]
+        self.rad_period =   input_json["radiation_period"]
+
+#%%
+class empty:
+    pass
+
+#%%
+def combineinstances(list_of_instances):
+    
+    info = empty()
+    
+    for i in range(len(list_of_instances)):
+        info.__dict__.update(list_of_instances[i].__dict__)
+
+    return info
+
+
+#%%
+def read_json(input_json_path):
+    with open(input_json_path, 'r') as infile:
+        json_data = json.load(infile)
+    return json_data
+
+#%%
+
+def collect_info(input_json_path):
+    
+    input_json = read_json(input_json_path)
+    
+    
+    #Folder structure
+    f = folderstructure(input_json)
+    f.createfolders()
+
+    #Input geometry files    
+    i = inputfiles(f, input_json)
+    i.copyfiles()
+    
+    #Sky model
+    s = skymodels(f,input_json)
+    s.copyfiles()
+    
+    #Radiation analysis
+    r = radiationanalysis(i,f)
+    
+    #Other info
+    o = others(i, f, input_json)
+    
+    
+    info = combineinstances([f,i,s,r,o])
+    
+    write_to_json(info)
+    
+    return info
+
+
+#%%
+def write_to_json(info):
+    
+    #Convert paths to strings
+    info_copy = copy.deepcopy(info.__dict__)
+    
+    for key in info_copy:
+        
+        if type(info_copy[key]) == list:
+            for i in range(len(info_copy[key])):
+                info_copy[key][i] = str(info_copy[key][i])
+                
+        else:
+            info_copy[key] = str(info_copy[key])
+        
+    #Dump to json
+    with open(info.path_json, 'w') as outfile:   
+        json.dump(info_copy, outfile, indent = "\t")
+        
+        
+        
+
+#%%
+
+def create_folders_from_list(path_list):
     for i in range(len(path_list)):
         if not os.path.exists(path_list[i]):
             os.makedirs(path_list[i])
@@ -22,196 +295,57 @@ def create_folder(path_list):
 
 #%%
 
-def find_epw(LOCATION, MAIN_PATH):
+def copy_files(src_list, dst_list):
     
-    with open(MAIN_PATH + "\\database\\smx\\overview.txt", "r") as infile:
+    length_1 = len(src_list)
+    assert length_1 == len(dst_list), "The length of the two lists" + \
+        " should be identical"
+        
+    for i in range(length_1):
+        if os.path.isfile(dst_list[i]):
+            print(f"File will be overwritten: \n {dst_list[i]}")
+            
+        shutil.copy(src_list[i], dst_list[i])
+            
+        
+    
+
+#%%
+
+def find_epw(location, f):
+    
+    location = location.lower()
+    
+    file = f.main_folder.joinpath("database\\smx\\overview.txt")
+    
+    with open(file, "r") as infile:
         content = infile.readlines()
     
     found = False
     for i in range(len(content)):
-        if LOCATION == content[i].split(", ")[0]:
-            EPW_FILE_DATABASE = MAIN_PATH + content[i].split(", ")[1]
+        if location == content[i].split(", ")[0]:
+            epw_src = f.main_folder.joinpath(content[i].split(", ")[1])
             found = True
+            break
             
     if not found:
-        raise Exception(f"Location name not found in database: {LOCATION}")
+        raise Exception(f"Location name not found in database: {location}")
         
-    return EPW_FILE_DATABASE
+    return epw_src
+
 
 #%%
 
-def path_manager(RADIANCE_PATH, ACCELERAD_PATH,
-                 SIMULATION_FOLDER, LOCATION,
-                 MAIN_PATH, RESOLUTION, 
-                 INPUT_GEO_FILES,
-                 ROOM_DIM):
+def count_facades(volume_massing_facades_rad):
     
-    #Improvement: Consider to subdivide into the paths used for input,sky,radiation,daylight,energy etc.
-    
-    
-    ##### General user input #####
-    
-    LOCATION = LOCATION.lower()
-    INPUT_FOLDER = SIMULATION_FOLDER + "\\input\\"
-    VMT_RAD_FILE = INPUT_FOLDER + "volume_massing.rad"
-    VMT_RAD_FILE_REST = INPUT_FOLDER + "volume_massing_rest.rad"
-    CONTEXT_RAD_FILE = INPUT_FOLDER + "context.rad"
-    
-    ##### ------------------ #####
-    
-    
-    ##### Sky folder #####
-    SKY_FOLDER = SIMULATION_FOLDER + "\\sky\\"
-    EPW_FILE_DATABASE = find_epw(LOCATION, MAIN_PATH)
-    EPW_FILE = SIMULATION_FOLDER + "\\sky\\" + f"{LOCATION}.epw"
-    WEA_FILE = SIMULATION_FOLDER + "\\sky\\" + f"{LOCATION}.wea"
-    SMX_FILE_O0 = SIMULATION_FOLDER + "\\sky\\" + f"{LOCATION}_O0.smx"
-    SMX_FILE_O1 = SIMULATION_FOLDER + "\\sky\\" + f"{LOCATION}_O1.smx"
-    
-    ##### ---------- #####
-    
-    
-    
-    ##### Radiation analysis #####
-    
-    RADIATION_FOLDER = SIMULATION_FOLDER + "\\radiation_analysis\\"
-    RADIATION_MESH_FOLDER = RADIATION_FOLDER + "mesh\\"
-    RADIATION_PTS_FOLDER = RADIATION_FOLDER + "pts\\"
-    RADIATION_OUT_FOLDER = RADIATION_FOLDER + "output\\"
-    
-    RADIATION_MESH_FILES = RADIATION_MESH_FOLDER + "mesh_XXX.txt"
-    RADIATION_ALL_MESH_FILE = RADIATION_MESH_FOLDER + "mesh_all.txt"
-    
-    RADIATION_POINT_FILES = RADIATION_PTS_FOLDER + "points_XXX.pts"
-    RADIATION_ALL_PTS_FILE = RADIATION_PTS_FOLDER + "points_all.pts"
-    
-    RADIATION_COEFFICIENTS = RADIATION_OUT_FOLDER + "radiation_coefficients.dmx"
-    
-    RADIATION_RESULTS_RGB = RADIATION_OUT_FOLDER + "result.rgb"
-    RADIATION_RESULTS_W = RADIATION_OUT_FOLDER + "result.txt"
-    RADIATION_RESULTS_CUM = RADIATION_OUT_FOLDER + "result_cummulative_XXX.txt"
-    RADIATION_RESULTS_CUM_ALL = RADIATION_OUT_FOLDER + "result_cummulative_all.txt"
-    
-    RADIATION_CLUSTERING_LABEL = RADIATION_OUT_FOLDER + "clustering_label_XXX.txt"
-    RADIATION_CLUSTERING_CENTER = RADIATION_OUT_FOLDER + "clustering_center_XXX.txt"
-    
-    RADIATION_RESULTS_CUM_HEADER = "### Cummulative results"
-    
-    MESH_FILE_HEADER_VERTICES = "### Mesh vertices\n"
-    MESH_FILE_HEADER_FACES = "### Mesh faces\n"
-    
-    ##### ------------------ #####
-    
-    
-    ##### Room folder #####
-    
-    ROOM_FOLDER = SIMULATION_FOLDER + "\\rooms\\"
-    ROOM_RAD_FILES = ROOM_FOLDER + "surf_XXX__room_YYY.rad"
-    
-    ##### ----------- #####
-    
-    
-    
-    
-    
-    #Creating folders
-    create_folder([SIMULATION_FOLDER,
-                   INPUT_FOLDER,
-                   RADIATION_FOLDER,
-                   RADIATION_MESH_FOLDER,
-                   RADIATION_PTS_FOLDER,
-                   RADIATION_OUT_FOLDER,
-                   SKY_FOLDER,
-                   ROOM_FOLDER])
-    
-    #Copying upside down sky (after folder creation)
-    RFLUXSKY_RAD_DATABASE = MAIN_PATH + r"\database\smx\rfluxsky.rad"
-    RFLUXSKY_RAD = SIMULATION_FOLDER + "\\sky\\rfluxsky.rad"
-    shutil.copy(RFLUXSKY_RAD_DATABASE, RFLUXSKY_RAD)
-    
-    #Copying weather file (after folder creation)
-    shutil.copy(EPW_FILE_DATABASE, EPW_FILE)
-    
-    #Copying input geometry files
-    shutil.copy(INPUT_GEO_FILES[0],VMT_RAD_FILE)
-    shutil.copy(INPUT_GEO_FILES[1],VMT_RAD_FILE_REST)
-    shutil.copy(INPUT_GEO_FILES[2],CONTEXT_RAD_FILE)
-    
-    
-    
-    keys = ["RADIANCE_PATH",
-            "ACCELERAD_PATH",
-            "VMT_RAD_FILE",
-            "VMT_RAD_FILE_REST",
-            "CONTEXT_RAD_FILE",
-            "RADIATION_MESH_FILES",
-            "RADIATION_ALL_MESH_FILE",
-            "RADIATION_POINT_FILES",
-            "RADIATION_ALL_PTS_FILE",
-            "RADIATION_COEFFICIENTS",
-            "RADIATION_RESULTS_RGB",
-            "RADIATION_RESULTS_W",
-            "RADIATION_RESULTS_CUM",
-            "RADIATION_RESULTS_CUM_ALL",
-            "RADIATION_CLUSTERING_LABEL",
-            "RADIATION_CLUSTERING_CENTER",
-            "RADIATION_RESULTS_CUM_HEADER",
-            "MESH_FILE_HEADER_VERTICES",
-            "MESH_FILE_HEADER_FACES",
-            "EPW_FILE",
-            "WEA_FILE",
-            "SMX_FILE_O0",
-            "SMX_FILE_O1",
-            "RESOLUTION",
-            "RFLUXSKY_RAD",
-            "ROOM_FOLDER",
-            "ROOM_DIM",
-            "ROOM_RAD_FILES"] 
-    
-    values = [RADIANCE_PATH,
-              ACCELERAD_PATH,
-              VMT_RAD_FILE,
-              VMT_RAD_FILE_REST,
-              CONTEXT_RAD_FILE,
-              RADIATION_MESH_FILES,
-              RADIATION_ALL_MESH_FILE,
-              RADIATION_POINT_FILES,
-              RADIATION_ALL_PTS_FILE,
-              RADIATION_COEFFICIENTS,
-              RADIATION_RESULTS_RGB,
-              RADIATION_RESULTS_W,
-              RADIATION_RESULTS_CUM,
-              RADIATION_RESULTS_CUM_ALL,
-              RADIATION_CLUSTERING_LABEL,
-              RADIATION_CLUSTERING_CENTER,
-              RADIATION_RESULTS_CUM_HEADER,
-              MESH_FILE_HEADER_VERTICES,
-              MESH_FILE_HEADER_FACES,
-              EPW_FILE,
-              WEA_FILE,
-              SMX_FILE_O0,
-              SMX_FILE_O1,
-              RESOLUTION,
-              RFLUXSKY_RAD,
-              ROOM_FOLDER,
-              ROOM_DIM,
-              ROOM_RAD_FILES]
-    
-    d = {'Name': keys, 'Path/Header': values}
-    path_mananger_pd = pd.DataFrame(data=d)
-    
-    return path_mananger_pd
+    count = 0
+    with open(volume_massing_facades_rad, 'r') as infile:
+        for line in infile:
+            if "polygon" in line:
+                count += 1
+                
+    return count
+        
 
-#%%
 
-def decode_path_manager_panda(path_mananger_pd, keys_list):
-    values_list = []
-    for i in range(len(keys_list)):
-        try:
-            boolean = path_mananger_pd["Name"] == keys_list[i]
-            values = path_mananger_pd["Path/Header"]
-            values_list.append(values[boolean].to_numpy()[0])
-        except:
-            print(f"Couldn't find key: {keys_list[i]}")
-    return values_list
     
