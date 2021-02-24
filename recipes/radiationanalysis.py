@@ -7,12 +7,12 @@ from externalcommands.radiancecommands import run_epw2wea, run_gendaymtx, \
 
 from geometry.radiationgrid import radiation_mesh_grid
 
-from postprocessing.radiationanalysispostprocess import radiation_post_processing
+from postprocessing.radpostprocess import radiation_post_processing
 
 
 
 
-def radiationanalysis_radiance(info):
+def radiationanalysis_baseline(info):
 
     #epw2wea
     run_epw2wea(info)

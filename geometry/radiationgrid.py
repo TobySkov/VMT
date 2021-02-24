@@ -19,6 +19,7 @@ def radiation_mesh_grid(info):
     for i in range(len(polygons)):
         
         surf_face = Face3D(polygons[i])
+        info.vmt_faces.append(surf_face)
 
         surf_mesh = surf_face.mesh_grid(x_dim = info.rad_grid_x_dim,
                                         y_dim = info.rad_grid_y_dim,
