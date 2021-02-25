@@ -48,6 +48,47 @@ def run_gendaymtx(info,
     run_command(info,
                 cmd_list, 
                 output_file_path)
+
+
+    
+#%%
+def run_rfluxmtx_day_dmx(info,i):
+       
+    cmd_list = [str(info.radiance_bin.joinpath("rfluxmtx"))]
+    
+    cmd_list.extend(rtrace_parameters(info.sim_resolution))
+    
+    cmd_list.extend([f"{info.dmx_radfile_path_list[i]}",   
+                     f"{info.skyrad_dst}",
+                     f"{info.vmt_facade_dst}",
+                     f"{info.vmt_rest_dst}",
+                     f"{info.context_dst}",])
+    
+    run_command(info,
+                cmd_list, 
+				output_file_path = info.dmx_matrix_path_list[i])
+
+
+#%%
+def run_rfluxmtx_day_vmx(info,i):
+    #Assuming that all rooms are the same - running rfluxmtx only once
+    room = info.approved_rooms[i]
+    
+    cmd_list = [str(info.radiance_bin.joinpath("rfluxmtx")),
+			     "-y", f"{room.no_of_sensorpoints}",
+				 "-I"]
+    
+    cmd_list.extend(rtrace_parameters(info.sim_resolution))
+    
+
+    cmd_list.extend(["-",   #This specifies that sender is from stdin
+                     f"{info.vmx_radfile_path_list[i]}",
+                     f"{info.room_radfile_path_list[i]}"])
+    
+    run_command(info,
+                cmd_list, 
+				output_file_path = info.vmx_matrix_path_list[i],
+                input_file_path = info.day_points_path_list[i])
     
     
 #%%
@@ -88,19 +129,24 @@ def run_dctimestep(info,
         
         output_file_path = info.rad_results_rgb
 		
-    elif simulation_type == "DAYLIGHT_ANALYSIS":
-        pass
-    
-    elif simulation_type == "ENERGY_ANALYSIS":
-        pass
-    
-    else:
-        raise Exception("Unknown dctimestep simulation type")
-        
     run_command(info,
                 cmd_list,
                 output_file_path)
     
+#%%
+def run_dctimestep_day(info,i):
+    
+    cmd_list = [str(info.radiance_bin.joinpath("dctimestep")),
+    			      f"{info.vmx_matrix_path_list[i]}",
+                      f"{info.day_tmx}", 
+                      f"{info.dmx_matrix_path_list[i]}", 
+    				  f"{info.smx_O0_path}"]
+        
+    output_file_path = info.day_results_rgb_list[i]
+		
+    run_command(info,
+                cmd_list,
+                output_file_path)
 
 
 
@@ -118,15 +164,24 @@ def run_rmtxop(info,
         
         output_file_path = info.rad_results_wh
 		
-    elif simulation_type == "DAYLIGHT_ANALYSIS":
-        pass
+    run_command(info,
+                cmd_list,
+                output_file_path)
+
+
+
+
+#%%
+def run_rmtxop_day(info,i):
+
     
-    elif simulation_type == "ENERGY_ANALYSIS":
-        pass
+    cmd_list = [str(info.radiance_bin.joinpath("rmtxop")),
+			      "-c", "47.435", "119.93", "11.635", "-fa",
+				  f"{info.day_results_rgb_list[i]}"]
+
     
-    else:
-        raise Exception("Unknown rmtxop simulation type")
-        
+    output_file_path = info.day_results_ill_list[i]
+		
     run_command(info,
                 cmd_list,
                 output_file_path)

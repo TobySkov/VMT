@@ -9,6 +9,35 @@ import numpy as np
 from geometry.writeoutput import write_room_to_rad
 
 
+#%%
+
+class room_class:
+    
+    def __init__(self):
+        self.geo_floor = None
+        self.geo_ceiling = None
+        
+        self.geo_back_wall = None
+        
+        #When looking at the room, from the end of the room with the window
+        self.geo_left_wall = None   
+        self.geo_right_wall = None
+        
+        self.geo_window = None
+        
+        self.geo_ene_ext_wall = None
+        
+        self.geo_rad_ext_wall_list = []
+        
+        self.surf_id = None
+        self.room_id = None
+        
+        self.room_name = None
+        
+        self.mesh_grid = None
+        self.no_of_sensorpoints = None
+
+
 
 #%%
 
@@ -116,8 +145,8 @@ def create_room(info, ext_wall, count, i):
     room.room_id = count
     room.surf_id = i
     
-    room.window = ext_wall.sub_faces_by_ratio(ratio = info.room_WWR)[0]
-    room.ene_ext_wall = ext_wall
+    room.geo_window = ext_wall.sub_faces_by_ratio(ratio = info.room_WWR)[0]
+    room.geo_ene_ext_wall = ext_wall
     
     #https://www.ladybug.tools/ladybug-geometry/docs/ladybug_geometry.geometry3d.polyface.html
     #When a polyface is initialized this way, the first face of the 
@@ -146,59 +175,37 @@ def create_room(info, ext_wall, count, i):
         current_face_normal = room_unstructured_faces[i].normal.normalize()
         
         if (current_face_normal - (-z)).is_zero(tolerance=1e-10):
-            room.floor = room_unstructured_faces[i]
+            room.geo_floor = room_unstructured_faces[i]
         
         elif (current_face_normal - (z)).is_zero(tolerance=1e-10):
-            room.ceiling = room_unstructured_faces[i]
+            room.geo_ceiling = room_unstructured_faces[i]
             
         elif (current_face_normal - (-n)).is_zero(tolerance=1e-10):
-            room.back_wall = room_unstructured_faces[i]
+            room.geo_back_wall = room_unstructured_faces[i]
             
         elif (current_face_normal - (v_in_plane)).is_zero(tolerance=1e-10):
-            room.right_wall = room_unstructured_faces[i]
+            room.geo_right_wall = room_unstructured_faces[i]
             
         elif (current_face_normal - (-v_in_plane)).is_zero(tolerance=1e-10):
-            room.left_wall = room_unstructured_faces[i]
+            room.geo_left_wall = room_unstructured_faces[i]
         
     
     
     #Creating extwall for radiance
-    w_v = room.window.upper_left_counter_clockwise_vertices
-    e_v = room.ene_ext_wall.upper_left_counter_clockwise_vertices
+    w_v = room.geo_window.upper_left_counter_clockwise_vertices
+    e_v = room.geo_ene_ext_wall.upper_left_counter_clockwise_vertices
     for i in range(3):
 
         face = Face3D([e_v[i], e_v[i+1], w_v[i+1], w_v[i]])
-        room.rad_ext_wall_list.append(face)
+        room.geo_rad_ext_wall_list.append(face)
 
     face = Face3D([e_v[3], e_v[0], w_v[0], w_v[3]])
-    room.rad_ext_wall_list.append(face)
+    room.geo_rad_ext_wall_list.append(face)
     
     return room
     
     
-#%%
 
-class room_class:
-    
-    def __init__(self):
-        self.floor = None
-        self.ceiling = None
-        
-        self.back_wall = None
-        
-        #When looking at the room, from the end of the room with the window
-        self.left_wall = None   
-        self.right_wall = None
-        
-        self.window = None
-        
-        self.ene_ext_wall = None
-        
-        self.rad_ext_wall_list = []
-        
-        self.surf_id = None
-        self.room_id = None
-        
         
 
 #%%
@@ -250,7 +257,7 @@ def check_facade_collisions(corner_points, approved_rooms_current_face):
     
     approved_no_collide = True
     for i in range(len(approved_rooms_current_face)):
-        current_ext_wall = approved_rooms_current_face[i].ene_ext_wall
+        current_ext_wall = approved_rooms_current_face[i].geo_ene_ext_wall
         for j in range(len(corner_points)):
         
             bool_tmp = current_ext_wall.is_point_on_face(corner_points[j], 

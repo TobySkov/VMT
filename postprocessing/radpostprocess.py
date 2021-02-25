@@ -6,6 +6,7 @@ Description:
 from general.ascii import read_ascii_header 
 import numpy as np
 
+#%%
 def radiation_post_processing(info):
     
     start = info.rad_period_start
@@ -39,7 +40,7 @@ def radiation_post_processing(info):
         
 
     
-    
+    #%%
     
     
 

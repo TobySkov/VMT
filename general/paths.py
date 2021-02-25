@@ -62,18 +62,22 @@ class folderstructure:
             self.daylight_folder.joinpath("results")
         self.daylight_mesh_folder = \
             self.daylight_folder.joinpath("mesh")
-        
+        self.daylight_points_folder = \
+            self.daylight_folder.joinpath("points")
+            
     def createfolders(self):
         create_folders_from_list([self.input_folder,
                                   self.sky_folder,
                                   self.radiation_folder,
-                                  self.room_folder,
                                   self.radiation_mesh_folder,
                                   self.radiation_points_folder,
                                   self.radiation_results_folder,
                                   self.daylight_folder,
+                                  self.room_folder,
                                   self.daylight_matrix_folder,
-                                  self.daylight_results_folder])
+                                  self.daylight_results_folder,
+                                  self.daylight_mesh_folder,
+                                  self.daylight_points_folder])
 
 
 
@@ -237,9 +241,26 @@ class daylightanalysis:
         self.wall_reflectance = input_json["wall_reflectance"]
         self.ceiling_reflectance = input_json["ceiling_reflectance"]
         
-        self.vmx_path = f.daylight_matrix_folder.joinpath("rooms.vmx")
-    
+        self.vmx_matrix_path_list = []
+        self.dmx_matrix_path_list = []
 
+        self.vmx_radfile_path_list = []
+        self.dmx_radfile_path_list = []
+        self.room_radfile_path_list = []
+        
+        self.day_points_path_list = []
+        self.day_mesh_path_list = []
+        
+        self.day_sensorpoint_height = input_json["day_sensorpoint_height"]
+        
+        self.day_grid_x_dim = input_json["day_grid_x_dim"]
+        self.day_grid_y_dim = input_json["day_grid_y_dim"] 
+        
+        self.day_results_rgb_list = []
+        self.day_results_ill_list = []
+        self.day_results_da_list = []
+        
+        self.day_tmx = input_json["day_tmx"]
 
 
 #%%

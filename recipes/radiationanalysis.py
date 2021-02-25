@@ -11,7 +11,7 @@ from postprocessing.radpostprocess import radiation_post_processing
 
 
 
-
+#%%
 def radiationanalysis_baseline(info):
 
     #epw2wea
@@ -39,6 +39,4 @@ def radiationanalysis_baseline(info):
     radiation_post_processing(info)
 
 
-    
-def radiationanalysis_accelerad():
-    pass
+#%%

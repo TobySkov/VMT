@@ -30,7 +30,7 @@ def radiation_mesh_grid(info):
         save_mesh_to_info(info, surf_mesh)
         
         
-    save_mesh_to_files(info)
+    save_rad_mesh_to_files(info)
         
 
 #%%
@@ -43,7 +43,7 @@ def save_mesh_to_info(info, surf_mesh):
 
 #%%
 
-def save_mesh_to_files(info):
+def save_rad_mesh_to_files(info):
     
     #Writing all points file (in Radiance format)
     with open(info.rad_points_all, "w") as outfile: 

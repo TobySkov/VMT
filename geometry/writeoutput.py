@@ -8,13 +8,20 @@ def write_room_to_rad(info, room):
     
     room_dict = room.__dict__
     
-    #Writing file for dmx calculation
-    name = f"surf_{room.surf_id}__room_{room.room_id}__vmx"
+    room.room_name = f"surf_{room.surf_id}__room_{room.room_id}"
+    
+    #Writing files for vmx calculation
+    name = f"surf_{room.surf_id}__room_{room.room_id}__room"
     file_name = info.room_folder.joinpath(name + ".rad")
+    
+    info.room_radfile_path_list.append(file_name)
+    
     with open(file_name,"w") as outfile:
         
+        outfile.write(rad_materials_string(info))
+        
         for key in room_dict:
-            if ("id" not in key) and ("ene_ext_wall" not in key):
+            if ("geo" in key) and ("ene_ext_wall" not in key):
                 
                 if "wall" in key:
                     rad_mat = "wall_mat"
@@ -26,34 +33,48 @@ def write_room_to_rad(info, room):
                     rad_mat = "window_glow"
                 
                 
-                if ("list" not in key) and ("window" not in key):
-                    pts = room_dict[key].vertices
-                    outfile.write(rad_polygon_string(rad_mat, key, pts))
-                    
-                elif "window" in key:
-                    #Window normals needs to be facing inwards
-                    pts = room_dict[key].flip().vertices 
-                    outfile.write(rad_glow_sting())
-                    outfile.write(rad_polygon_string(rad_mat, key, pts))
-
-                else:
+                if "list" in key:
                     for i in range(len(room_dict[key])):
                         pts = room_dict[key][i].vertices
                         outfile.write(rad_polygon_string(rad_mat, key + f"_{i}", 
                                                          pts))
+                elif "window" not in key:
+                    pts = room_dict[key].vertices
+                    outfile.write(rad_polygon_string(rad_mat, key, pts))
+                    
 
-        outfile.write(rad_materials_string(info))
         
-    #Writing files for dmx calculation (small offset from wall)
-    name = f"surf_{room.surf_id}__room_{room.room_id}__dmx"
+    
+    
+    #Window for vmx calculation
+    name = f"surf_{room.surf_id}__room_{room.room_id}__vmx"
     file_name = info.room_folder.joinpath(name + ".rad")
+    
+    info.vmx_radfile_path_list.append(file_name)
+    
     with open(file_name,"w") as outfile:
-        
-        offset_vec = room_dict["window"].normal.normalize() * 0.01
-        pts = room_dict["window"].move(offset_vec).flip().vertices
+
+        pts = room_dict["geo_window"].flip().vertices
         
         outfile.write(rad_glow_sting())
         outfile.write(rad_polygon_string(rad_mat, key, pts))
+        
+        
+        
+    #Window for dmx calculation (small offset from wall)
+    name = f"surf_{room.surf_id}__room_{room.room_id}__dmx"
+    file_name = info.room_folder.joinpath(name + ".rad")
+    
+    info.dmx_radfile_path_list.append(file_name)
+    
+    with open(file_name,"w") as outfile:
+        
+        offset_vec = room_dict["geo_window"].normal.normalize() * 0.01
+        pts = room_dict["geo_window"].move(offset_vec).flip().vertices
+        
+        outfile.write(rad_glow_sting())
+        outfile.write(rad_polygon_string(rad_mat, key, pts))
+
 
 
 #%%

@@ -11,14 +11,18 @@
 	"room_dim_height": 3.5,
 	"room_dim_width": 4.5,
 	"room_dim_depth": 6,
-	"max_rooms_per_surface": 4,
+	"max_rooms_per_surface": 1,
 	"rad_grid_x_dim": 2,
 	"rad_grid_y_dim": 2,
 	"rad_grid_offset": 0.01,
 	"rad_period_start": 0,
 	"rad_period_end": 8759,
-	"room_WWR": 0.1,
+	"room_WWR": 0.25,
 	"floor_reflectance": 0.2,
 	"wall_reflectance": 0.5,
-	"ceiling_reflectance": 0.8
+	"ceiling_reflectance": 0.8,
+	"day_sensorpoint_height": 0.85,
+	"day_grid_x_dim": 0.5,
+	"day_grid_y_dim": 0.5,
+	"day_tmx": "C:\\Users\\Pedersen_Admin\\OneDrive - Perkins and Will\\Documents\\GitHub\\VMT\\database\\tmx\\00001\\00001.xml"
 }
