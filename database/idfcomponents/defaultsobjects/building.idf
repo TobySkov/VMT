@@ -1,0 +1,19 @@
+!- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Building +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+!-
+!- https://bigladdersoftware.com/epx/docs/8-9/input-output-reference/group-simulation-parameters.html#building
+!-
+!- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Building,											!- 
+	BUILDINGNAME, 									!- Name
+	0.0, 											!- North Axis {deg}
+	City, 											!- Terrain
+	, 												!- Loads Convergence Tolerance Value
+	, 												!- Temperature Convergence Tolerance Value {deltaC}
+	FullInteriorAndExteriorWithReflections, 		!- Solar Distribution or maybe FullExterior
+	, 												!- Maximum Number of Warmup Days
+	; 												!- Minimum Number of Warmup Days
+
+
+

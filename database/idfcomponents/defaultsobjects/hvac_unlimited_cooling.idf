@@ -1,0 +1,60 @@
+!- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ HVAC Unlimited  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+!-
+!-	https://bigladdersoftware.com/epx/docs/8-9/input-output-reference/group-hvac-templates.html#hvactemplatezoneidealloadsairsystem
+!-
+!- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+HVACTemplate:Zone:IdealLoadsAirSystem,
+	ZONENAME,							!- Zone Name
+	ZONENAME_HVAC,						!- Template Thermostat Name
+	,  									!- Availability Schedule Name
+	40,  								!- Heating Supply Air Temp {C}
+	13,  								!- Cooling Supply Air Temp {C}
+	0.008, 								!- Max Heating Supply Air Humidity Ratio {kg-H2O/kg-air}
+	0.0085,  							!- Min Cooling Supply Air Humidity Ratio {kg-H2O/kg-air}
+	NoLimit,  							!- Heating Limit
+	,  									!- Maximum Heating Air Flow Rate {m3/s}
+	,  									!- Maximum Sensible Heat Capacity
+	NoLimit,  							!- Cooling Limit
+	,  									!- Maximum Cooling Air Flow Rate {m3/s}
+	,  									!- Maximum Total Cooling Capacity
+	,  									!- Heating Availability Schedule
+	,  									!- Cooling Availability Schedule
+	None,  								!- Dehumidification Control Type
+	,  									!- Cooling Sensible Heat Ratio
+	,  									!- Dehumidification Setpoint
+	None,  								!- Humidification Control Type
+	,  									!- Humidification Setpoint
+	DetailedSpecification,  			!- Outdoor Air Method
+	,  									!- Outdoor Air Flow Rate Per Person
+	,  									!- Outdoor Air Flow Rate Per Floor Zone Area
+	,  									!- Outdoor Air Flow Rate Per Zone
+	ZONENAMEOutdoorAirCntrl,  			!- Design Specification Outdoor Air Object Name
+	,  									!- Demand Controlled Ventilation Type
+	NoEconomizer,  						!- Outdoor Air Economizer Type 									(Ensures that the air flow doesn't get increased when there is a heating load)		
+	,  									!- Heat Recovery Type
+	,  									!- Sensible Heat Recovery Effectiveness
+	;  									!- Latent Heat Recovery Effectiveness
+
+HVACTemplate:Thermostat,
+	ZONENAME_HVAC,                    	!- Name
+	,          							!- Heating Setpoint Schedule Name
+	22, 								!- Constant Heating Setpoint {C}
+	,          							!- Cooling Setpoint Schedule Name
+	24; 								!- Constant Cooling Setpoint {C}
+
+DesignSpecification:OutdoorAir,
+	ZONENAMEOutdoorAirCntrl,            !- Name
+	Flow/Area,          				!- Outdoor Air Method
+	, 									!- Outdoor Air Flow per Person {m3/s-person}			
+	0.0012,          					!- Outdoor Air Flow per Zone Floor Area {m3/s-m2}				
+	, 									!- Outdoor Air Flow per Zone {m3/s}
+	, 									!- Outdoor Air Flow Air Changes per Hour {1/hr}
+	OCC_SCH; 							!- Outdoor Air Flow Rate Fraction Schedule Name
+
+
+
+
+

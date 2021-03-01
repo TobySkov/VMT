@@ -1,0 +1,295 @@
+!- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Schedules +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+!- 
+!- Occupancy schedule: 08:00 - 17:00
+!-
+!- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Schedule:Day:Interval,
+  ALLONES_SCH DAY SCHEDULE - SUN,             !- name
+  Fractional,                                 !- - Schedule Type Limits Name
+  No,                                         !- - Interpolate to Timestep
+  24:00,                                      !- - Time 1 {hh:mm}
+  1.0;                                        !- - Value Until Time 1
+
+
+Schedule:Week:Daily,
+  ALLONES_SCH WEEK SCHEDULE,                  !- name
+  ALLONES_SCH DAY SCHEDULE - SUN,             !- - Sunday Schedule:Day Name
+  ALLONES_SCH DAY SCHEDULE - SUN,             !- - Monday Schedule:Day Name
+  ALLONES_SCH DAY SCHEDULE - SUN,             !- - Tuesday Schedule:Day Name
+  ALLONES_SCH DAY SCHEDULE - SUN,             !- - Wednesday Schedule:Day Name
+  ALLONES_SCH DAY SCHEDULE - SUN,             !- - Thursday Schedule:Day Name
+  ALLONES_SCH DAY SCHEDULE - SUN,             !- - Friday Schedule:Day Name
+  ALLONES_SCH DAY SCHEDULE - SUN,             !- - Saturday Schedule:Day Name
+  ALLONES_SCH DAY SCHEDULE - SUN,             !- - Holiday Schedule:Day Name
+  ALLONES_SCH DAY SCHEDULE - SUN,             !- - SummerDesignDay Schedule:Day Name
+  ALLONES_SCH DAY SCHEDULE - SUN,             !- - WinterDesignDay Schedule:Day Name
+  ALLONES_SCH DAY SCHEDULE - SUN,             !- - CustomDay1 Schedule:Day Name
+  ALLONES_SCH DAY SCHEDULE - SUN;             !- - CustomDay2 Schedule:Day Name
+
+  
+Schedule:Year,
+  ALLONES_SCH,                                !- name
+  Fractional,                                 !- - Schedule Type Limits Name
+  ALLONES_SCH WEEK SCHEDULE,                  !- - Schedule:Week Name
+  1,                                          !- - Start Month 1
+  1,                                          !- - Start Day 1
+  12,                                         !- - End Month
+  31;                                         !- - End Day
+
+
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Schedule:Day:Interval,
+  OCC_SCH Day Schedule - Sun,                 !- Name
+  Fractional,                                 !- Schedule Type Limits Name
+  No,                                         !- Interpolate to Timestep
+  24:00,                                      !- Time 1 {hh:mm}
+  0.0;                                        !- Value Until Time 1
+
+Schedule:Day:Interval,
+  OCC_SCH Day Schedule - Mon,                 !- Name
+  Fractional,                                 !- Schedule Type Limits Name
+  No,                                         !- Interpolate to Timestep
+  8:00,                                       !- Time 1 {hh:mm}
+  0.0,                                        !- Value Until Time 1
+  17:00,                                      !- Time 2 {hh:mm}
+  1.0,                                        !- Value Until Time 2
+  24:00,                                      !- Time 3 {hh:mm}
+  0.0;                                        !- Value Until Time 3
+
+Schedule:Week:Daily,
+  OCC_SCH Week Schedule,                      !- Name
+  OCC_SCH Day Schedule - Sun,                 !- Sunday Schedule:Day Name
+  OCC_SCH Day Schedule - Mon,                 !- Monday Schedule:Day Name
+  OCC_SCH Day Schedule - Mon,                 !- Tuesday Schedule:Day Name
+  OCC_SCH Day Schedule - Mon,                 !- Wednesday Schedule:Day Name
+  OCC_SCH Day Schedule - Mon,                 !- Thursday Schedule:Day Name
+  OCC_SCH Day Schedule - Mon,                 !- Friday Schedule:Day Name
+  OCC_SCH Day Schedule - Sun,                 !- Saturday Schedule:Day Name
+  OCC_SCH Day Schedule - Sun,                 !- Holiday Schedule:Day Name
+  OCC_SCH Day Schedule - Mon,                 !- SummerDesignDay Schedule:Day Name
+  OCC_SCH Day Schedule - Sun,                 !- WinterDesignDay Schedule:Day Name
+  OCC_SCH Day Schedule - Sun,                 !- CustomDay1 Schedule:Day Name
+  OCC_SCH Day Schedule - Sun;                 !- CustomDay2 Schedule:Day Name
+
+
+Schedule:Year,
+  OCC_SCH,                                    !- Name
+  Fractional,                                 !- Schedule Type Limits Name
+  OCC_SCH Week Schedule,                      !- Schedule:Week Name
+  1,                                          !- Start Month 1
+  1,                                          !- Start Day 1
+  12,                                         !- End Month
+  31;                                         !- End Day
+
+
+
+
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Schedule:Day:Interval,
+  ACTIVITY_SCH_DAY,                   !- name
+  Continous_ScheduleTypeLimit,    !- - Schedule Type Limits Name
+  No,                                 !- - Interpolate to Timestep
+  24:00,                              !- - Time 1 {hh:mm}
+  120;                                !- W/Person  https://bigladdersoftware.com/epx/docs/8-9/input-output-reference/group-internal-gains-people-lights-other.html#field-activity-level-schedule-name
+
+Schedule:Week:Daily,
+  ACTIVITY_SCH_Week,      !- name
+  ACTIVITY_SCH_DAY,       !- - Sunday Schedule:Day Name
+  ACTIVITY_SCH_DAY,       !- - Monday Schedule:Day Name
+  ACTIVITY_SCH_DAY,       !- - Tuesday Schedule:Day Name
+  ACTIVITY_SCH_DAY,       !- - Wednesday Schedule:Day Name
+  ACTIVITY_SCH_DAY,       !- - Thursday Schedule:Day Name
+  ACTIVITY_SCH_DAY,       !- - Friday Schedule:Day Name
+  ACTIVITY_SCH_DAY,       !- - Saturday Schedule:Day Name
+  ACTIVITY_SCH_DAY,       !- - Holiday Schedule:Day Name
+  ACTIVITY_SCH_DAY,       !- - SummerDesignDay Schedule:Day Name
+  ACTIVITY_SCH_DAY,       !- - WinterDesignDay Schedule:Day Name
+  ACTIVITY_SCH_DAY,       !- - CustomDay1 Schedule:Day Name
+  ACTIVITY_SCH_DAY;       !- - CustomDay2 Schedule:Day Name
+
+Schedule:Year,
+  ACTIVITY_SCH,                       !- name
+  Continous_ScheduleTypeLimit,    !- - Schedule Type Limits Name
+  ACTIVITY_SCH_Week,                  !- - Schedule:Week Name 1
+  1,                                  !- - Start Month 1
+  1,                                  !- - Start Day 1
+  12,                                 !- - End Month 1
+  31;                                 !- - End Day
+
+
+
+  ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+  Schedule:Day:Interval,
+    WORK_EFF_SCH_DAY,                   !- name
+    BINARY,                             !- - Schedule Type Limits Name
+    No,                                 !- - Interpolate to Timestep
+    24:00,                              !- - Time 1 {hh:mm}
+    0;                                 !- 
+
+Schedule:Week:Daily,
+  WORK_EFF_SCH_Week,      !- name
+  WORK_EFF_SCH_DAY,       !- - Sunday Schedule:Day Name
+  WORK_EFF_SCH_DAY,       !- - Monday Schedule:Day Name
+  WORK_EFF_SCH_DAY,       !- - Tuesday Schedule:Day Name
+  WORK_EFF_SCH_DAY,       !- - Wednesday Schedule:Day Name
+  WORK_EFF_SCH_DAY,       !- - Thursday Schedule:Day Name
+  WORK_EFF_SCH_DAY,       !- - Friday Schedule:Day Name
+  WORK_EFF_SCH_DAY,       !- - Saturday Schedule:Day Name
+  WORK_EFF_SCH_DAY,       !- - Holiday Schedule:Day Name
+  WORK_EFF_SCH_DAY,       !- - SummerDesignDay Schedule:Day Name
+  WORK_EFF_SCH_DAY,       !- - WinterDesignDay Schedule:Day Name
+  WORK_EFF_SCH_DAY,       !- - CustomDay1 Schedule:Day Name
+  WORK_EFF_SCH_DAY;       !- - CustomDay2 Schedule:Day Name
+
+Schedule:Year,
+  WORK_EFF_SCH,                       !- name
+  BINARY,                             !- - Schedule Type Limits Name
+  WORK_EFF_SCH_Week,                  !- - Schedule:Week Name 1
+  1,                                  !- - Start Month 1
+  1,                                  !- - Start Day 1
+  12,                                 !- - End Month 1
+  31;                                 !- - End Day
+
+
+
+
+  ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Schedule:Day:Interval,
+  AIR_VELO_SCH_DAY,                   !- name
+  Continous_ScheduleTypeLimit,        !- - Schedule Type Limits Name
+  No,                                 !- - Interpolate to Timestep
+  24:00,                              !- - Time 1 {hh:mm}
+  0.05;                               !- 
+
+Schedule:Week:Daily,
+  AIR_VELO_SCH_Week,      !- name
+  AIR_VELO_SCH_DAY,       !- - Sunday Schedule:Day Name
+  AIR_VELO_SCH_DAY,       !- - Monday Schedule:Day Name
+  AIR_VELO_SCH_DAY,       !- - Tuesday Schedule:Day Name
+  AIR_VELO_SCH_DAY,       !- - Wednesday Schedule:Day Name
+  AIR_VELO_SCH_DAY,       !- - Thursday Schedule:Day Name
+  AIR_VELO_SCH_DAY,       !- - Friday Schedule:Day Name
+  AIR_VELO_SCH_DAY,       !- - Saturday Schedule:Day Name
+  AIR_VELO_SCH_DAY,       !- - Holiday Schedule:Day Name
+  AIR_VELO_SCH_DAY,       !- - SummerDesignDay Schedule:Day Name
+  AIR_VELO_SCH_DAY,       !- - WinterDesignDay Schedule:Day Name
+  AIR_VELO_SCH_DAY,       !- - CustomDay1 Schedule:Day Name
+  AIR_VELO_SCH_DAY;       !- - CustomDay2 Schedule:Day Name
+
+Schedule:Year,
+  AIR_VELO_SCH,                       !- name
+  Continous_ScheduleTypeLimit,        !- - Schedule Type Limits Name
+  AIR_VELO_SCH_Week,                  !- - Schedule:Week Name 1
+  1,                                  !- - Start Month 1
+  1,                                  !- - Start Day 1
+  12,                                 !- - End Month 1
+  31;                                 !- - End Day
+
+
+
+
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+Schedule:Day:Interval,
+  winter Day Schedule - Sun, !- Name
+  Continous_ScheduleTypeLimit, !- Schedule Type Limits Name
+  No,        !- Interpolate to Timestep
+  24:00,   !- Time 1 {hh:mm}
+  1.0;     !- Value Until Time 1
+
+Schedule:Week:Daily,
+  winter Week Schedule, !- Name
+  winter Day Schedule - Sun,  !- Sunday Schedule:Day Name
+  winter Day Schedule - Sun,  !- Monday Schedule:Day Name
+  winter Day Schedule - Sun,  !- Tuesday Schedule:Day Name
+  winter Day Schedule - Sun,  !- Wednesday Schedule:Day Name
+  winter Day Schedule - Sun,  !- Thursday Schedule:Day Name
+  winter Day Schedule - Sun,  !- Friday Schedule:Day Name
+  winter Day Schedule - Sun,  !- Saturday Schedule:Day Name
+  winter Day Schedule - Sun,  !- Holiday Schedule:Day Name
+  winter Day Schedule - Sun,  !- SummerDesignDay Schedule:Day Name
+  winter Day Schedule - Sun,  !- WinterDesignDay Schedule:Day Name
+  winter Day Schedule - Sun,  !- CustomDay1 Schedule:Day Name
+  winter Day Schedule - Sun;  !- CustomDay2 Schedule:Day Name
+
+
+
+
+
+Schedule:Day:Interval,
+  summer Day Schedule - Sun, !- Name
+  Continous_ScheduleTypeLimit, !- Schedule Type Limits Name
+  No,        !- Interpolate to Timestep
+  24:00,   !- Time 1 {hh:mm}
+  0.6;     !- Value Until Time 1
+
+Schedule:Week:Daily,
+  summer Week Schedule, !- Name
+  summer Day Schedule - Sun,  !- Sunday Schedule:Day Name
+  summer Day Schedule - Sun,  !- Monday Schedule:Day Name
+  summer Day Schedule - Sun,  !- Tuesday Schedule:Day Name
+  summer Day Schedule - Sun,  !- Wednesday Schedule:Day Name
+  summer Day Schedule - Sun,  !- Thursday Schedule:Day Name
+  summer Day Schedule - Sun,  !- Friday Schedule:Day Name
+  summer Day Schedule - Sun,  !- Saturday Schedule:Day Name
+  summer Day Schedule - Sun,  !- Holiday Schedule:Day Name
+  summer Day Schedule - Sun,  !- SummerDesignDay Schedule:Day Name
+  summer Day Schedule - Sun,  !- WinterDesignDay Schedule:Day Name
+  summer Day Schedule - Sun,  !- CustomDay1 Schedule:Day Name
+  summer Day Schedule - Sun;  !- CustomDay2 Schedule:Day Name
+
+
+
+
+
+
+Schedule:Year,
+  CLOTHING_SCH,           !- Name
+  Continous_ScheduleTypeLimit,    !- Schedule Type Limits Name
+  winter Week Schedule,  !- Schedule:Week Name
+  1,                     !- Start Month 1
+  1,                     !- Start Day 1
+  3,                     !- End Month
+  31,                    !- End Day
+  summer Week Schedule,  !- Schedule:Week Name
+  4,                     !- Start Month 1
+  1,                     !- Start Day 1
+  9,                     !- End Month
+  30,                    !- End Day
+  winter Week Schedule,  !- Schedule:Week Name
+  10,                    !- Start Month 1
+  1,                     !- Start Day 1
+  12,                    !- End Month
+  31;                    !- End Day
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

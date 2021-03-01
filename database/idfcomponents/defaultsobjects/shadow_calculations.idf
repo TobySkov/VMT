@@ -1,0 +1,19 @@
+!- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Shadow calculations +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+!- 
+!- https://bigladdersoftware.com/epx/docs/9-3/input-output-reference/group-simulation-parameters.html#shadowcalculation
+!- "...The TimestepFrequency method must be used for modeling dynamic fenestration and shading surfaces..."
+!- 
+!- Maximum Figures in Shadow Overlap Calculation: 3000 is default from Honeybee
+!-
+!- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+ShadowCalculation,
+	TimestepFrequency,   			!- Calculation Method   							
+	,        						!- Calculation Frequency
+	3000;    						!- Maximum Figures in Shadow Overlap Calculation
+	
+
+
+
+

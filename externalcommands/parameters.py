@@ -20,7 +20,8 @@ def rtrace_parameters(resolution):
     		#rtrace_cmd = ["-aa", "0.2", "-ab 5", "-ad", "5000", "-ar", "64"] 
     				
     elif resolution == 2:
-        rtrace_cmd = ["-ab", "6", "-ad", "25000", "-lw", f"{1/25000}"]
+        rtrace_cmd = ["-ab", "7", "-ad", "25000", "-lw", f"{1/(25000**2)}", 
+                      "-ar", "128", "-aa", "0.1", "-as", "4096"]
     		#rtrace_cmd = ["-aa", "0.1", "-ab 7", "-ad", "20000", "-ar", "128"] 
     
     else:

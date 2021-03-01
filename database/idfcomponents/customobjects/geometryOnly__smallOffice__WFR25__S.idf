@@ -1,0 +1,178 @@
+!- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Geometry - smallOff__WFR25__S.idf +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+BuildingSurface:Detailed,
+	intWalls,	!- Name
+	WALL,	!- Surface Type
+	intWalls_EPcon,	!- Construction Name
+	ZONENAME,	!- Zone Name
+	Adiabatic,	!- Outside Boundary Condition
+	,	!- Outside Boundary Condition Object
+	NoSun,	!- Sun Exposure
+	NoWind,	!- Wind Exposure
+	autocalculate,	!- View Factor to Ground
+	4,	!- Number of Vertices
+	4.081999778747559,
+	-0.56999999284744263,
+	0.0,
+	4.081999778747559,
+	6.081999778747559,
+	0.0,
+	4.081999778747559,
+	6.081999778747559,
+	3.361999988555908,
+	4.081999778747559,
+	-0.56999999284744263,
+	3.361999988555908;
+
+
+BuildingSurface:Detailed,
+	FloorSlab,	!- Name
+	FLOOR,	!- Surface Type
+	FloorSlab_EPcon,	!- Construction Name
+	ZONENAME,	!- Zone Name
+	Adiabatic,	!- Outside Boundary Condition
+	,	!- Outside Boundary Condition Object
+	NoSun,	!- Sun Exposure
+	NoWind,	!- Wind Exposure
+	autocalculate,	!- View Factor to Ground
+	4,	!- Number of Vertices
+	-0.082000002264976501,
+	-0.56999999284744263,
+	0.0,
+	-0.082000002264976501,
+	6.081999778747559,
+	0.0,
+	4.081999778747559,
+	6.081999778747559,
+	0.0,
+	4.081999778747559,
+	-0.56999999284744263,
+	0.0;
+
+
+BuildingSurface:Detailed,
+	CeilingSlab,	!- Name
+	CEILING,	!- Surface Type
+	CeilingSlab_EPcon,	!- Construction Name
+	ZONENAME,	!- Zone Name
+	Adiabatic,	!- Outside Boundary Condition
+	,	!- Outside Boundary Condition Object
+	NoSun,	!- Sun Exposure
+	NoWind,	!- Wind Exposure
+	autocalculate,	!- View Factor to Ground
+	4,	!- Number of Vertices
+	-0.082000002264976501,
+	-0.56999999284744263,
+	3.361999988555908,
+	4.081999778747559,
+	-0.56999999284744263,
+	3.361999988555908,
+	4.081999778747559,
+	6.081999778747559,
+	3.361999988555908,
+	-0.082000002264976501,
+	6.081999778747559,
+	3.361999988555908;
+
+
+BuildingSurface:Detailed,
+	extWall,	!- Name
+	WALL,	!- Surface Type
+	extWall_EPcon,	!- Construction Name
+	ZONENAME,	!- Zone Name
+	Outdoors,	!- Outside Boundary Condition
+	,	!- Outside Boundary Condition Object
+	SunExposed,	!- Sun Exposure
+	WindExposed,	!- Wind Exposure
+	autocalculate,	!- View Factor to Ground
+	4,	!- Number of Vertices
+	-0.082000002264976501,
+	-0.56999999284744263,
+	0.0,
+	4.081999778747559,
+	-0.56999999284744263,
+	0.0,
+	4.081999778747559,
+	-0.56999999284744263,
+	3.361999988555908,
+	-0.082000002264976501,
+	-0.56999999284744263,
+	3.361999988555908;
+
+
+FenestrationSurface:Detailed,
+	Window1,	!- Name
+	WINDOW,	!- Surface Type
+	WINDOW_CONSTRUCTION,	!- Construction Name
+	extWall,	!- Surface Name
+	,	!- Outside Boundary Condition Object
+	autocalculate,	!- View Factor to Ground
+	,	!- Shading Control Name
+	FRAME_OBJECT,	!- Frame and Divider Name
+	1,	!- Multiplier
+	4,	!- Number of Vertices
+	0.69013696908950806,
+	-0.56999999284744263,
+	1.0010000467300415,
+	3.3098630905151367,
+	-0.56999999284744263,
+	1.0010000467300415,
+	3.3098630905151367,
+	-0.56999999284744263,
+	3.071000099182129,
+	0.69013696908950806,
+	-0.56999999284744263,
+	3.071000099182129;
+
+
+BuildingSurface:Detailed,
+	intWalls_Dup,	!- Name
+	WALL,	!- Surface Type
+	intWalls_EPcon,	!- Construction Name
+	ZONENAME,	!- Zone Name
+	Adiabatic,	!- Outside Boundary Condition
+	,	!- Outside Boundary Condition Object
+	NoSun,	!- Sun Exposure
+	NoWind,	!- Wind Exposure
+	autocalculate,	!- View Factor to Ground
+	4,	!- Number of Vertices
+	-0.082000002264976501,
+	6.081999778747559,
+	0.0,
+	-0.082000002264976501,
+	-0.56999999284744263,
+	0.0,
+	-0.082000002264976501,
+	-0.56999999284744263,
+	3.361999988555908,
+	-0.082000002264976501,
+	6.081999778747559,
+	3.361999988555908;
+
+
+BuildingSurface:Detailed,
+	intWalls_Dup_Dup,	!- Name
+	WALL,	!- Surface Type
+	intWalls_EPcon,	!- Construction Name
+	ZONENAME,	!- Zone Name
+	Adiabatic,	!- Outside Boundary Condition
+	,	!- Outside Boundary Condition Object
+	NoSun,	!- Sun Exposure
+	NoWind,	!- Wind Exposure
+	autocalculate,	!- View Factor to Ground
+	4,	!- Number of Vertices
+	4.081999778747559,
+	6.081999778747559,
+	0.0,
+	-0.082000002264976501,
+	6.081999778747559,
+	0.0,
+	-0.082000002264976501,
+	6.081999778747559,
+	3.361999988555908,
+	4.081999778747559,
+	6.081999778747559,
+	3.361999988555908;
+
+
+

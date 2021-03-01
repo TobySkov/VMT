@@ -1,0 +1,47 @@
+!- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Frame and divider +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+!-
+!- https://bigladdersoftware.com/epx/docs/8-9/input-output-reference/group-thermal-zone-description-geometry.html#windowpropertyframeanddivider
+!- 
+!- See technical documentation for details about the selection of:
+!- "Ratio of Frame-Edge Glass Conductance to Center-of-glass"
+!- LBNL WINDOW ouputs a number higher than 4, but EnergyPlus can only run with max 4
+!-	
+!- frameDepth = 0.13
+!- frameWidth = 0.06
+!- external_wall_thickness = 0.57
+!-
+!- Inside Reveal Depth =  0.57 - 0.13 = 0.44  	(= Inside Sill Depth)
+!-
+!- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+WindowProperty:FrameAndDivider,				   !- 
+FRAME_OBJECT,                                  !- User Supplied Frame/Divider Name
+0.060000,                                      !- Frame Width {m}
+0.0,                                           !- Frame Outside Projection {m}  (The glazing is flush with the outside face of the frame)
+,                                              !- Frame Insider Projection {m}
+1.362904,                                      !- Frame Conductance {w/m2-K}
+4,                                             !- Ratio of Frame-Edge Glass Conductance to Center-of-glass             			
+0.2,                                           !- Frame Solar absorptance
+0.2,                                           !- Frame Visible absorptance 					1 - frameReflectance
+0.2,                                           !- Frame Thermal hemispherical Emissivity
+,                                              !- Divider Type
+,                                              !- Divider Width {m}
+,                                              !- Number of Horizontal Dividers
+,                                              !- Number of Vertical Dividers
+,                                              !- Divider Outside Projection {m}
+,                                              !- Divider Insider Projection {m}
+,                                              !- Divider Conductance {w/m2-K}
+,                                              !- Ratio of Divider-Edge Glass Conductance to Center-Of-Glass
+,                                              !- Divider Solar Absorptance
+,                                              !- Divider Visible Absorptance
+,                                              !- Divider Thermal Hemispherical Emissivity
+0.4,                                           !- Outside Reveal Solar Absorptance
+0.44,                                          !- Inside Sill Depth (m)
+0.4,                                           !- Inside Sill Solar Absorptance
+0.44,                                          !- Inside Reveal Depth (m)
+0.4;                                           !- Inside Reveal Solar Absorptance
+
+
+
+

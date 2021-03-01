@@ -57,7 +57,9 @@ def write_room_to_rad(info, room):
         pts = room_dict["geo_window"].flip().vertices
         
         outfile.write(rad_glow_sting())
-        outfile.write(rad_polygon_string(rad_mat, key, pts))
+        modifier = "window_glow" 
+        name = "window_vmx"
+        outfile.write(rad_polygon_string(modifier, name, pts))
         
         
         
@@ -73,6 +75,8 @@ def write_room_to_rad(info, room):
         pts = room_dict["geo_window"].move(offset_vec).flip().vertices
         
         outfile.write(rad_glow_sting())
+        modifier = "window_glow" 
+        name = "window_dmx"
         outfile.write(rad_polygon_string(rad_mat, key, pts))
 
 

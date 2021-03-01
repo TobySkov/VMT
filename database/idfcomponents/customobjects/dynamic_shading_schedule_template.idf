@@ -1,0 +1,15 @@
+!- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Dynamic Shading schedule  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+!-
+!- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Schedule:File,
+    Dynamic_Schedule,              !- Name
+    BINARY,                        !- Schedule Type Limits Name
+    FULL_PATH_REPLACE,   		   !- File Name (Example: Y:\Behind_the_scenes\Schedules\CopenhagenSchedule\Orientation_0__Threshold_50.csv)
+    1,                             !- Column Number
+    1,                             !- Rows to Skip at Top
+    8760,                          !- Number of Hours of Data
+    ,                              !- Column Separator
+    No,                            !- Interpolate to Timestep
+    60;                            !- Minutes per Item
