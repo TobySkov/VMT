@@ -9,9 +9,11 @@ def rtrace_parameters(resolution):
     
     ##Discourse: lw = 1/ad or lower
     #https://discourse.ladybug.tools/t/5-phase-method-simulation-times/2891/6
+    if resolution == -1:
+        rtrace_cmd = ["-ab", "0", "-ad", "500", "-lw", f"{1/500}"]
     
     #From HB+ for RADIATION
-    if resolution == 0:
+    elif resolution == 0:
         rtrace_cmd = ["-ab", "3", "-ad", "5000", "-lw", f"{1/5000}"]
     		#rtrace_cmd = ["-aa", "0.25", "-ab 3", "-ad", "1000", "-ar", "16"] 
     

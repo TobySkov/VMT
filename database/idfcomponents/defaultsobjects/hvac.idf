@@ -1,9 +1,4 @@
 !- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ HVAC Unlimited  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-!-
-!-	https://bigladdersoftware.com/epx/docs/8-9/input-output-reference/group-hvac-templates.html#hvactemplatezoneidealloadsairsystem
-!-
-!- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 
 
 HVACTemplate:Zone:IdealLoadsAirSystem,

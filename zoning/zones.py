@@ -15,6 +15,7 @@ class room_class:
     
     def __init__(self):
         self.geo_floor = None
+    
         self.geo_ceiling = None
         
         self.geo_back_wall = None
@@ -148,48 +149,6 @@ def create_room(info, ext_wall, count, i):
     room.geo_window = ext_wall.sub_faces_by_ratio(ratio = info.room_WWR)[0]
     room.geo_ene_ext_wall = ext_wall
     
-    #https://www.ladybug.tools/ladybug-geometry/docs/ladybug_geometry.geometry3d.polyface.html
-    #When a polyface is initialized this way, the first face of the 
-    #   Polysurface3D.faces will always be the input face used to create 
-    #   the object, the last face will be the offset version of the face, 
-    #   and all other faces will form the extrusion connecting the two.
-    
-    room_unstructured = Polyface3D.from_offset_face(ext_wall.flip(), 
-                                                    info.room_dim_depth)
-    
-    #You need to flip the ext_wall and use a positive offset, else the 
-    #   normals will be inwards.
-    
-    #A boolean to note whether the polyface is solid (True) or is open (False).
-    #Note that all solid polyface objects will have faces pointing outwards.
-    if not room_unstructured.is_solid:
-        raise Exception("Room is not solid (outward facing normals")
-    
-    room_unstructured_faces = room_unstructured._faces
-    z = Vector3D(0,0,1)
-    n = ext_wall.normal.normalize()
-    v_in_plane = z.cross(n).normalize()
-    
-    for i in range(len(room_unstructured_faces)):
-        
-        current_face_normal = room_unstructured_faces[i].normal.normalize()
-        
-        if (current_face_normal - (-z)).is_zero(tolerance=1e-10):
-            room.geo_floor = room_unstructured_faces[i]
-        
-        elif (current_face_normal - (z)).is_zero(tolerance=1e-10):
-            room.geo_ceiling = room_unstructured_faces[i]
-            
-        elif (current_face_normal - (-n)).is_zero(tolerance=1e-10):
-            room.geo_back_wall = room_unstructured_faces[i]
-            
-        elif (current_face_normal - (v_in_plane)).is_zero(tolerance=1e-10):
-            room.geo_right_wall = room_unstructured_faces[i]
-            
-        elif (current_face_normal - (-v_in_plane)).is_zero(tolerance=1e-10):
-            room.geo_left_wall = room_unstructured_faces[i]
-        
-    
     
     #Creating extwall for radiance
     w_v = room.geo_window.upper_left_counter_clockwise_vertices
@@ -201,6 +160,24 @@ def create_room(info, ext_wall, count, i):
 
     face = Face3D([e_v[3], e_v[0], w_v[0], w_v[3]])
     room.geo_rad_ext_wall_list.append(face)
+    
+    #
+    n = ext_wall.normal.normalize()
+    
+    
+    points = list(ext_wall.upper_left_counter_clockwise_vertices)
+    for i in range(4):
+        points.append(points[i] + (-n)*info.room_dim_depth)
+    
+    room.geo_floor = Face3D([points[5], points[6], points[2], points[1]])
+    
+    room.geo_left_wall = Face3D([points[4], points[5], points[1], points[0]])
+    
+    room.geo_right_wall = Face3D([points[3], points[2], points[6], points[7]])
+    
+    room.geo_back_wall = Face3D([points[7], points[6], points[5], points[4]])
+    
+    room.geo_ceiling =  Face3D([points[0], points[3], points[7], points[4]])
     
     return room
     

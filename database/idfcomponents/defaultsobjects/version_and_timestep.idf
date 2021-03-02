@@ -1,16 +1,7 @@
 !- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Version and timestep +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-!-
-!- https://bigladdersoftware.com/epx/docs/8-9/input-output-reference/group-simulation-parameters.html#version
-!- https://bigladdersoftware.com/epx/docs/8-9/input-output-reference/group-simulation-parameters.html#timestep
-!- "...For example a value of 6 entered here directs the program to use a zone timestep of 10 minutes..."
-!-
-!- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-
 
 Version,
-  8.9;          !- Version Identifier
-
+  9.4;          !- Version Identifier
 
 Timestep, 6; 	!- Meaning that calculations will be performed 6 times an hour = every 10 minutes.
 

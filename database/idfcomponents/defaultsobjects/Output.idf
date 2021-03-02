@@ -80,8 +80,3 @@ Output:Variable,*,Surface Window Back Face Temperature Layer 8, hourly; !-  [C]	
 Output:Variable,*,Surface Shading Device Is On Time Fraction, hourly; !- 									!- Used
 
 
-!- ++++++++++++++++++++++++++++++++++++++ PPD ++++++++++++++++++++++++++++++++++++++
-
-Output:Variable,*,Zone Thermal Comfort Fanger Model PMV, hourly; !- Zone Average []			!- Used
-Output:Variable,*,Zone Thermal Comfort Fanger Model PPD, hourly; !- Zone Average [%]		!- Used
-

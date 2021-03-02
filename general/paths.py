@@ -260,8 +260,28 @@ class daylightanalysis:
         self.day_results_ill_list = []
         self.day_results_da_list = []
         
+        #self.day_rotated_floors_list = []
+        #self.day_rotated_mesh_list = []
+        
         self.day_tmx = input_json["day_tmx"]
 
+#%%
+
+class energyanalysis:
+    def __init__(self, f):
+        
+        ep_objects_folder = \
+            f.main_folder.joinpath("database\\idfcomponents\\defaultsobjects")
+        
+        ep_objects_names = os.listdir(ep_objects_folder)
+        
+        self.ene_default_ep_objects = []
+        
+        for i in range(len(ep_objects_names)):
+            self.ene_default_ep_objects.append(ep_objects_folder.joinpath(
+                ep_objects_names[i]))
+            
+        
 
 #%%
 class empty:
@@ -311,8 +331,10 @@ def collect_info(input_json_path):
     
     #Daylight analysis
     d = daylightanalysis(f, input_json)
+
+    e = energyanalysis(f)
     
-    info = combineinstances([f,i,s,r,o,d])
+    info = combineinstances([f,i,s,r,o,d,e])
     
     write_to_json(info)
     
