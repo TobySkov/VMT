@@ -1,0 +1,11 @@
+!- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Geometry rules ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+GlobalGeometryRules,
+	UpperLeftCorner,         !- Starting Vertex Position
+	CounterClockWise,        !- Vertex Entry Direction
+	Relative,                !- Coordinate System
+	Relative,                !- Daylighting Ref Point Coordinate System
+	Relative;                !- Rectangular Surface Coordinate System
+
+
+

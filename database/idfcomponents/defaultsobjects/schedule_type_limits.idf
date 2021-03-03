@@ -1,0 +1,24 @@
+!- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Schedule Type Limits +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+!- 
+!- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+ScheduleTypeLimits,
+  BINARY,             !- name
+  0,                  !- - Lower Limit Value {BasedOnField A3}
+  1,                  !- - Upper Limit Value {BasedOnField A3}
+  DISCRETE;           !- 
+
+ScheduleTypeLimits,
+  FRACTIONAL,         !- name
+  0,                  !- - Lower Limit Value {BasedOnField A3}
+  1,                  !- - Upper Limit Value {BasedOnField A3}
+  Continuous;         !- 
+
+
+ScheduleTypeLimits,
+  Continous_ScheduleTypeLimit,      !- name
+  0,                                !- - Lower Limit Value {BasedOnField A3}
+  ,                                 !- - Upper Limit Value {BasedOnField A3}
+  Continuous;                       !- - Numeric Type
+

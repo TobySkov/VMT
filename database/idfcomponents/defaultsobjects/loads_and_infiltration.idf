@@ -1,0 +1,68 @@
+!- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Loads and infiltration +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+!-
+!- Infiltration rate: ASHREA defines 0.0001 {m3/s-m2} as a tight building and 0.0003 {m3/s-m2} as an average building (per m2 exterior facade).
+!- 							Danish building regulation BR18 has a requirement of max 0.0003 {m3/s-m2} (per m2 exterior facade)
+!-							http://bygningsreglementet.dk/Historisk/BR18_Version1/Tekniske-bestemmelser/11/Krav/261_266
+!-
+!- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+ZoneInfiltration:DesignFlowRate,
+	ZONENAME_Infiltration,  				!- Name
+	ZONENAME,  								!- Zone or ZoneList Name
+	ALLONES_SCH,  							!- Schedule Name
+	Flow/ExteriorWallArea,  				!- Design Flow Rate Calculation Method
+	,   									!- Design Flow Rate {m3/s}
+	,  										!- Flow per Zone Floor Area {m3/s-m2}
+	0.0002, 								!- Flow per Exterior Surface Area {m3/s-m2}
+	,    									!- Air Changes per Hour
+	,                        				!- Constant Term Coefficient
+	,                        				!- Temperature Term Coefficient
+	,                        				!- Velocity Term Coefficient
+	;                        				!- Velocity Squared Term Coefficient
+
+
+ElectricEquipment,
+	ZONENAMEElectricEquipment,  			!- Name
+	ZONENAME,  								!- Zone or ZoneList Name
+	OCC_SCH,  								!- Schedule Name
+	Watts/Area, 							!- Design Level Calculation Method 
+	, 										!- Design Level {W}
+	15, 									!- Watts per Zone Floor Area {W/m2}  (15 W/m2 * 24 m2 = 360 -> equivalent of 180 W PC)
+	,   									!- Watts per Person {W/person}
+	,                        				!- Fraction Latent
+	,                        				!- Fraction Radiant
+	,                        				!- Fraction Lost
+	ElectricEquipment;      				!- End-Use Subcategory
+
+
+People,
+	PeopleGain,  					!- Name
+	ZONENAME,  						!- Zone or ZoneList Name
+	OCC_SCH,  						!- Number of People Schedule Name
+	Area/Person, 					!- Number of People Calculation Method
+	, 								!- Number of People
+	,  								!- People per Zone Floor Area {person/m2}
+	12,  							!- Zone Floor Area per Person {m2/person} 		(EN 15251 - Table B.2)
+	,    							!- Fraction Radiant
+	,								!- Sensible Heat Fraction
+	ACTIVITY_SCH;					!- Activity Level Schedule Name
+
+
+
+Lights,
+	LightsGain,  			!- Name
+	ZONENAME,  				!- Zone or ZoneList Name
+	OCC_SCH,  				!- Schedule Name
+	Watts/Area,       		!- Design Level Calculation Method
+	,       				!- Lighting Level {W}
+	5,       				!- Watts per Zone Floor Area {W/m2}
+	,         				!- Watts per Person {W/person}
+	,                       !- Return Air Fraction
+	,                       !- Fraction Radiant
+	;                       !- Fraction Visible
+
+
+
+

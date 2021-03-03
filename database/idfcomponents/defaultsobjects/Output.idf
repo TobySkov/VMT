@@ -1,0 +1,82 @@
+!- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Output +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+!- 
+!- The rdd file contains all possible output
+!-
+!- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+!-Output:Surfaces:List,
+!-	Details;                 !- Report Type
+
+!-Output:VariableDictionary,
+!-	regular;                 !- Key Field
+
+!- OutputControl:Table:Style,CommaAndHTML,None;
+!- Output:Table:SummaryReports,AllSummary;
+
+
+
+!- +++++++++++++++++++++++++++++++++++ HVAC ++++++++++++++++++++++++++++++++++++++
+	
+Output:Variable,*,Zone Ideal Loads Supply Air Total Cooling Energy, hourly; 				!- Used
+Output:Variable,*,Zone Ideal Loads Supply Air Total Heating Energy, hourly; 				!- Used
+
+
+Output:Variable,*,Zone Ideal Loads Zone Total Heating Energy, hourly;						!- Used
+Output:Variable,*,Zone Ideal Loads Zone Total Cooling Energy, hourly;						!- Used
+
+
+!- +++++++++++++++++++++++++++++++++++ From Honeybee standard - with modification ++++++++++++++++++++++++++++++++++++++
+
+Output:Variable,*,Surface Outside Face Temperature, hourly;									!- Used
+Output:Variable,*,Surface Inside Face Temperature, hourly;									!- Used
+
+Output:Variable,*,Zone Electric Equipment Electric Energy, hourly;							!- Used
+
+Output:Variable,*,Zone Infiltration Total Heat Loss Energy, hourly;							!- Used
+Output:Variable,*,Zone Infiltration Total Heat Gain Energy, hourly;							!- Used
+
+Output:Variable,*,Zone Ventilation Standard Density Volume Flow Rate, hourly;
+Output:Variable,*,Zone Infiltration Standard Density Volume Flow Rate, hourly;				!- Used
+Output:Variable,*,Zone Mechanical Ventilation Standard Density Volume Flow Rate, hourly;	!- Used
+
+Output:Variable,*,Zone Operative Temperature, hourly;										!- Used
+Output:Variable,*,Zone Mean Air Temperature, hourly;										!- Used
+
+
+
+!- ++++++++++++++++++++++++++++++++++++++ Window temperatures ++++++++++++++++++++++++++++++++++++++
+
+Output:Variable,*,Surface Window Total Absorbed Shortwave Radiation Rate Layer 1, hourly; !-  [W]			!- Used
+Output:Variable,*,Surface Window Front Face Temperature Layer 1, hourly; !-  [C]							!- Used
+Output:Variable,*,Surface Window Back Face Temperature Layer 1, hourly; !-  [C]								!- Used
+Output:Variable,*,Surface Window Total Absorbed Shortwave Radiation Rate Layer 2, hourly; !-  [W]			!- Used
+Output:Variable,*,Surface Window Front Face Temperature Layer 2, hourly; !-  [C]							!- Used			
+Output:Variable,*,Surface Window Back Face Temperature Layer 2, hourly; !-  [C]								!- Used
+Output:Variable,*,Surface Window Total Absorbed Shortwave Radiation Rate Layer 3, hourly; !-  [W]			!- Used
+Output:Variable,*,Surface Window Front Face Temperature Layer 3, hourly; !-  [C]							!- Used
+Output:Variable,*,Surface Window Back Face Temperature Layer 3, hourly; !-  [C]								!- Used
+Output:Variable,*,Surface Window Total Absorbed Shortwave Radiation Rate Layer 4, hourly; !-  [W]			!- Used
+Output:Variable,*,Surface Window Front Face Temperature Layer 4, hourly; !-  [C]							!- Used
+Output:Variable,*,Surface Window Back Face Temperature Layer 4, hourly; !-  [C]								!- Used
+
+Output:Variable,*,Surface Window Total Absorbed Shortwave Radiation Rate Layer 5, hourly; !-  [W]			!- Used
+Output:Variable,*,Surface Window Front Face Temperature Layer 5, hourly; !-  [C]							!- Used
+Output:Variable,*,Surface Window Back Face Temperature Layer 5, hourly; !-  [C]								!- Used
+
+Output:Variable,*,Surface Window Total Absorbed Shortwave Radiation Rate Layer 6, hourly; !-  [W]			!- Used
+Output:Variable,*,Surface Window Front Face Temperature Layer 6, hourly; !-  [C]							!- Used
+Output:Variable,*,Surface Window Back Face Temperature Layer 6, hourly; !-  [C]								!- Used
+
+Output:Variable,*,Surface Window Total Absorbed Shortwave Radiation Rate Layer 7, hourly; !-  [W]			!- Used
+Output:Variable,*,Surface Window Front Face Temperature Layer 7, hourly; !-  [C]							!- Used
+Output:Variable,*,Surface Window Back Face Temperature Layer 7, hourly; !-  [C]								!- Used
+
+Output:Variable,*,Surface Window Total Absorbed Shortwave Radiation Rate Layer 8, hourly; !-  [W]			!- Used
+Output:Variable,*,Surface Window Front Face Temperature Layer 8, hourly; !-  [C]							!- Used
+Output:Variable,*,Surface Window Back Face Temperature Layer 8, hourly; !-  [C]								!- Used
+
+Output:Variable,*,Surface Shading Device Is On Time Fraction, hourly; !- 									!- Used
+
+

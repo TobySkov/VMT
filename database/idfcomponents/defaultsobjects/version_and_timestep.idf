@@ -1,0 +1,10 @@
+!- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Version and timestep +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Version,
+  9.4;          !- Version Identifier
+
+Timestep, 6; 	!- Meaning that calculations will be performed 6 times an hour = every 10 minutes.
+
+
+
+

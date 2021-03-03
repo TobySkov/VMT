@@ -1,0 +1,18 @@
+!- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Shadow calculations +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+ShadowCalculation,
+  PolygonClipping,                        !- Shading Calculation Method
+  Timestep,                               !- Shading Calculation Update Frequency Method
+  ,                                       !- Shading Calculation Update Frequency
+  15000,                                  !- Maximum Figures in Shadow Overlap Calculations
+  SutherlandHodgman,                      !- Polygon Clipping Algorithm
+  ,                                    	  !- Pixel Counting Resolution
+  SimpleSkyDiffuseModeling,               !- Sky Diffuse Modeling Algorithm
+  No,                                     !- Output External Shading Calculation Results
+  No,                                     !- Disable Self-Shading Within Shading Zone Groups
+  No;                                     !- Disable Self-Shading From Shading Zone Groups to Other Zones
+
+
+
+
+
