@@ -1,0 +1,18 @@
+!- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Zone +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Zone,
+  ZONENAME,         				      !- Name
+  ,                                       !- Direction of Relative North {deg}
+  ,                                       !- X Origin {m}
+  ,                                       !- Y Origin {m}
+  ,                                       !- Z Origin {m}
+  ,                                       !- Type
+  ,                                       !- Multiplier
+  ,                                       !- Ceiling Height {m}
+  ,                                       !- Volume {m3}
+  ,                                       !- Floor Area {m2}
+  ,                                       !- Zone Inside Convection Algorithm
+  ;                                       !- Zone Outside Convection Algorithm
+
+
+

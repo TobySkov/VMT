@@ -22,7 +22,7 @@
 
 !- +++++++++++++++++++++++++++++Internal walls ++++++++++++++++++++++++++++++++
 Construction,
-  INTWALLS_EPCON,                           !- name
+  INTWALL_CONSTRUCTION,                           !- name
   GYPSUMPLASTERBOARD_INTWALLS_MAT_EP,       !- - Layer 1
   INSULATION_INTWALLS_MAT_EP,               !- - Layer 2
   GYPSUMPLASTERBOARD_INTWALLS_MAT_EP;       !- - Layer 3
@@ -54,7 +54,7 @@ Material,
 !- +++++++++++++++++++++++++++++ Floor ++++++++++++++++++++++++++++++++
 
 Construction,
-  FLOORSLAB_EPCON,                          !- name
+  FLOOR_CONSTRUCTION,                          !- name
   GYPSUMPLASTERBOARD_SLAB_MAT_EP,           !- - Layer 1
   INSULATION_SLAB_MAT_EP,                   !- - Layer 2
   CONCRETE_SLAB_MAT_EP,                     !- - Layer 3
@@ -107,7 +107,7 @@ Material,
 !- +++++++++++++++++++++++++++++ Ceiling ++++++++++++++++++++++++++++++++
 
 Construction,
-  CEILINGSLAB_EPCON,                        !- name
+  CEILING_CONSTRUCTION,                        !- name
   WOODFLOOR_SLAB_MAT_EP,                    !- - Layer 1
   CONCRETE_SLAB_MAT_EP,                     !- - Layer 2
   INSULATION_SLAB_MAT_EP,                   !- - Layer 3
@@ -118,7 +118,7 @@ Construction,
 
 
 Construction,
-  EXTWALL_EPCON,                            !- name
+  EXTWALL_CONSTRUCTION,                            !- name
   SLATE_EXTWALL_MAT_EP,                     !- - Layer 1
   INSULATION_EXTWALL_MAT_EP,                !- - Layer 2
   CONCRETE_EXTWALL_MAT_EP;                  !- - Layer 3

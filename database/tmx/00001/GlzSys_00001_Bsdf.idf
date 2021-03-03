@@ -65,7 +65,7 @@ NoDeflection;                                       !- deflection model
 !----------------------------------------------------------------------
 
 Construction:ComplexFenestrationState,
-CFS_Glz_62,                                          !- name
+WINDOW_CONSTRUCTION,                                          !- name
 LBNLWindow,                                         !- basis type
 None,                                               !- basis symmetry type
 ThermParam_Glz_62,                                       !- window thermal model

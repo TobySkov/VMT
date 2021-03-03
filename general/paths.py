@@ -31,6 +31,10 @@ class folderstructure:
         self.accelerad_bin = self.accelerad_folder.joinpath("bin")
         self.accelerad_lib = self.accelerad_folder.joinpath("lib")
         
+        self.energyplus_folder = Path(input_json["energyplus_folder"])
+        self.enerplus_exe = self.energyplus_folder.joinpath("energyplus.exe")
+        self.enerplus_idd = self.energyplus_folder.joinpath("Energy+.idd")
+        
         
         #API placement
         self.main_folder =      Path(input_json["main_folder"])
@@ -44,6 +48,9 @@ class folderstructure:
         
         self.daylight_folder =  Path(input_json["output_folder"] + \
                                                      "\\daylight_analysis")
+            
+        self.energy_folder =  Path(input_json["output_folder"] + \
+                                                     "\\energy_analysis")
 
         #Radiation subfolders
         self.radiation_mesh_folder = \
@@ -65,6 +72,8 @@ class folderstructure:
         self.daylight_points_folder = \
             self.daylight_folder.joinpath("points")
             
+            
+
     def createfolders(self):
         create_folders_from_list([self.input_folder,
                                   self.sky_folder,
@@ -73,6 +82,7 @@ class folderstructure:
                                   self.radiation_points_folder,
                                   self.radiation_results_folder,
                                   self.daylight_folder,
+                                  self.energy_folder,
                                   self.room_folder,
                                   self.daylight_matrix_folder,
                                   self.daylight_results_folder,
@@ -268,7 +278,7 @@ class daylightanalysis:
 #%%
 
 class energyanalysis:
-    def __init__(self, f):
+    def __init__(self, f, input_json):
         
         ep_objects_folder = \
             f.main_folder.joinpath("database\\idfcomponents\\defaultsobjects")
@@ -280,6 +290,12 @@ class energyanalysis:
         for i in range(len(ep_objects_names)):
             self.ene_default_ep_objects.append(ep_objects_folder.joinpath(
                 ep_objects_names[i]))
+            
+        self.ene_tmx = input_json["ene_tmx"]
+        
+        self.ene_idf_files_list = []
+        self.ene_cumm_results_list = []
+        
             
         
 
@@ -332,7 +348,7 @@ def collect_info(input_json_path):
     #Daylight analysis
     d = daylightanalysis(f, input_json)
 
-    e = energyanalysis(f)
+    e = energyanalysis(f, input_json)
     
     info = combineinstances([f,i,s,r,o,d,e])
     
