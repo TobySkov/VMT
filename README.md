@@ -45,7 +45,7 @@ Extensive simulation engine, with possibilities for modelling with a high level 
 
 ## Versioning (roadmap)
 
-This is a development roadmap of the API versions. The reasoning behind developing the API with multiple versions is to be able to narrate the changes in implementation and their effect on speed and accuracy.
+This is a development roadmap of the API versions. The reasoning behind developing the API with multiple versions is to be able to narrate the changes in implementation and their effect on speed.
 
 ### Version 0.0.0 (Baseline implementation)
 
