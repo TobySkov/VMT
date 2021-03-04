@@ -3,10 +3,10 @@
 
 This is an introduction to the codebase/API involved in the thesis project titled: "High Performance Computing for Evaluating Volume Massing Designs". The codebase is intended to work as a standalone API executable. The codebase is supplemented by a thesis report with litterature study and a walkthrough of the engines used in the codebase and their validation work. Examples of thesis report ready text can be found here:
 
-[Week 4 report ready text](https://1drv.ms/b/s!ArT2Rk1rI-5viIZ8DYLSjZLuU3-yng?e=SwQXpJ)
+[Week 4 report ready text](https://perkinswillinc-my.sharepoint.com/:b:/g/personal/top_shl_dk/EfJjjpM6rDFItiNq6uQFj8sBO2jztBHUwOrbb-Ry2CcxRQ?e=HuQMz2)
 
 
-[Week 5 report ready text](https://1drv.ms/b/s!ArT2Rk1rI-5viIkdBSnb9n6r9rLXmg?e=ZmfKBs)
+[Week 5 report ready text](https://perkinswillinc-my.sharepoint.com/:b:/g/personal/top_shl_dk/EWFAPr3lD-ROrrbdw8O0_7MBLMSQlsNh_VmRaYMKImmFlg?e=w7Xr9h)
 
 
 ## API structure overview
