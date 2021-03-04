@@ -3,9 +3,9 @@
 
 This notebook gives an introduction to the codebase/API involved in the thesis project titled: "High Performance Computing for Evaluating Volume Massing Designs". The codebase is intended to work as a standalone API executable. The codebase is supplemented by a thesis report with litterature study and a walkthrough of the engines used in the codebase and their validation work. Examples of thesis report ready text can be found here:
 
-Week 4 report ready text: https://1drv.ms/b/s!ArT2Rk1rI-5viIZ8DYLSjZLuU3-yng?e=SwQXpJ
+[Week 4 report ready text](https://1drv.ms/b/s!ArT2Rk1rI-5viIZ8DYLSjZLuU3-yng?e=SwQXpJ)
+[Week 5 report ready text](https://1drv.ms/b/s!ArT2Rk1rI-5viIkdBSnb9n6r9rLXmg?e=ZmfKBs)
 
-Week 5 report ready text: https://1drv.ms/b/s!ArT2Rk1rI-5viIkdBSnb9n6r9rLXmg?e=ZmfKBs
 
 ## API structure overview
 
@@ -25,19 +25,19 @@ One of the main innovations from this API compared to previous work and other re
 
 ## Engines
 
-[Radiance](https://www.radiance-online.org/)
+* [Radiance](https://www.radiance-online.org/)
 
 Validated lighting simulation tool. Using CPU based raytracing.
 
-[Accelerad](https://nljones.github.io/Accelerad/)
+* [Accelerad](https://nljones.github.io/Accelerad/)
 
 Modelled after Radiance. Using GPU based raytracing.
 
-[ICEbear](http://www.idbuild.dk/icebear)
+* [ICEbear](http://www.idbuild.dk/icebear)
 
 Whole building energy simulation. Based on ISO 13790.
 
-[EnergyPlus](https://energyplus.net/)
+* [EnergyPlus](https://energyplus.net/)
 
 Extensive simulation engine, with possibilities for modelling with a high level of detail, at the cost of speed.
 
