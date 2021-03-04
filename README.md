@@ -13,7 +13,7 @@ The main goal of the API is to serve as a tool for conducting volume massing des
 
 The general structure of the API is as follows:
 
-* Radiation analysis: "How much solar radiation is recieved on all the facades"
-* Zone placement: "Based radiation analysis, placement of representative zones"
-* Daylight analysis: "For each zone, run an annual daylight simulation"
-* Energy analysis: "For each zone, run an annual energy simulation"
+* Radiation analysis:   "How much solar radiation is recieved on all the facades"
+* Zone placement:       "Based radiation analysis, placement of representative zones"
+* Daylight analysis:    "For each zone, run an annual daylight simulation"
+* Energy analysis:      "For each zone, run an annual energy simulation"
