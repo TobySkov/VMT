@@ -4,6 +4,8 @@
 This notebook gives an introduction to the codebase/API involved in the thesis project titled: "High Performance Computing for Evaluating Volume Massing Designs". The codebase is intended to work as a standalone API executable. The codebase is supplemented by a thesis report with litterature study and a walkthrough of the engines used in the codebase and their validation work. Examples of thesis report ready text can be found here:
 
 [Week 4 report ready text](https://1drv.ms/b/s!ArT2Rk1rI-5viIZ8DYLSjZLuU3-yng?e=SwQXpJ)
+
+
 [Week 5 report ready text](https://1drv.ms/b/s!ArT2Rk1rI-5viIkdBSnb9n6r9rLXmg?e=ZmfKBs)
 
 
@@ -40,4 +42,42 @@ Whole building energy simulation. Based on ISO 13790.
 * [EnergyPlus](https://energyplus.net/)
 
 Extensive simulation engine, with possibilities for modelling with a high level of detail, at the cost of speed.
+
+## Versioning (roadmap)
+
+This is a development roadmap of the API versions. The reasoning behind developing the API with multiple versions is to be able to narrate the changes in implementation and their effect on speed and accuracy.
+
+### Version 0.0.0 (Baseline implementation)
+
+Implementation of the conventional approach to volume massing design. The daylight analysis and radiation analysis is based on Radiance. The energy analysis is based on EnergyPlus. That is - all computations are CPU based.
+
+This implementation will serve as a benchmarking baseline in terms of speed for the other versions. Also this implementation will serve a as basis for comparing results.
+
+### Version 0.0.1 
+
+Same as version 0.0.0 except, changing Radiance function calls (CPU based raytracing) to Accelerad function calls (GPU based raytracing).
+
+### Version 0.0.2
+
+Same as version 0.0.1 except, sharing octree and ambient file between daylight calculations for different zones.
+
+### Version 0.0.3
+
+Same as version 0.0.2 except, creating a database of precomputed s-matrices (annual perez all weather model, tregenza discretized sky models). 
+
+### Version 0.0.4
+
+Same as version 0.0.3 except, running matrix multiplication on GPU using CUDA - replacing Radiance dctimestep and rmtxop function calls. Using 1 color channel instead of 3. 
+
+### Version 0.0.5
+
+Same as version 0.0.4 except, keeping output from Accelerad (Optix) rfluxmtx call in GPU memory instead of writing it to disk.
+
+### Version 0.0.6
+
+Same as version 0.0.5 except, displaying result from each ambient bounce in the ambient daylight calculation interatively (progressive raytracing).
+
+### Version 0.0.7
+
+Same as version 0.0.6 except, using ICEbear instead of EnergyPlus. This also entails outputting solar heat gain through the window from Accelerad computations. 
 
