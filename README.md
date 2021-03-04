@@ -1,4 +1,6 @@
 # VMT
+Volume Massing Tool
+
 ## Introduction
 
 This is an introduction to the codebase/API involved in the thesis project titled: "High Performance Computing for Evaluating Volume Massing Designs". The codebase is intended to work as a standalone API executable. The codebase is supplemented by a thesis report with litterature study and a walkthrough of the engines used in the codebase and their validation work. Examples of thesis report ready text can be found here:
