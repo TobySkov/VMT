@@ -106,9 +106,7 @@ def run_rfluxmtx_radiation(info):
 
     cmd_list.extend(["-",   #This specifies that sender is from stdin
                      f"{info.skyrad_dst}",
-                     f"{info.vmt_facade_dst}",
-                     f"{info.vmt_rest_dst}",
-                     f"{info.context_dst}",])
+                     f"{info.context_dst}"])
     
     run_command(info,
                 cmd_list, 
