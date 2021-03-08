@@ -61,23 +61,7 @@ def write_room_to_rad(info, room):
         name = "window_vmx"
         outfile.write(rad_polygon_string(modifier, name, pts))
         
-        
-        
-    #Window for dmx calculation (small offset from wall)
-    name = f"surf_{room.surf_id}__room_{room.room_id}__dmx"
-    file_name = info.room_folder.joinpath(name + ".rad")
     
-    info.dmx_radfile_path_list.append(file_name)
-    
-    with open(file_name,"w") as outfile:
-        
-        offset_vec = room_dict["geo_window"].normal.normalize() * 0.01
-        pts = room_dict["geo_window"].move(offset_vec).flip().vertices
-        
-        outfile.write(rad_glow_sting())
-        modifier = "window_glow" 
-        name = "window_dmx"
-        outfile.write(rad_polygon_string(rad_mat, key, pts))
 
 
 

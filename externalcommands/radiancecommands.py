@@ -58,11 +58,9 @@ def run_rfluxmtx_day_dmx(info,i):
     
     cmd_list.extend(rtrace_parameters(info.sim_resolution))
     
-    cmd_list.extend([f"{info.dmx_radfile_path_list[i]}",   
+    cmd_list.extend([f"{info.vmx_radfile_path_list[i]}",   
                      f"{info.skyrad_dst}",
-                     f"{info.vmt_facade_dst}",
-                     f"{info.vmt_rest_dst}",
-                     f"{info.context_dst}",])
+                     f"{info.context_dst}"])
     
     run_command(info,
                 cmd_list, 

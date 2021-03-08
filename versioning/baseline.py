@@ -19,16 +19,16 @@ def baseline(info):
     radiationanalysis_baseline(info)
     
     #Insert rooms
-    #print("################### Zone distribution ###################")
-    #zones_logic(info)
+    print("################### Zone distribution ###################")
+    zones_logic(info)
 
     #3-phase method for all rooms
     #print("################### Daylight analysis ###################")
     #daylightanalysis_baseline(info)
     
     #EnergyPlus simulation for all rooms
-    #print("################### Energy analysis ###################")
-    #energyanalysis_baseline(info)
+    print("################### Energy analysis ###################")
+    energyanalysis_baseline(info)
     
     #Updating json
     write_to_json(info)

@@ -5,8 +5,6 @@ Description:
 from ladybug_geometry.geometry3d.pointvector import Vector3D, Point3D
 from ladybug_geometry.geometry3d.face import Face3D
 import json
-#import numpy as np
-#from geometry.writeoutput import rad_polygon_string
 
 
 def daylight_mesh_grid(info):
@@ -55,35 +53,6 @@ def daylight_mesh_grid(info):
         
         save_day_mesh_to_files(info, i, mesh)
 
-
-#%%
-"""
-def save_rotated_mesh(info, i, rotated_mesh):
-    
-    file_name = info.daylight_mesh_folder.joinpath(info.approved_rooms[i].room_name + \
-                                          "_rotated_mesh.json")
-    
-    with open(file_name, 'w') as outfile:   
-        json.dump(rotated_mesh.to_dict(), outfile, indent = "\t")
-        
-    info.day_rotated_mesh_list.append(file_name)
-    
-
-def save_rotated_floor(info, i, rotated_floor):
-    
-    file_name = info.room_folder.joinpath(info.approved_rooms[i].room_name + \
-                                          "_rotated_floor.rad")
-    
-    pts = rotated_floor.vertices
-    modifier = "void"
-    name = info.approved_rooms[i].room_name
-    string = rad_polygon_string(modifier, name, pts)
-    
-    with open(file_name, 'w') as outfile:
-        outfile.write(string)
-    
-    info.day_rotated_floors_list.append(file_name)
-"""
     
 #%%
 
