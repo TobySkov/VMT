@@ -240,13 +240,14 @@ class others:
         self.vmt_faces = []
         self.room_WWR = input_json["room_WWR"]
         self.approved_rooms = []
-   
+        self.approved_rooms_corresponding_vmt = []
         
 #%%
 
 class daylightanalysis:
     def __init__(self, f, input_json):
         
+        self.context_reflectance = input_json["context_reflectance"]
         self.floor_reflectance = input_json["floor_reflectance"]
         self.wall_reflectance = input_json["wall_reflectance"]
         self.ceiling_reflectance = input_json["ceiling_reflectance"]
@@ -254,9 +255,9 @@ class daylightanalysis:
         self.vmx_matrix_path_list = []
         self.dmx_matrix_path_list = []
 
-        self.vmx_radfile_path_list = []
-        self.dmx_radfile_path_list = []
+        self.window_radfile_path_list = []
         self.room_radfile_path_list = []
+        self.vmt_radfile_path_list = []
         
         self.day_points_path_list = []
         self.day_mesh_path_list = []

@@ -58,9 +58,11 @@ def run_rfluxmtx_day_dmx(info,i):
     
     cmd_list.extend(rtrace_parameters(info.sim_resolution))
     
-    cmd_list.extend([f"{info.vmx_radfile_path_list[i]}",   
+    cmd_list.extend([f"{info.window_radfile_path_list[i]}",   
                      f"{info.skyrad_dst}",
-                     f"{info.context_dst}"])
+                     f"{info.context_dst}",
+                     f"{info.vmt_radfile_path_list[i]}",
+                     f"{info.vmt_rest_dst}"])
     
     run_command(info,
                 cmd_list, 
@@ -80,7 +82,7 @@ def run_rfluxmtx_day_vmx(info,i):
     
 
     cmd_list.extend(["-",   #This specifies that sender is from stdin
-                     f"{info.vmx_radfile_path_list[i]}",
+                     f"{info.window_radfile_path_list[i]}",
                      f"{info.room_radfile_path_list[i]}"])
     
     run_command(info,
@@ -104,7 +106,9 @@ def run_rfluxmtx_radiation(info):
 
     cmd_list.extend(["-",   #This specifies that sender is from stdin
                      f"{info.skyrad_dst}",
-                     f"{info.context_dst}"])
+                     f"{info.context_dst}",
+                     f"{info.vmt_facade_dst}",
+                     f"{info.vmt_rest_dst}"])
     
     run_command(info,
                 cmd_list, 

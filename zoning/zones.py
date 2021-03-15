@@ -6,7 +6,7 @@ from ladybug_geometry.geometry3d.polyface import Polyface3D
 from ladybug_geometry.geometry3d.face import Face3D
 from ladybug_geometry.geometry3d.pointvector import Point3D, Vector3D
 import numpy as np
-from geometry.writeoutput import write_room_to_rad
+from geometry.writeoutput import write_room_to_rad, write_vmt_to_rad
 
 
 #%%
@@ -118,7 +118,21 @@ def zones_logic(info):
                         raise Exception(
                             "External wall have been generated as clockwise")
                     
+                    #Create VMT face with hole in it
+                    vmt_mesh_with_hole = \
+                        Face3D.from_punched_geometry(parent_face, [ext_wall])
                     
+                    vmt_mesh_with_hole = \
+                        vmt_mesh_with_hole.triangulated_mesh3d
+        
+                    vmt_faces_rest = []
+                    for a in range(len(info.vmt_faces)):
+                        if a!=i:
+                            vmt_faces_rest.append(info.vmt_faces[a])
+
+                    info.approved_rooms_corresponding_vmt.append(
+                        [vmt_mesh_with_hole] + vmt_faces_rest)
+        
                     room = create_room(info, ext_wall, count, i)
                     
                     approved_rooms_current_face.append(room)
@@ -130,11 +144,16 @@ def zones_logic(info):
                 
         info.approved_rooms.extend(approved_rooms_current_face)
 
-
-
+        
+    #Write rooms to rad
     for i in range(len(info.approved_rooms)):
         write_room_to_rad(info, info.approved_rooms[i])
-
+        
+        
+    #Write vmt with hole in facade to rad
+    for i in range(len(info.approved_rooms_corresponding_vmt)):
+        write_vmt_to_rad(info, info.approved_rooms[i], 
+                         info.approved_rooms_corresponding_vmt[i])
 
 
 #%%

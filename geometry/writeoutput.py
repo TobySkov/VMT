@@ -2,6 +2,39 @@
 Description:
 
 """
+#%%
+def write_vmt_to_rad(info, room, correspoding_vmt):
+    
+    string = rad_material_vmt_string(info)
+    
+    holed_mesh = correspoding_vmt[0]
+    
+    modifier = "vmt_mat"
+    
+    for i in range(len(holed_mesh.faces)):
+        idx = holed_mesh.faces[i]
+        pts = []
+        for j in range(len(idx)):
+            pts.append(holed_mesh.vertices[idx[j]])
+        name = f"holed_facade_face_{i}"
+        string += rad_triangle_string(modifier, name, pts)
+        
+    for i in range(len(correspoding_vmt)-1):
+        i = i + 1
+        
+        pts = correspoding_vmt[i].vertices
+        name = f"other_facades_{i}"
+        string += rad_polygon_string(modifier, name, pts)
+        
+    name = f"surf_{room.surf_id}__room_{room.room_id}__vmt"
+    file_name = info.room_folder.joinpath(name + ".rad")
+    with open(file_name, "w") as outfile:
+        outfile.write(string)
+        
+    info.vmt_radfile_path_list.append(file_name)
+
+
+#%%
 
 def write_room_to_rad(info, room):
     #Needs to have material proporties implemented
@@ -47,10 +80,10 @@ def write_room_to_rad(info, room):
     
     
     #Window for vmx calculation
-    name = f"surf_{room.surf_id}__room_{room.room_id}__vmx"
+    name = f"surf_{room.surf_id}__room_{room.room_id}__window"
     file_name = info.room_folder.joinpath(name + ".rad")
     
-    info.vmx_radfile_path_list.append(file_name)
+    info.window_radfile_path_list.append(file_name)
     
     with open(file_name,"w") as outfile:
 
@@ -62,6 +95,36 @@ def write_room_to_rad(info, room):
         outfile.write(rad_polygon_string(modifier, name, pts))
         
     
+
+
+#%%
+
+
+def rad_material_vmt_string(info):
+    
+    context_reflec =      info.context_reflectance
+
+    string = "void plastic vmt_mat\n" + \
+             "0\n" + \
+             "0\n" + \
+             f"5 {context_reflec} {context_reflec} {context_reflec} 0.0 0.0\n\n" 
+
+    return string
+
+#%%
+
+def rad_triangle_string(modifier, name, pts):
+    
+    string = f"{modifier} polygon {name}\n" + \
+            "0\n" + \
+            "0\n" + \
+            "9 " + \
+            f"{pts[0].x} {pts[0].y} {pts[0].z} " + \
+            f"{pts[1].x} {pts[1].y} {pts[1].z} " + \
+            f"{pts[2].x} {pts[2].y} {pts[2].z}\n\n\n"
+            
+    return string
+
 
 
 
