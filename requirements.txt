@@ -1,3 +1,4 @@
 Windows OS
 Radiance_012cb178_Windows (Radiance 5.3)
 Accelerad_07_beta_win64
+EnergyPlus 9.4.0

@@ -12,7 +12,7 @@ from postprocessing.radpostprocess import radiation_post_processing
 
 
 #%%
-def radiationanalysis_baseline(info):
+def radiationanalysis(info, engine):
 
     #epw2wea
     run_epw2wea(info)
@@ -27,7 +27,7 @@ def radiationanalysis_baseline(info):
     radiation_mesh_grid(info)
     
     #create dmx
-    run_rfluxmtx_radiation(info)
+    run_rfluxmtx_radiation(info, engine)
     
     #Dctimestep matrix multiplikation in all three channels
     run_dctimestep(info, simulation_type = "RADIATION_ANALYSIS")

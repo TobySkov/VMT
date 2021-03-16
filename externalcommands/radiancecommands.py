@@ -52,9 +52,12 @@ def run_gendaymtx(info,
 
     
 #%%
-def run_rfluxmtx_day_dmx(info,i):
+def run_rfluxmtx_day_dmx(info,i,engine):
        
-    cmd_list = [str(info.radiance_bin.joinpath("rfluxmtx"))]
+    if engine == "Radiance":
+        cmd_list = [str(info.radiance_bin.joinpath("rfluxmtx"))]
+    elif engine == "Accelerad":
+        cmd_list = [str(info.accelerad_bin.joinpath("rfluxmtx"))]
     
     cmd_list.extend(rtrace_parameters(info.sim_resolution))
     
@@ -70,13 +73,16 @@ def run_rfluxmtx_day_dmx(info,i):
 
 
 #%%
-def run_rfluxmtx_day_vmx(info,i):
-    #Assuming that all rooms are the same - running rfluxmtx only once
+def run_rfluxmtx_day_vmx(info,i,engine):
+    
+    if engine == "Radiance":
+        cmd_list = [str(info.radiance_bin.joinpath("rfluxmtx"))]
+    elif engine == "Accelerad":
+        cmd_list = [str(info.accelerad_bin.joinpath("rfluxmtx"))]
+    
     room = info.approved_rooms[i]
     
-    cmd_list = [str(info.radiance_bin.joinpath("rfluxmtx")),
-			     "-y", f"{room.no_of_sensorpoints}",
-				 "-I"]
+    cmd_list.extend(["-y", f"{room.no_of_sensorpoints}","-I"])
     
     cmd_list.extend(rtrace_parameters(info.sim_resolution))
     
@@ -92,14 +98,17 @@ def run_rfluxmtx_day_vmx(info,i):
     
     
 #%%
-def run_rfluxmtx_radiation(info):
+def run_rfluxmtx_radiation(info,engine):
        
+    if engine == "Radiance":
+        cmd_list = [str(info.radiance_bin.joinpath("rfluxmtx"))]
+    elif engine == "Accelerad":
+        cmd_list = [str(info.accelerad_bin.joinpath("rfluxmtx"))]
+    
     ##https://www.radiance-online.org/learning/tutorials/matrix-based-methods
     # page 41
     # - denotes that sender will be given through standard input
-    cmd_list = [str(info.radiance_bin.joinpath("rfluxmtx")),
-			     "-y", f"{info.rad_no_of_sensor_points}",
-				 "-I"]
+    cmd_list.extend(["-y", f"{info.rad_no_of_sensor_points}","-I"])
     
     cmd_list.extend(rtrace_parameters(info.sim_resolution))
     

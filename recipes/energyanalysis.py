@@ -4,6 +4,8 @@ from externalcommands.energypluscommands import run_energyplus
 import os
 import pandas as pd
 
+from geometry.readinput import read_rad_file_polygons
+
 #%%
 def energyanalysis_baseline(info):
     
@@ -77,6 +79,9 @@ def write_idf_files(info):
     
     idf_default_string = load_default_ep_objects(info)
     
+    #Adding context and vmt rest (this does not change between rooms)
+    idf_default_string += load_vmtrest_and_context(info)
+    
     for i in range(len(info.approved_rooms)):
         
         idf_current_string = copy.deepcopy(idf_default_string)
@@ -87,6 +92,8 @@ def write_idf_files(info):
         
         idf_current_string += load_window_construction(info)
         
+        #Include shading from vmt facades
+        idf_current_string += add_vmt_shading(info,i)
         
         folder = info.energy_folder.joinpath(room.room_name)
         if not os.path.exists(folder):
@@ -96,6 +103,78 @@ def write_idf_files(info):
         info.ene_idf_files_list.append(filepath)
         with open(filepath, "w") as outfile:
             outfile.write(idf_current_string)
+
+#%%
+def add_vmt_shading(info,i):
+    string = ""
+    vmt_facades = info.approved_rooms_corresponding_vmt[i]
+    
+    holed_mesh = vmt_facades[0]
+
+    for i in range(len(holed_mesh.faces)):
+        idx = holed_mesh.faces[i]
+        pts = []
+        for j in range(len(idx)):
+            pts.append(holed_mesh.vertices[idx[j]])
+        name = f"holed_facade_face_{i}"
+        string += ep_triangle_shade(pts,name)
+        
+        
+    for i in range(len(vmt_facades)-1):
+        i = i + 1
+        
+        pts = vmt_facades[i].vertices
+        name = f"other_facades_{i}"
+        string += ep_face_shade(pts,name)
+        
+        
+    return string
+    
+    
+#%%
+def load_vmtrest_and_context(info):
+    
+
+    string = ""
+    
+    polygons = read_rad_file_polygons(info.context_dst)
+    for i in range(len(polygons)):
+        string += ep_face_shade(pts = polygons[i], 
+                                name = f"Shade_context_{i}")
+    
+    polygons = read_rad_file_polygons(info.vmt_rest_dst)
+    for i in range(len(polygons)):
+        string += ep_face_shade(pts = polygons[i], 
+                                name = f"Shade_vmtrest_{i}")
+
+    return string
+
+#%%
+def ep_triangle_shade(pts,name):
+    
+    string = "Shading:Building:Detailed,\n" + \
+            f"\t{name}, !- Name\n" + \
+            "\t, !-Transmittance Schedule Name (default zero)\n" + \
+            "\t3, !- Number Vertices\n" + \
+            f"\t{pts[0].x}, {pts[0].y}, {pts[0].z}, !- X,Y,Z Vertex 1\n" + \
+            f"\t{pts[1].x}, {pts[1].y}, {pts[1].z}, !- X,Y,Z Vertex 2\n" + \
+            f"\t{pts[2].x}, {pts[2].y}, {pts[2].z}; !- X,Y,Z Vertex 3\n\n\n"
+            
+    return string
+    
+#%%
+def ep_face_shade(pts,name):
+    
+    string = "Shading:Building:Detailed,\n" + \
+            f"\t{name}, !- Name\n" + \
+            "\t, !-Transmittance Schedule Name (default zero)\n" + \
+            "\t4, !- Number Vertices\n" + \
+            f"\t{pts[0].x}, {pts[0].y}, {pts[0].z}, !- X,Y,Z Vertex 1\n" + \
+            f"\t{pts[1].x}, {pts[1].y}, {pts[1].z}, !- X,Y,Z Vertex 2\n" + \
+            f"\t{pts[2].x}, {pts[2].y}, {pts[2].z}, !- X,Y,Z Vertex 3\n" + \
+            f"\t{pts[3].x}, {pts[3].y}, {pts[3].z}; !- X,Y,Z Vertex 4\n\n\n"
+            
+    return string
 
 #%%
 

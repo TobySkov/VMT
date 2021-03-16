@@ -6,18 +6,18 @@ from externalcommands.radiancecommands import run_rfluxmtx_day_vmx, \
 from postprocessing.daypostprocess import calc_da
 
 
-def daylightanalysis_baseline(info):
+def daylightanalysis(info, engine):
     
     #Create gridded mesh for each room.
     daylight_mesh_grid(info)
     
     #Create vmx (for each room)
     for i in range(len(info.approved_rooms)):
-        run_rfluxmtx_day_vmx(info,i)
+        run_rfluxmtx_day_vmx(info, i, engine)
     
     #Create dmx (for each room)
     for i in range(len(info.approved_rooms)):
-        run_rfluxmtx_day_dmx(info,i)
+        run_rfluxmtx_day_dmx(info, i, engine)
     
     #Create smx
     run_gendaymtx(info,

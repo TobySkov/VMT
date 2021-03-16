@@ -16,7 +16,7 @@ def baseline(info):
 
     #Run radiation study
     print("################### Radiation analysis ###################")
-    radiationanalysis_baseline(info)
+    radiationanalysis_baseline(info, engine = "Radiance")
     
     #Insert rooms
     print("################### Zone distribution ###################")
@@ -24,7 +24,7 @@ def baseline(info):
 
     #3-phase method for all rooms
     print("################### Daylight analysis ###################")
-    daylightanalysis_baseline(info)
+    daylightanalysis_baseline(info, engine = "Radiance")
     
     #EnergyPlus simulation for all rooms
     print("################### Energy analysis ###################")
