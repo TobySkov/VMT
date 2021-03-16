@@ -5,7 +5,8 @@ Geometry handling will be called from the main script
 """
 
 import sys
-from versioning.baseline import baseline
+from versioning.ver_0_0_0 import ver_0_0_0
+from versioning.ver_0_0_1 import ver_0_0_1
 from general.paths import collect_info
 
 def main():
@@ -17,7 +18,12 @@ def main():
     info = collect_info(input_json_path)
 
     #Running baseline implementation
-    baseline(info)
+    if info.method == "ver_0_0_0":
+        ver_0_0_0(info)
+        
+    #Running baseline implementation
+    if info.method == "ver_0_0_1":
+        ver_0_0_1(info)
 
 
 if __name__ == "__main__":

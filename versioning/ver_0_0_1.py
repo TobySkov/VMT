@@ -5,18 +5,18 @@ Description:
     It will only rely on CPU based computations.
     It will only contain calculations from Radiance and EnergyPlus
 """
-from recipes.radiationanalysis import radiationanalysis_baseline
+from recipes.radiationanalysis import radiationanalysis
 from zoning.zones import zones_logic
-from recipes.dayligthanalysis import daylightanalysis_baseline
+from recipes.dayligthanalysis import daylightanalysis
 from general.paths import write_to_json
-from recipes.energyanalysis import energyanalysis_baseline
+from recipes.energyanalysis import energyanalysis
 
 
-def baseline(info):
+def ver_0_0_1(info):
 
     #Run radiation study
     print("################### Radiation analysis ###################")
-    radiationanalysis_baseline(info, engine = "Radiance")
+    radiationanalysis(info, engine = "Accelerad")
     
     #Insert rooms
     print("################### Zone distribution ###################")
@@ -24,11 +24,12 @@ def baseline(info):
 
     #3-phase method for all rooms
     print("################### Daylight analysis ###################")
-    daylightanalysis_baseline(info, engine = "Radiance")
+    daylightanalysis(info, engine = "Accelerad")
     
     #EnergyPlus simulation for all rooms
     print("################### Energy analysis ###################")
-    energyanalysis_baseline(info)
+    energyanalysis(info)
     
     #Updating json
     write_to_json(info)
+

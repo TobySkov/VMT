@@ -7,7 +7,7 @@ import pandas as pd
 from geometry.readinput import read_rad_file_polygons
 
 #%%
-def energyanalysis_baseline(info):
+def energyanalysis(info):
     
     write_idf_files(info)
     

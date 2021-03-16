@@ -57,7 +57,7 @@ def run_rfluxmtx_day_dmx(info,i,engine):
     if engine == "Radiance":
         cmd_list = [str(info.radiance_bin.joinpath("rfluxmtx"))]
     elif engine == "Accelerad":
-        cmd_list = [str(info.accelerad_bin.joinpath("rfluxmtx"))]
+        cmd_list = [str(info.accelerad_bin.joinpath("accelerad_rfluxmtx"))]
     
     cmd_list.extend(rtrace_parameters(info.sim_resolution))
     
@@ -78,7 +78,7 @@ def run_rfluxmtx_day_vmx(info,i,engine):
     if engine == "Radiance":
         cmd_list = [str(info.radiance_bin.joinpath("rfluxmtx"))]
     elif engine == "Accelerad":
-        cmd_list = [str(info.accelerad_bin.joinpath("rfluxmtx"))]
+        cmd_list = [str(info.accelerad_bin.joinpath("accelerad_rfluxmtx"))]
     
     room = info.approved_rooms[i]
     
@@ -103,7 +103,7 @@ def run_rfluxmtx_radiation(info,engine):
     if engine == "Radiance":
         cmd_list = [str(info.radiance_bin.joinpath("rfluxmtx"))]
     elif engine == "Accelerad":
-        cmd_list = [str(info.accelerad_bin.joinpath("rfluxmtx"))]
+        cmd_list = [str(info.accelerad_bin.joinpath("accelerad_rfluxmtx"))]
     
     ##https://www.radiance-online.org/learning/tutorials/matrix-based-methods
     # page 41

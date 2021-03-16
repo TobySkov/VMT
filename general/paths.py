@@ -241,6 +241,7 @@ class others:
         self.room_WWR = input_json["room_WWR"]
         self.approved_rooms = []
         self.approved_rooms_corresponding_vmt = []
+        self.method = input_json["method"]
         
 #%%
 
