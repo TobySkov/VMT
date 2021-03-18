@@ -19,7 +19,7 @@ import copy
 #%% class containing info about folder structure
 class folderstructure:
     
-    def __init__(self, input_json):
+    def __init__(self, input_json, cmd_folder):
         
         #Simulation programs
         self.radiance_folder =    Path(input_json["radiance_folder"])
@@ -37,7 +37,7 @@ class folderstructure:
         
         
         #API placement
-        self.main_folder =      Path(input_json["main_folder"])
+        self.main_folder =      cmd_folder
         
         #Root level output folder structure
         self.root =             Path(input_json["output_folder"])
@@ -172,31 +172,18 @@ class radiationanalysis:
         
         ### Lists of files for each facade
         self.rad_mesh_files_list = []
-        #self.rad_points_files_list = []
-        #self.rad_normals_files_list = []
+
         self.rad_results_cummulative_list = []
-        #self.rad_results_labels_list = []
-        #self.rad_results_centers_list = []
+
         
         for i in range(self.facade_count):
             self.rad_mesh_files_list.append(
                 f.radiation_mesh_folder.joinpath(f"mesh_{i}.txt"))
             
-           # self.rad_points_files_list.append(
-           #    f.radiation_points_folder.joinpath(f"points_{i}.txt"))
-            
-            #self.rad_normals_files_list.append(
-            #    f.radiation_points_folder.joinpath(f"normals_{i}.txt"))
-            
             self.rad_results_cummulative_list.append(
                 f.radiation_results_folder.joinpath(f"cummulative_{i}.txt"))
             
-            #self.rad_results_labels_list.append(
-            #    f.radiation_results_folder.joinpath(f"labels_{i}.txt"))
-    
-            #self.rad_results_centers_list.append(
-            #    f.radiation_results_folder.joinpath(f"centers_{i}.txt"))
-    
+
         
         ### All results files
         self.rad_coefficients = f.radiation_results_folder.joinpath(
@@ -272,10 +259,13 @@ class daylightanalysis:
         self.day_results_ill_list = []
         self.day_results_da_list = []
         
-        #self.day_rotated_floors_list = []
-        #self.day_rotated_mesh_list = []
         
-        self.day_tmx = input_json["day_tmx"]
+        tmx_no = input_json["tmx_no"]
+        self.day_tmx = f.main_folder.joinpath(
+            f"\\database\\tmx\\{tmx_no}\\{tmx_no}.xml")
+        
+        
+        
 
 #%%
 
@@ -293,7 +283,9 @@ class energyanalysis:
             self.ene_default_ep_objects.append(ep_objects_folder.joinpath(
                 ep_objects_names[i]))
             
-        self.ene_tmx = input_json["ene_tmx"]
+        tmx_no = input_json["tmx_no"]
+        self.ene_tmx = f.main_folder.joinpath(
+            f"\\database\\tmx\\{tmx_no}\\GlzSys_{tmx_no}_Bsdf.idf")
         
         self.ene_idf_files_list = []
         self.ene_cumm_results_list = []
@@ -324,13 +316,13 @@ def read_json(input_json_path):
 
 #%%
 
-def collect_info(input_json_path):
+def collect_info(input_json_path, cmd_folder):
     
     input_json = read_json(input_json_path)
     
     
     #Folder structure
-    f = folderstructure(input_json)
+    f = folderstructure(input_json, cmd_folder)
     f.createfolders()
 
     #Input geometry files    
