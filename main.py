@@ -9,8 +9,14 @@ from versioning.ver_0_0_0 import ver_0_0_0
 from versioning.ver_0_0_1 import ver_0_0_1
 from general.paths import collect_info
 from pathlib import Path
+import time
 
 def main():
+    
+    
+    print(" +++++ VMT tool start +++++")
+    
+    start = time.time()
 
     #Finding folder where .py/.exe is run from
     cmd = Path(sys.argv[0])
@@ -30,6 +36,10 @@ def main():
     if info.method == "ver_0_0_1":
         ver_0_0_1(info)
 
+    end = time.time()
+    
+    print(f"+++++ VMT tool end +++++")
+    print(f"+++++ Wall time: {(end-start)/60} [min] +++++")
 
 if __name__ == "__main__":
     main()

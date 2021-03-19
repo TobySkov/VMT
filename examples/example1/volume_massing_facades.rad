@@ -1,23 +1,23 @@
-# Created by Honeybee[+] at 2021-02-24 11:56:24
+# Created by Honeybee[+] at 2021-03-19 09:15:30
 # www.ladybug.tools
 
 void plastic generic_wall
 0
 0
 5 0.5 0.5 0.5 0.0 0.0
-generic_wall polygon 55cce2c0-d482_0_0
+generic_wall polygon 8b021d18-068c_0_0
 0
 0
-12 21.0 -7.0 8.0 -2.0 -7.0 8.0 -2.0 -7.0 0.0 21.0 -7.0 0.0
-generic_wall polygon 55cce2c0-d482_1_0
+12 -2.0 -7.0 8.0 -2.0 -7.0 0.0 21.0 -7.0 0.0 21.0 -7.0 8.0
+generic_wall polygon 8b021d18-068c_1_0
 0
 0
-12 21.0 7.0 0.0 21.0 7.0 8.0 21.0 -7.0 8.0 21.0 -7.0 0.0
-generic_wall polygon 55cce2c0-d482_2_0
+12 21.0 7.0 8.0 21.0 -7.0 8.0 21.0 -7.0 0.0 21.0 7.0 0.0
+generic_wall polygon 8b021d18-068c_2_0
 0
 0
-12 -2.0 7.0 0.0 -2.0 7.0 8.0 21.0 7.0 8.0 21.0 7.0 0.0
-generic_wall polygon 55cce2c0-d482_3_0
+12 -2.0 7.0 8.0 21.0 7.0 8.0 21.0 7.0 0.0 -2.0 7.0 0.0
+generic_wall polygon 8b021d18-068c_3_0
 0
 0
-12 -2.0 -7.0 8.0 -2.0 7.0 8.0 -2.0 7.0 0.0 -2.0 -7.0 0.0
+12 -2.0 7.0 8.0 -2.0 7.0 0.0 -2.0 -7.0 0.0 -2.0 -7.0 8.0
