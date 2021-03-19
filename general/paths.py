@@ -261,8 +261,8 @@ class daylightanalysis:
         
         
         tmx_no = input_json["tmx_no"]
-        self.day_tmx = f.main_folder.joinpath(
-            f"\\database\\tmx\\{tmx_no}\\{tmx_no}.xml")
+        self.day_tmx = \
+            f.main_folder.joinpath(f"database\\tmx\\{tmx_no}\\{tmx_no}.xml")
         
         
         
@@ -285,7 +285,7 @@ class energyanalysis:
             
         tmx_no = input_json["tmx_no"]
         self.ene_tmx = f.main_folder.joinpath(
-            f"\\database\\tmx\\{tmx_no}\\GlzSys_{tmx_no}_Bsdf.idf")
+            f"database\\tmx\\{tmx_no}\\GlzSys_{tmx_no}_Bsdf.idf")
         
         self.ene_idf_files_list = []
         self.ene_cumm_results_list = []

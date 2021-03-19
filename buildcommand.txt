@@ -1,1 +1,1 @@
-pyinstaller --onefile -i python.ico main.py
+pyinstaller --onefile -i icon.ico main.py

@@ -38,7 +38,7 @@ def main():
 
     end = time.time()
     
-    print(f"+++++ VMT tool end +++++")
+    print("+++++ VMT tool end +++++")
     print(f"+++++ Wall time: {(end-start)/60} [min] +++++")
 
 if __name__ == "__main__":
