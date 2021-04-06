@@ -96,26 +96,49 @@ class inputfiles(folderstructure):
     
     def __init__(self, f, input_json):
         
-        self.vmt_facade_src = Path(input_json["vmt_facade_src"])
-        file_name = self.vmt_facade_src.name
-        self.vmt_facade_dst = f.input_folder.joinpath(file_name)
+        try: #Works for version 0_0_0 and 0_0_1
+            self.vmt_facade_src = Path(input_json["vmt_facade_src"])
+            file_name = self.vmt_facade_src.name
+            self.vmt_facade_dst = f.input_folder.joinpath(file_name)
+            
+            self.vmt_rest_src = Path(input_json["vmt_rest_src"])
+            file_name = self.vmt_rest_src.name
+            self.vmt_rest_dst = f.input_folder.joinpath(file_name)
+        except: 
+            pass
         
-        self.vmt_rest_src = Path(input_json["vmt_rest_src"])
-        file_name = self.vmt_rest_src.name
-        self.vmt_rest_dst = f.input_folder.joinpath(file_name)
+        try: #Works for version 0_0_2
+            self.vmt_src = Path(input_json["vmt_src"])
+            file_name = self.vmt_src.name
+            self.vmt_dst = f.input_folder.joinpath(file_name)
+        except: 
+            pass
+            
         
         self.context_src = Path(input_json["context_src"])
         file_name = self.context_src.name
         self.context_dst = f.input_folder.joinpath(file_name)
         
     def copyfiles(self):
-        src_list = [self.vmt_facade_src,
-                    self.vmt_rest_src,
-                    self.context_src]
+        try:
+            src_list = [self.vmt_facade_src,
+                        self.vmt_rest_src,
+                        self.context_src]
+            
+            dst_list = [self.vmt_facade_dst,
+                        self.vmt_rest_dst,
+                        self.context_dst]
+        except:
+            pass
         
-        dst_list = [self.vmt_facade_dst,
-                    self.vmt_rest_dst,
-                    self.context_dst]
+        try:
+            src_list = [self.vmt_src,
+                        self.context_src]
+            
+            dst_list = [self.vmt_dst,
+                        self.context_dst]
+        except:
+            pass
         
         copy_files(src_list, dst_list)
         
@@ -161,10 +184,12 @@ class skymodels:
 
 class radiationanalysis:
     
-    def __init__(self, i, f):
+    def __init__(self, i, f, input_json):
         
         ### Counting how many facades present
+        
         self.facade_count = count_facades(i.vmt_facade_dst)
+    
     
         #All points and mesh files
         self.rad_mesh_all = f.radiation_mesh_folder.joinpath("mesh_all.txt")
@@ -205,6 +230,10 @@ class radiationanalysis:
     
         self.rad_no_of_sensor_points = 0
         self.rad_no_of_sensor_points_list = []
+        
+        self.rad_grid_x_dim = input_json["rad_grid_x_dim"]
+        self.rad_grid_y_dim = input_json["rad_grid_y_dim"]
+        self.rad_grid_offset = input_json["rad_grid_offset"]
 
 #%%
 
@@ -213,19 +242,19 @@ class others:
     def __init__(self, i, f, input_json):
     
         self.sim_resolution = input_json["simulation_resolution"]
-        self.room_dim_height = input_json["room_dim_height"]
-        self.room_dim_width = input_json["room_dim_width"]
-        self.room_dim_depth = input_json["room_dim_depth"]
-        self.max_rooms_per_surface = input_json["max_rooms_per_surface"]
+        
+        try: #Works for version 0_0_0 and 0_0_1
+            self.room_dim_height = input_json["room_dim_height"]
+            self.room_dim_width = input_json["room_dim_width"]
+            self.room_dim_depth = input_json["room_dim_depth"]
+            self.max_rooms_per_surface = input_json["max_rooms_per_surface"]
+            self.room_WWR = input_json["room_WWR"]
+        except:
+            pass
+        
         self.path_json = \
             f.root.joinpath("info.json")
-        self.rad_grid_x_dim = input_json["rad_grid_x_dim"]
-        self.rad_grid_y_dim = input_json["rad_grid_y_dim"]
-        self.rad_grid_offset = input_json["rad_grid_offset"]
-        self.rad_period_start = input_json["rad_period_start"]
-        self.rad_period_end =   input_json["rad_period_end"]
         self.vmt_faces = []
-        self.room_WWR = input_json["room_WWR"]
         self.approved_rooms = []
         self.approved_rooms_corresponding_vmt = []
         self.method = input_json["method"]
@@ -259,6 +288,18 @@ class daylightanalysis:
         self.day_results_ill_list = []
         self.day_results_da_list = []
         
+        
+        try: #Only works for ver_0_0_2
+            self.sim_period_start = input_json["sim_period_start"]
+            self.sim_period_end = input_json["sim_period_end"]
+            self.day_win_ratio = input_json["day_win_ratio"]
+            self.day_win_aperture_height = input_json["day_win_aperture_height"]
+            self.day_win_sill_height = input_json["day_win_sill_height"]
+            self.day_win_horizontal_separation = input_json["day_win_horizontal_separation"]
+            self.day_win_vertical_separation = input_json["day_win_vertical_separation"]
+            
+        except:
+            pass
         
         tmx_no = input_json["tmx_no"]
         self.day_tmx = \
@@ -334,7 +375,10 @@ def collect_info(input_json_path, cmd_folder):
     s.copyfiles()
     
     #Radiation analysis
-    r = radiationanalysis(i,f)
+    try: #Works for version 0_0_0 and 0_0_1
+        r = radiationanalysis(i,f, input_json)
+    except:
+        pass
     
     #Other info
     o = others(i, f, input_json)
@@ -344,7 +388,16 @@ def collect_info(input_json_path, cmd_folder):
 
     e = energyanalysis(f, input_json)
     
-    info = combineinstances([f,i,s,r,o,d,e])
+    try: #Works for version 0_0_0 and 0_0_1
+        info = combineinstances([f,i,s,r,o,d,e])
+    except:
+        pass
+    
+    try: #Works for version 0_0_0 and 0_0_1
+        info = combineinstances([f,i,s,o,d,e])
+    except:
+        pass
+    
     
     write_to_json(info)
     

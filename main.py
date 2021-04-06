@@ -7,6 +7,7 @@ Geometry handling will be called from the main script
 import sys
 from versioning.ver_0_0_0 import ver_0_0_0
 from versioning.ver_0_0_1 import ver_0_0_1
+from versioning.ver_0_0_2 import ver_0_0_2
 from general.paths import collect_info
 from pathlib import Path
 import time
@@ -36,6 +37,9 @@ def main():
     if info.method == "ver_0_0_1":
         ver_0_0_1(info)
 
+    if info.method == "ver_0_0_2":
+        ver_0_0_2(info)
+        
     end = time.time()
     
     print("+++++ VMT tool end +++++")
