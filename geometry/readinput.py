@@ -58,7 +58,7 @@ def read_rad_file_polygons_to_levels(rad_file):
                 level["ceiling"] = Face3D(polygon)
                 
             if count == 6:
-                level["level_count"] = level_count
+                level["real_level_ID"] = level_count
                 levels.append(level)
                 level = {"walls": [], "floor": [], "ceiling": []}
                 level_count += 1

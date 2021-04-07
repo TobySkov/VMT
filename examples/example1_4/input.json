@@ -8,7 +8,7 @@
 	"vmt_rest_src": "examples\\example1_4\\volume_massing_rest.rad",
 	"context_src": "examples\\example1_4\\context.rad",
 	"location": "copenhagen",
-	"simulation_resolution": 1,
+	"simulation_resolution": -1,
 	"room_dim_height": 3.5,
 	"room_dim_width": 4.5,
 	"room_dim_depth": 6,

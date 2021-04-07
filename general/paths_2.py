@@ -43,8 +43,7 @@ class folderstructure:
         self.root =             Path(input_json["output_folder"])
         self.input_folder =     Path(input_json["output_folder"] + "\\input")
         self.sky_folder=        Path(input_json["output_folder"] + "\\sky")
-        self.radiation_folder = Path(input_json["output_folder"] + \
-                                     "\\radiation_analysis")
+
         
         self.daylight_folder =  Path(input_json["output_folder"] + \
                                                      "\\daylight_analysis")
@@ -52,42 +51,16 @@ class folderstructure:
         self.energy_folder =  Path(input_json["output_folder"] + \
                                                      "\\energy_analysis")
 
-        #Radiation subfolders
-        self.radiation_mesh_folder = \
-            self.radiation_folder.joinpath("mesh_grid") 
-        self.radiation_points_folder = \
-            self.radiation_folder.joinpath("points")
-        self.radiation_results_folder = \
-            self.radiation_folder.joinpath("results")
-        
+
         #Daylight subfolder
-        self.room_folder = self.daylight_folder.joinpath("rooms")
-        
-        self.daylight_matrix_folder = \
-            self.daylight_folder.joinpath("matrices")
-        self.daylight_results_folder = \
-            self.daylight_folder.joinpath("results")
-        self.daylight_mesh_folder = \
-            self.daylight_folder.joinpath("mesh")
-        self.daylight_points_folder = \
-            self.daylight_folder.joinpath("points")
-            
-            
+        self.vmx_folder = self.daylight_folder.joinpath("vmx")
 
     def createfolders(self):
         create_folders_from_list([self.input_folder,
                                   self.sky_folder,
-                                  self.radiation_folder,
-                                  self.radiation_mesh_folder,
-                                  self.radiation_points_folder,
-                                  self.radiation_results_folder,
                                   self.daylight_folder,
                                   self.energy_folder,
-                                  self.room_folder,
-                                  self.daylight_matrix_folder,
-                                  self.daylight_results_folder,
-                                  self.daylight_mesh_folder,
-                                  self.daylight_points_folder])
+                                  self.vmx_folder])
 
 
 
@@ -96,26 +69,37 @@ class inputfiles(folderstructure):
     
     def __init__(self, f, input_json):
         
-        self.vmt_facade_src = Path(input_json["vmt_facade_src"])
-        file_name = self.vmt_facade_src.name
-        self.vmt_facade_dst = f.input_folder.joinpath(file_name)
+        try: #Works for version 0_0_0 and 0_0_1
+            self.vmt_facade_src = Path(input_json["vmt_facade_src"])
+            file_name = self.vmt_facade_src.name
+            self.vmt_facade_dst = f.input_folder.joinpath(file_name)
+            
+            self.vmt_rest_src = Path(input_json["vmt_rest_src"])
+            file_name = self.vmt_rest_src.name
+            self.vmt_rest_dst = f.input_folder.joinpath(file_name)
+        except: 
+            pass
         
-        self.vmt_rest_src = Path(input_json["vmt_rest_src"])
-        file_name = self.vmt_rest_src.name
-        self.vmt_rest_dst = f.input_folder.joinpath(file_name)
+        try: #Works for version 0_0_2
+            self.vmt_src = Path(input_json["vmt_src"])
+            file_name = self.vmt_src.name
+            self.vmt_dst = f.input_folder.joinpath(file_name)
+        except: 
+            pass
+            
         
         self.context_src = Path(input_json["context_src"])
         file_name = self.context_src.name
         self.context_dst = f.input_folder.joinpath(file_name)
         
     def copyfiles(self):
-        src_list = [self.vmt_facade_src,
-                    self.vmt_rest_src,
+        
+        src_list = [self.vmt_src,
                     self.context_src]
         
-        dst_list = [self.vmt_facade_dst,
-                    self.vmt_rest_dst,
+        dst_list = [self.vmt_dst,
                     self.context_dst]
+
         
         copy_files(src_list, dst_list)
         
@@ -157,54 +141,6 @@ class skymodels:
 
 
 
-#%% class related to radiation study
-
-class radiationanalysis:
-    
-    def __init__(self, i, f):
-        
-        ### Counting how many facades present
-        self.facade_count = count_facades(i.vmt_facade_dst)
-    
-        #All points and mesh files
-        self.rad_mesh_all = f.radiation_mesh_folder.joinpath("mesh_all.txt")
-        self.rad_points_all = f.radiation_points_folder.joinpath("points_all.txt")
-        
-        ### Lists of files for each facade
-        self.rad_mesh_files_list = []
-
-        self.rad_results_cummulative_list = []
-
-        
-        for i in range(self.facade_count):
-            self.rad_mesh_files_list.append(
-                f.radiation_mesh_folder.joinpath(f"mesh_{i}.txt"))
-            
-            self.rad_results_cummulative_list.append(
-                f.radiation_results_folder.joinpath(f"cummulative_{i}.txt"))
-            
-
-        
-        ### All results files
-        self.rad_coefficients = f.radiation_results_folder.joinpath(
-            "daylight_coefficients.dmx")
- 
-        self.rad_results_rgb = \
-            f.radiation_results_folder.joinpath("result_rgb.rgb")
-        self.rad_results_wh = f.radiation_results_folder.joinpath("result_wh.txt")
-
-        self.rad_results_cummulative = f.radiation_results_folder.joinpath(
-            "cummulative.txt")
-
-        ### Headers
-        self.rad_results_cummulative_header =   "### Cummulative results\n"
-
-        ### Data
-        self.rad_surf_mesh_data = []
-        self.rad_cumm_resuls_data = []
-    
-        self.rad_no_of_sensor_points = 0
-        self.rad_no_of_sensor_points_list = []
 
 #%%
 
@@ -213,21 +149,11 @@ class others:
     def __init__(self, i, f, input_json):
     
         self.sim_resolution = input_json["simulation_resolution"]
-        self.room_dim_height = input_json["room_dim_height"]
-        self.room_dim_width = input_json["room_dim_width"]
-        self.room_dim_depth = input_json["room_dim_depth"]
-        self.max_rooms_per_surface = input_json["max_rooms_per_surface"]
+
+        
         self.path_json = \
             f.root.joinpath("info.json")
-        self.rad_grid_x_dim = input_json["rad_grid_x_dim"]
-        self.rad_grid_y_dim = input_json["rad_grid_y_dim"]
-        self.rad_grid_offset = input_json["rad_grid_offset"]
-        self.rad_period_start = input_json["rad_period_start"]
-        self.rad_period_end =   input_json["rad_period_end"]
-        self.vmt_faces = []
-        self.room_WWR = input_json["room_WWR"]
-        self.approved_rooms = []
-        self.approved_rooms_corresponding_vmt = []
+
         self.method = input_json["method"]
         
 #%%
@@ -235,30 +161,26 @@ class others:
 class daylightanalysis:
     def __init__(self, f, input_json):
         
-        self.context_reflectance = input_json["context_reflectance"]
-        self.floor_reflectance = input_json["floor_reflectance"]
-        self.wall_reflectance = input_json["wall_reflectance"]
-        self.ceiling_reflectance = input_json["ceiling_reflectance"]
+        self.day_context_reflectance = input_json["context_reflectance"]
+        self.day_floor_reflectance = input_json["floor_reflectance"]
+        self.day_wall_reflectance = input_json["wall_reflectance"]
+        self.day_ceiling_reflectance = input_json["ceiling_reflectance"]
         
-        self.vmx_matrix_path_list = []
-        self.dmx_matrix_path_list = []
-
-        self.window_radfile_path_list = []
-        self.room_radfile_path_list = []
-        self.vmt_radfile_path_list = []
-        
-        self.day_points_path_list = []
-        self.day_mesh_path_list = []
+        self.unique_levels_list = []
+        self.real_levels_list = []
         
         self.day_sensorpoint_height = input_json["day_sensorpoint_height"]
         
         self.day_grid_x_dim = input_json["day_grid_x_dim"]
         self.day_grid_y_dim = input_json["day_grid_y_dim"] 
         
-        self.day_results_rgb_list = []
-        self.day_results_ill_list = []
-        self.day_results_da_list = []
-        
+        self.sim_period_start = input_json["sim_period_start"]
+        self.sim_period_end = input_json["sim_period_end"]
+        self.day_win_ratio = input_json["day_win_ratio"]
+        self.day_win_aperture_height = input_json["day_win_aperture_height"]
+        self.day_win_sill_height = input_json["day_win_sill_height"]
+        self.day_win_horizontal_separation = input_json["day_win_horizontal_separation"]
+        self.day_win_vertical_separation = input_json["day_win_vertical_separation"]
         
         tmx_no = input_json["tmx_no"]
         self.day_tmx = \
@@ -316,7 +238,7 @@ def read_json(input_json_path):
 
 #%%
 
-def collect_info(input_json_path, cmd_folder):
+def collect_info_2(input_json_path, cmd_folder):
     
     input_json = read_json(input_json_path)
     
@@ -333,9 +255,7 @@ def collect_info(input_json_path, cmd_folder):
     s = skymodels(f,input_json)
     s.copyfiles()
     
-    #Radiation analysis
-    r = radiationanalysis(i,f)
-    
+
     #Other info
     o = others(i, f, input_json)
     
@@ -344,7 +264,7 @@ def collect_info(input_json_path, cmd_folder):
 
     e = energyanalysis(f, input_json)
     
-    info = combineinstances([f,i,s,r,o,d,e])
+    info = combineinstances([f,i,s,o,d,e])
     
     write_to_json(info)
     
