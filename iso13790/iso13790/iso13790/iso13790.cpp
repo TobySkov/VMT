@@ -94,7 +94,7 @@ vector<double> run_sim() {
 	output_params.reserve(6);
 
 	vector<double> output_temperatures;
-	output_temperatures.reserve(6);
+	output_temperatures.reserve(4);
 
 	double Phi__HC_nd_0 = 0;
 	double Phi__HC_nd_10 = 10*A__f;
@@ -112,7 +112,7 @@ vector<double> run_sim() {
 		double theta__e = 10;
 		double theta__sup = 10;
 
-		double H__ve = 2.5;
+		double H__ve = 2.5*((i+1)/(i+1)+2);
 
 		output_params = params(H__ve, H__tr_is, H__tr_w, H__tr_ms, Phi__int, Phi__sol, A__m, A__t);
 

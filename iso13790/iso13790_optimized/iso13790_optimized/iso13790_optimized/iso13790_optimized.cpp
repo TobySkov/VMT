@@ -9,25 +9,24 @@ using namespace std;
 using namespace std::chrono;
 
 
-vector<double> occ_sch() 
+vector<int> occ__sch()
 {
-	vector<double> occ_sch_list;
-	occ_sch_list.reserve(8760);
+	vector<int> occ__sch_list(8760);
 
 	for (int j = 0; j < 52; j++) { //52 weeks
 
 		for (int i = 0; i < 5; i++) { // 5 weekdays in week
-			occ_sch_list.insert(occ_sch_list.end(), { 0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0 });
+			occ__sch_list.insert(occ__sch_list.end(), { 0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0 });
 		}
 		for (int i = 0; i < 2; i++) { // 2 weekenddays in week
-			occ_sch_list.insert(occ_sch_list.end(), { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 });
+			occ__sch_list.insert(occ__sch_list.end(), { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 });
 		}
 	}
 
 	//One more day to add up to 8760 hours (52*7 = 364)
-	occ_sch_list.insert(occ_sch_list.end(), { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 });
+	occ__sch_list.insert(occ__sch_list.end(), { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 });
 
-	return occ_sch_list;
+	return occ__sch_list;
 
 }
 
@@ -118,20 +117,18 @@ vector<double> run_sim() {
 	double A__m = 2.5*A__f;
 	double A__t = 4.5*A__f;
 
-	double setpoint_cooling = 24;
+	double setpoint_cooling = 26;
 	double setpoint_heating = 20;
 
 	double theta__m_tm1 = 22; //Initial value
 
-	vector<double> output_params;
-	output_params.reserve(6);
-
-	vector<double> output_temperatures;
-	output_temperatures.reserve(6);
 
 	double Phi__HC_nd_0 = 0;
 	double Phi__HC_nd_10 = 10 * A__f;
 	double Phi__HC_nd;
+
+
+	vector<double> runtime_output(4);
 
 	double theta__m_t_0, theta__m_0, theta__s_0, theta__air_0;
 	double theta__m_t_10, theta__m_10, theta__s_10, theta__air_10;
@@ -139,26 +136,99 @@ vector<double> run_sim() {
 
 	double theta__air_set;
 
-	double Phi__int = 0;
-	double Phi__sol = 0;
-	double theta__e = 10;
-	double theta__sup = 10;
-
-	double H__ve;
 	
 	//Determine the two values of H__ve and corresponding parameters.
+	double H__ve = 2.5;
+	vector<double> params__ve = \
+		before_runtime(H__ve,
+			H__tr_is, H__tr_w, H__tr_ms, H__tr_em,
+			A__m, A__t, C__m);
 
+	double H__infil = 1.5;
+	vector<double> params__infil = \
+		before_runtime(H__infil,
+			H__tr_is, H__tr_w, H__tr_ms, H__tr_em,
+			A__m, A__t, C__m);
 
+	//vector<int> occ__sch_list = occ__sch();
+	
+	double Phi__int, Phi__sol, theta__e, theta__sup;
+	vector<double> params(13);
 
+	params = params__infil;
+
+	vector<double> theta__air_list;
 
 	for (int i = 0; i < 8760; i++)
 	{
 		//Start by setting solar gain, internal heat gain, external temperature and supply temperature.
-		
+		//if (occ__sch_list[i] == 0) {
+		//	params = params__infil;
+		//}
+		//else if (occ__sch_list[i] == 1) {
+		//	params = params__ve;
+		//}
+
+		Phi__int = 0;
+		Phi__sol = 0;
+		theta__e = 10;
+		theta__sup = 10;
+
+
+		runtime_output = \
+			at_runtime(Phi__int, Phi__sol, Phi__HC_nd_0 ,
+			theta__e, theta__sup, theta__m_tm1,
+			params);
+
+		theta__m_t_0 = runtime_output[0];
+		theta__m_0 = runtime_output[1];
+		theta__s_0 = runtime_output[2];
+		theta__air_0 = runtime_output[3];
+
+		if ((setpoint_heating <= theta__air_0) && (theta__air_0 <= setpoint_cooling)) {
+			theta__air_list.push_back(theta__air_0);
+			theta__m_tm1 = theta__m_t_0;
+		}
+		else {
+			runtime_output = \
+				at_runtime(Phi__int, Phi__sol, Phi__HC_nd_10,
+					theta__e, theta__sup, theta__m_tm1,
+					params);
+
+			theta__m_t_10 = runtime_output[0];
+			theta__m_10 = runtime_output[1];
+			theta__s_10 = runtime_output[2];
+			theta__air_10 = runtime_output[3];
+
+			if (theta__air_0 < setpoint_heating) {
+				theta__air_set = setpoint_heating;
+			}
+			else if(setpoint_cooling < theta__air_0){
+				theta__air_set = setpoint_cooling;
+			}
+
+			Phi__HC_nd = Phi__HC_nd_10 * ((theta__air_set - \
+				theta__air_0) / (theta__air_10 - \
+					theta__air_0));
+
+			runtime_output = \
+				at_runtime(Phi__int, Phi__sol, Phi__HC_nd,
+					theta__e, theta__sup, theta__m_tm1,
+					params);
+
+			theta__m_t = runtime_output[0];
+			theta__m = runtime_output[1];
+			theta__s = runtime_output[2];
+			theta__air = runtime_output[3];
+
+			theta__air_list.push_back(theta__air);
+			theta__m_tm1 = theta__m_t;
+
+		}
 
 	}
 
-
+	return theta__air_list;
 }
 
 int main()
