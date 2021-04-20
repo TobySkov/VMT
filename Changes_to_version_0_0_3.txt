@@ -1,0 +1,8 @@
+-1 colour channel (-c 1 1 1)
+-Writing gendaymtx output as binary float
+
+
+Spørgsmål: Hvad burde reflektanserne være i energi beregningen? Spørg Jeppe, evt. kig i EnergyPlus engineering reference.
+
+Idé! Hvis man rigtigt skal dele resultatet mellem daylight og energy beregningen, burde man have en udgave af rcontrib, som også tog reflektanser af overfladen ud af billedet.
+Det er jo det der sker i radiosity.
